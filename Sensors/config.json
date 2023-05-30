@@ -19,6 +19,12 @@
             "telemetry":true,
             "canid":"0x6F3",
             "frame":["X","X","H","L","X","X","X","X"]
+        },
+        {
+            "name":"sensor",
+            "telemetry":false,
+            "canid":"0x6D3",
+            "frame":["X","X","V","X","X","X","X","0x34"]
         }
     ]
 }
