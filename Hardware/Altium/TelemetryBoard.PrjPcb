@@ -64,7 +64,7 @@ GenerateClassCluster=0
 DocumentUniqueId=IPNRDHSC
 
 [Document2]
-DocumentPath=TelemtryBoard_v1.0.SchDoc
+DocumentPath=CanController.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -80,29 +80,63 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=DGEYFXTN
 
+[Document3]
+DocumentPath=Debug.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=MNNZMKQE
+
+[Document4]
+DocumentPath=SDCard.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=ZDLLFFHV
+
 [Parameter1]
-Name=SchematicRevision
-Value=1.0
+Name=PcbDate
+Value=dd.mm.yyyyy
 
 [Parameter2]
-Name=SchematicDesigner
-Value=S. van Kappel
-
-[Parameter3]
-Name=SchematicDate
-Value=30.05.2023
-
-[Parameter4]
-Name=PcbRevision
-Value=1.0
-
-[Parameter5]
 Name=PcbDesigner
 Value=name
 
+[Parameter3]
+Name=PcbRevision
+Value=1.0
+
+[Parameter4]
+Name=SchematicDate
+Value=30.05.2023
+
+[Parameter5]
+Name=SchematicDesigner
+Value=S. van Kappel
+
 [Parameter6]
-Name=PcbDate
-Value=dd.mm.yyyyy
+Name=SchematicRevision
+Value=1.0
 
 [Configuration1]
 Name=Default Configuration
