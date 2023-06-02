@@ -64,7 +64,7 @@ GenerateClassCluster=0
 DocumentUniqueId=IPNRDHSC
 
 [Document2]
-DocumentPath=CanController.SchDoc
+DocumentPath=Controller.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -78,7 +78,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=DGEYFXTN
+DocumentUniqueId=PIRZMHTF
 
 [Document3]
 DocumentPath=Debug.SchDoc
@@ -115,7 +115,7 @@ GenerateClassCluster=0
 DocumentUniqueId=ZDLLFFHV
 
 [Document5]
-DocumentPath=Controller.SchDoc
+DocumentPath=CanController.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -129,7 +129,7 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=PIRZMHTF
+DocumentUniqueId=DGEYFXTN
 
 [Parameter1]
 Name=PcbDate
