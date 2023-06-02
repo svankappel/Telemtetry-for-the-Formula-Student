@@ -81,23 +81,6 @@ GenerateClassCluster=0
 DocumentUniqueId=PIRZMHTF
 
 [Document3]
-DocumentPath=Debug.SchDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=MNNZMKQE
-
-[Document4]
 DocumentPath=SDCard.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -114,7 +97,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=ZDLLFFHV
 
-[Document5]
+[Document4]
 DocumentPath=CanController.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
