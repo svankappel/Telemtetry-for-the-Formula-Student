@@ -47,23 +47,6 @@ PrefsVaultGUID=
 PrefsRevisionGUID=
 
 [Document1]
-DocumentPath=TelemtryBoard_v1.0.PcbDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=IPNRDHSC
-
-[Document2]
 DocumentPath=Controller.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -80,7 +63,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=PIRZMHTF
 
-[Document3]
+[Document2]
 DocumentPath=SDCard.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -97,7 +80,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=ZDLLFFHV
 
-[Document4]
+[Document3]
 DocumentPath=CanController.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -114,7 +97,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=DGEYFXTN
 
-[Document5]
+[Document4]
 DocumentPath=gps.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
