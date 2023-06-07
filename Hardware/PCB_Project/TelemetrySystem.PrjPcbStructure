@@ -1,0 +1,4 @@
+Record=TopLevelDocument|FileName=CanController.SchDoc|SheetNumber=1
+Record=NoMainPathDocument|SourceDocument=CanController.SchDoc|FileName=GPS-SD.SchDoc|SheetNumber=3
+Record=NoMainPathDocument|SourceDocument=CanController.SchDoc|FileName=nRF7002-DK.SchDoc|SheetNumber=2
+Record=NoMainPathDocument|SourceDocument=CanController.SchDoc|FileName=SDCard.SchDoc|SheetNumber=4
