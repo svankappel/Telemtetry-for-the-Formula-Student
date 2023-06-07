@@ -116,23 +116,6 @@ GenerateClassCluster=0
 DocumentUniqueId=
 
 [Document5]
-DocumentPath=CanController.SchDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=0
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=DGEYFXTN
-
-[Document6]
 DocumentPath=nRF7002-DK.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -148,6 +131,23 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=PIRZMHTF
+
+[Document6]
+DocumentPath=CanController.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=0
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=DGEYFXTN
 
 [Document7]
 DocumentPath=GPS-SD.SchDoc
@@ -167,28 +167,28 @@ GenerateClassCluster=0
 DocumentUniqueId=KZQLDVGJ
 
 [Parameter1]
-Name=SchematicRevision
-Value=1.0
+Name=PcbDate
+Value=07.06.2023
 
 [Parameter2]
-Name=SchematicDesigner
-Value=Sylvestre van Kappel
-
-[Parameter3]
-Name=SchematicDate
-Value=30.05.2023
-
-[Parameter4]
-Name=PcbRevision
-Value=1.0
-
-[Parameter5]
 Name=PcbDesigner
 Value=Sylvestre van Kappel
 
+[Parameter3]
+Name=PcbRevision
+Value=1.0
+
+[Parameter4]
+Name=SchematicDate
+Value=30.05.2023
+
+[Parameter5]
+Name=SchematicDesigner
+Value=Sylvestre van Kappel
+
 [Parameter6]
-Name=PcbDate
-Value=07.06.2023
+Name=SchematicRevision
+Value=1.0
 
 [Configuration1]
 Name=Default Configuration
