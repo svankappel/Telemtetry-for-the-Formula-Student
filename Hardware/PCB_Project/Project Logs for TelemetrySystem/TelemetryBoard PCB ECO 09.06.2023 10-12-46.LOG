@@ -1,5 +1,0 @@
-Change Component Footprint: Designator=L3 Old Footprint=INDUCTOR 0603 REFLOW New Footprint=INDUCTOR 1608 REFLOW
-Added Pin To Net: NetName=NetR2_2 Pin=T1-5
-Added Room: Name=CanController
-Added Room: Name=GPS-SD
-Added Room: Name=nRF7002-DK
