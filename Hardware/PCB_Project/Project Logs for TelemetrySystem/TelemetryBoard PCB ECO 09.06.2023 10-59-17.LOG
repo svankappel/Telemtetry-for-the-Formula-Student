@@ -1,0 +1,20 @@
+Added Component: Designator=C18(CAPACITOR 1608 REFLOW)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R3(RESISTOR 1608 REFLOW)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R4(RESISTOR 1608 REFLOW)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=C18-1
+Added Pin To Net: NetName=NetC6_2 Pin=R3-2
+Added Pin To Net: NetName=NetC7_2 Pin=R4-2
+Added Pin To Net: NetName=NetR1_1 Pin=T1-5
+Added Pin To Net: NetName=NetC18_2 Pin=C18-2
+Added Pin To Net: NetName=NetC18_2 Pin=R3-1
+Added Pin To Net: NetName=NetC18_2 Pin=R4-1
+Added Net: Name=NetC18_2
+Added Member To Class: ClassName=CanController Member=Component C18 4.7nF
+Added Member To Class: ClassName=CanController Member=Component R3 60
+Added Member To Class: ClassName=CanController Member=Component R4 60
+Added Room: Name=CanController
+Added Room: Name=GPS-SD
+Added Room: Name=nRF7002-DK

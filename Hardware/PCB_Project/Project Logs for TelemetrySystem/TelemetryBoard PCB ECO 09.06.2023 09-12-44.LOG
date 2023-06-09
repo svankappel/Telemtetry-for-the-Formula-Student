@@ -1,0 +1,7 @@
+Change Component Footprint: Designator=R1 Old Footprint=RESISTOR 1005 REFLOW New Footprint=RESISTOR 1608 REFLOW
+Change Component Footprint: Designator=R2 Old Footprint=RESISTOR 1005 REFLOW New Footprint=RESISTOR 1608 REFLOW
+Added Pin To Net: NetName=NetR1_1 Pin=T1-5
+Added Member To Class: ClassName=CanController Member=Component SB3 *
+Added Room: Name=CanController
+Added Room: Name=GPS-SD
+Added Room: Name=nRF7002-DK
