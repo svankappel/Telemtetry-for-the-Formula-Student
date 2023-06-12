@@ -170,29 +170,33 @@ DocumentUniqueId=
 DocumentPath=Project Outputs for TelemetrySystemAltiumProject\Design Rule Check - Eurocircuits4L.html
 DItemRevisionGUID=
 
+[GeneratedDocument2]
+DocumentPath=Project Outputs for TelemetrySystemAltiumProject\Design Rule Check - TelemetryBoard.html
+DItemRevisionGUID=
+
 [Parameter1]
-Name=SchematicRevision
-Value=1.0
+Name=PcbDate
+Value=09.06.2023
 
 [Parameter2]
-Name=SchematicDesigner
-Value=Sylvestre van Kappel
-
-[Parameter3]
-Name=SchematicDate
-Value=02.06.2023
-
-[Parameter4]
-Name=PcbRevision
-Value=1.0
-
-[Parameter5]
 Name=PcbDesigner
 Value=Sylvestre van Kappel
 
+[Parameter3]
+Name=PcbRevision
+Value=1.0
+
+[Parameter4]
+Name=SchematicDate
+Value=02.06.2023
+
+[Parameter5]
+Name=SchematicDesigner
+Value=Sylvestre van Kappel
+
 [Parameter6]
-Name=PcbDate
-Value=09.06.2023
+Name=SchematicRevision
+Value=1.0
 
 [Configuration1]
 Name=Default Configuration

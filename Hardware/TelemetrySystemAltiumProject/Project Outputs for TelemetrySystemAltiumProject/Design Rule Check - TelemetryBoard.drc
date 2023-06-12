@@ -1,0 +1,91 @@
+Protel Design System Design Rule Check
+PCB File : C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc
+Date     : 12.06.2023
+Time     : 16:19:36
+
+WARNING: 8 Net Ties failed verification
+   SMT Small Component SB8-* (27.565mm,21.8mm) on Top Layer, SMT Small Component SB8-* (27.565mm,21.8mm) on Top Layer, has isolated copper
+   SMT Small Component SB7-* (32.175mm,21.8mm) on Top Layer, SMT Small Component SB7-* (32.175mm,21.8mm) on Top Layer, has isolated copper
+   SMT Small Component SB1-* (135mm,32.5mm) on Top Layer, SMT Small Component SB1-* (135mm,32.5mm) on Top Layer, has isolated copper
+   SMT Small Component SB2-* (20mm,47.8mm) on Top Layer, SMT Small Component SB2-* (20mm,47.8mm) on Top Layer, has isolated copper
+   SMT Small Component SB4-* (135mm,16.5mm) on Top Layer, SMT Small Component SB4-* (135mm,16.5mm) on Top Layer, has isolated copper
+   SMT Small Component SB3-* (135mm,43mm) on Top Layer, SMT Small Component SB3-* (135mm,43mm) on Top Layer, has isolated copper
+   SMT Small Component SB5-* (126.41mm,39.636mm) on Top Layer, SMT Small Component SB5-* (126.41mm,39.636mm) on Top Layer, has isolated copper
+   SMT Small Component SB6-* (126.41mm,38.131mm) on Top Layer, SMT Small Component SB6-* (126.41mm,38.131mm) on Top Layer, has isolated copper
+
+Processing Rule : Clearance Constraint (Gap=0.15mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.254mm) (InNamedPolygon('GND_L01_P001')),(All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.254mm) (InNamedPolygon('GND_L01_P000')),(All)
+Rule Violations :0
+
+Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
+Rule Violations :0
+
+Processing Rule : Un-Routed Net Constraint ( (All) )
+   Violation between Un-Routed Net Constraint: Net GND Between Pad J5-2(2.8mm,14.45mm) on Top Layer [Unplated] And Pad J5-2(2.8mm,14.45mm) on Bottom Layer [Unplated] 
+   Violation between Un-Routed Net Constraint: Net GND Between Pad J5-2(2.8mm,23.18mm) on Bottom Layer [Unplated] And Track (2.8mm,23.18mm)(2.8mm,23.18mm) on Top Layer 
+   Violation between Un-Routed Net Constraint: Net GND Between Via (134.05mm,41.6mm) from Top Layer to Bottom Layer And Pad SB3-1(135mm,42.625mm) on Top Layer [Unplated] 
+   Violation between Un-Routed Net Constraint: Net GND Between Track (131.8mm,21.8mm)(131.8mm,21.8mm) on Top Layer And Pad SB4-1(135mm,16.875mm) on Top Layer [Unplated] 
+   Violation between Un-Routed Net Constraint: Net GND Between Pad SB8-2(27.19mm,21.8mm) on Top Layer [Unplated] And Pad SB7-1(31.8mm,21.8mm) on Top Layer [Unplated] 
+   Violation between Un-Routed Net Constraint: Net GND Between Track (24.85mm,19.95mm)(24.9mm,19.9mm) on Top Layer And Pad SB8-2(27.19mm,21.8mm) on Top Layer [Unplated] 
+   Violation between Un-Routed Net Constraint: Net GND Between Track (117.42mm,33.925mm)(117.541mm,34.046mm) on Top Layer And Via (117.56mm,35.1mm) from Top Layer to Bottom Layer 
+Rule Violations :7
+
+Processing Rule : Modified Polygon (Allow modified: No), (Allow shelved: No)
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.15mm) (Max=4mm) (Preferred=0.5mm) (All)
+Rule Violations :0
+
+Processing Rule : Power Plane Connect Rule(Direct Connect )(Expansion=0.5mm) (Conductor Width=0.25mm) (Air Gap=0.25mm) (Entries=4) (All)
+Rule Violations :0
+
+Processing Rule : Minimum Annular Ring (Minimum=0.175mm) (Disabled)(All)
+Rule Violations :0
+
+Processing Rule : Acute Angle Constraint [Tracks Only] (Minimum=90.000) (Disabled)(All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.25mm) (Max=3mm) (All)
+   Violation between Hole Size Constraint: (3.1mm > 3mm) Pad J1-10(108.2mm,51.5mm) on Multi-Layer Actual Hole Size = 3.1mm
+   Violation between Hole Size Constraint: (3.1mm > 3mm) Pad J1-11(133.2mm,51.5mm) on Multi-Layer Actual Hole Size = 3.1mm
+   Violation between Hole Size Constraint: (3.1mm > 3mm) Pad J2-10(133.2mm,11.8mm) on Multi-Layer Actual Hole Size = 3.1mm
+   Violation between Hole Size Constraint: (3.1mm > 3mm) Pad J2-11(108.2mm,11.8mm) on Multi-Layer Actual Hole Size = 3.1mm
+   Violation between Hole Size Constraint: (3.2mm > 3mm) Pad Mec1-0(128.27mm,46.3mm) on Multi-Layer Actual Hole Size = 3.2mm
+   Violation between Hole Size Constraint: (3.2mm > 3mm) Pad Mec2-0(90.17mm,55.88mm) on Multi-Layer Actual Hole Size = 3.2mm
+   Violation between Hole Size Constraint: (3.2mm > 3mm) Pad Mec3-0(66.04mm,12.8mm) on Multi-Layer Actual Hole Size = 3.2mm
+   Violation between Hole Size Constraint: (3.2mm > 3mm) Pad Mec4-0(13.97mm,7.62mm) on Multi-Layer Actual Hole Size = 3.2mm
+   Violation between Hole Size Constraint: (3.2mm > 3mm) Pad Mec5-0(66.04mm,40.64mm) on Multi-Layer Actual Hole Size = 3.2mm
+   Violation between Hole Size Constraint: (3.2mm > 3mm) Pad Mec6-0(13.97mm,55.88mm) on Multi-Layer Actual Hole Size = 3.2mm
+   Violation between Hole Size Constraint: (3.2mm > 3mm) Pad Mec7-0(96.52mm,7.62mm) on Multi-Layer Actual Hole Size = 3.2mm
+Rule Violations :11
+
+Processing Rule : Hole To Hole Clearance (Gap=0.25mm) (Disabled)(All),(All)
+Rule Violations :0
+
+Processing Rule : Minimum Solder Mask Sliver (Gap=0mm) (Disabled)(All),(All)
+Rule Violations :0
+
+Processing Rule : Silk To Solder Mask (Clearance=0mm) (Disabled)(IsPad),(All)
+Rule Violations :0
+
+Processing Rule : Silk to Silk (Clearance=0mm) (Disabled)(All),(All)
+Rule Violations :0
+
+Processing Rule : Net Antennae (Tolerance=0mm) (Disabled)(All)
+Rule Violations :0
+
+Processing Rule : Board Clearance Constraint (Gap=0mm) (Disabled)(All)
+Rule Violations :0
+
+Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (Disabled)(All)
+Rule Violations :0
+
+
+Violations Detected : 18
+Waived Violations : 0
+Time Elapsed        : 00:00:01

@@ -1,0 +1,438 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 8em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD22\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">12.06.2023</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">16:19:36</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:01</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc" class="file"><acronym title="C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc">C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">8</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">18</td></tr>
+</table>
+</td>
+</table><a name="IDZGAKXJJCFI1UBPYBH0MVFXVJTNDPPZEMU04F0IF4OQH3ERYVQ3GH"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDZLG20EUMWTR4FRLMBWO0MVFYLT0JNOW2L3YNXGSRPOAAZND0RJE">8 Net Ties failed verification</a></td>
+<td class="column2">8</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">8</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDEZY1U4ZBW03ZKREKNOQZHZC0BB2W3CI2ZMMCVBKCYDPIMKRAEOTO">Clearance Constraint (Gap=0.15mm) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDQRE0EQUV0HDAMXEQQWN22LY1ZP1RTXXLGIDAR5PUGLSKKJ4XXIDD">Clearance Constraint (Gap=0.254mm) (InNamedPolygon('GND_L01_P001')),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID23RYUMHDZPP4IXLDXXX2QNL5DLJ5ACS0IF2FA5LZ3W3NQAP1QFQB">Clearance Constraint (Gap=0.254mm) (InNamedPolygon('GND_L01_P000')),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID0JMDPSVCCYLLLLZZASVCTQYI4N2IZ2WST2JF4MJFNKEFZ1KKM5UH">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID14V245SBDDWYNJYZCJ3NL1HU5LQLXO4UHLTPLDHJCVS4AMAQDQGL">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">7</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDZSXYF0OBKT4KC5DAPRHEW00DAP3USPWIPZ22MWNW5IDGKKOCJBAF">Modified Polygon (Allow modified: No), (Allow shelved: No)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDBVX0QKOLPBQKGCBOHUHZARX0RCSCLQ3WGYNSHAPCLNOSOK44CBYE">Width Constraint (Min=0.15mm) (Max=4mm) (Preferred=0.5mm) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDR1VAE5F3LVQOGSXLOKAIGL0SOGQKWWSWT3ZI0TPN5GXRIZHW4HKL">Power Plane Connect Rule(Direct Connect )(Expansion=0.5mm) (Conductor Width=0.25mm) (Air Gap=0.25mm) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDQQXXC1B10XKPLZDVEQ1VHXABNKARYB0V0Y4BAAD3NEP0XW305IJD">Minimum Annular Ring (Minimum=0.175mm) (Disabled)(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDOIZ32U0KZGSKIFPLL10T5VMYNP5EDYDG0L0FDYGIK5UFRBQ3HZEM">Acute Angle Constraint [Tracks Only] (Minimum=90.000) (Disabled)(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDXRASCQIFYYOEDJOA3PNDFJFQGKPELP5USKUDA5BXDFJHYNUW1GHP">Hole Size Constraint (Min=0.25mm) (Max=3mm) (All)</a></td>
+<td class="column2">11</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDTODR0FA5ETKSDIZP05LPEJBR3MDQNH5KEYLZNVDORQHYZUDU1T1E">Hole To Hole Clearance (Gap=0.25mm) (Disabled)(All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDCIPBXRZUSUI2KAG2C1NTBS1GZEJDMF1PA3S3KSRYHGLSADTUQGB">Minimum Solder Mask Sliver (Gap=0mm) (Disabled)(All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDU4VKFCZ1JVVCCSIB3KSO3EQNTFPJ3T4OC3IPOQDU1XLSPFAHQBJF">Silk To Solder Mask (Clearance=0mm) (Disabled)(IsPad),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDHXZMU1N54UEMHC1T0FPVCRQ1MJC1RJK3SPKDG1KNVRQ3REFSQKSN">Silk to Silk (Clearance=0mm) (Disabled)(All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDJXHJ1CLJFJDABGVPASDLY3JJHJZFNDUI1DKFG0OB2QF5X21TR2">Net Antennae (Tolerance=0mm) (Disabled)(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDVN1TN3BM4NCCDMGHDDCL3JNLSOCXGES2JUJ1U2BDCLJSHNKT1YNG">Board Clearance Constraint (Gap=0mm) (Disabled)(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDL20XLSGJ4EAEGYK2POEFJ03WJKYNOJAPS4O3RLKGJVYZQS2POZCF">Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (Disabled)(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">18</td>
+</tr>
+</table><br><a name="IDV440K4AK2ULFCHFAZ10B4X4XNPMKVSUU5ER354JPHBYA0KGXQADJ"><h2>Warnings</h2></a><a name="IDZLG20EUMWTR4FRLMBWO0MVFYLT0JNOW2L3YNXGSRPOAAZND0RJE"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="warning">8 Net Ties failed verification</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2790.965mil|Location2.X=2915.953mil|Location1.Y=2517.717mil|Location2.Y=2640.357mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2790.965mil|Location2.X=2915.953mil|Location1.Y=2517.717mil|Location2.Y=2640.357mil|Absolute=True">SMT Small Component SB8-* (27.565mm,21.8mm) on Top Layer</acronym></a>, SMT Small Component SB8-* (27.565mm,21.8mm) on Top Layer, has isolated copper</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972mil|Location2.X=3096.953mil|Location1.Y=2517.717mil|Location2.Y=2640.357mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2972mil|Location2.X=3096.953mil|Location1.Y=2517.717mil|Location2.Y=2640.357mil|Absolute=True">SMT Small Component SB7-* (32.175mm,21.8mm) on Top Layer</acronym></a>, SMT Small Component SB7-* (32.175mm,21.8mm) on Top Layer, has isolated copper</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6904.713mil|Location2.X=7068.898mil|Location1.Y=2929.967mil|Location2.Y=2989.325mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6904.713mil|Location2.X=7068.898mil|Location1.Y=2929.967mil|Location2.Y=2989.325mil|Absolute=True">SMT Small Component SB1-* (135mm,32.5mm) on Top Layer</acronym></a>, SMT Small Component SB1-* (135mm,32.5mm) on Top Layer, has isolated copper</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2430.634mil|Location2.X=2555.587mil|Location1.Y=3541.339mil|Location2.Y=3643.852mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2430.634mil|Location2.X=2555.587mil|Location1.Y=3541.339mil|Location2.Y=3643.852mil|Absolute=True">SMT Small Component SB2-* (20mm,47.8mm) on Top Layer</acronym></a>, SMT Small Component SB2-* (20mm,47.8mm) on Top Layer, has isolated copper</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6886.342mil|Location2.X=7068.898mil|Location1.Y=2302.014mil|Location2.Y=2361.372mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6886.342mil|Location2.X=7068.898mil|Location1.Y=2302.014mil|Location2.Y=2361.372mil|Absolute=True">SMT Small Component SB4-* (135mm,16.5mm) on Top Layer</acronym></a>, SMT Small Component SB4-* (135mm,16.5mm) on Top Layer, has isolated copper</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6890.279mil|Location2.X=7068.898mil|Location1.Y=3347.441mil|Location2.Y=3407.631mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6890.279mil|Location2.X=7068.898mil|Location1.Y=3347.441mil|Location2.Y=3407.631mil|Absolute=True">SMT Small Component SB3-* (135mm,43mm) on Top Layer</acronym></a>, SMT Small Component SB3-* (135mm,43mm) on Top Layer, has isolated copper</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6682.48mil|Location2.X=6866.02mil|Location1.Y=3211.909mil|Location2.Y=3271.267mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6682.48mil|Location2.X=6866.02mil|Location1.Y=3211.909mil|Location2.Y=3271.267mil|Absolute=True">SMT Small Component SB5-* (126.41mm,39.636mm) on Top Layer</acronym></a>, SMT Small Component SB5-* (126.41mm,39.636mm) on Top Layer, has isolated copper</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6682.48mil|Location2.X=6866.02mil|Location1.Y=3152.657mil|Location2.Y=3212.015mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6682.48mil|Location2.X=6866.02mil|Location1.Y=3152.657mil|Location2.Y=3212.015mil|Absolute=True">SMT Small Component SB6-* (126.41mm,38.131mm) on Top Layer</acronym></a>, SMT Small Component SB6-* (126.41mm,38.131mm) on Top Layer, has isolated copper</td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="ID14V245SBDDWYNJYZCJ3NL1HU5LQLXO4UHLTPLDHJCVS4AMAQDQGL"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Un-Routed Net Constraint ( (All) )</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1728.347mil|Location2.X=1956.693mil|Location1.Y=2202.756mil|Location2.Y=2297.244mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1728.347mil|Location2.X=1956.693mil|Location1.Y=2202.756mil|Location2.Y=2297.244mil|Absolute=True">Un-Routed Net Constraint: Net GND Between Pad J5-2(2.8mm,14.45mm) on Top Layer [Unplated] And Pad J5-2(2.8mm,14.45mm) on Bottom Layer [Unplated] </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1742.52mil|Location2.X=1942.521mil|Location1.Y=2493.701mil|Location2.Y=2693.702mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1742.52mil|Location2.X=1942.521mil|Location1.Y=2493.701mil|Location2.Y=2693.702mil|Absolute=True">Un-Routed Net Constraint: Net GND Between Pad J5-2(2.8mm,23.18mm) on Bottom Layer [Unplated] And Track (2.8mm,23.18mm)(2.8mm,23.18mm) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6995.079mil|Location2.X=7059.055mil|Location1.Y=3304.134mil|Location2.Y=3371.063mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6995.079mil|Location2.X=7059.055mil|Location1.Y=3304.134mil|Location2.Y=3371.063mil|Absolute=True">Un-Routed Net Constraint: Net GND Between Via (134.05mm,41.6mm) from Top Layer to Bottom Layer And Pad SB3-1(135mm,42.625mm) on Top Layer [Unplated] </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6821.26mil|Location2.X=7147.244mil|Location1.Y=2439.37mil|Location2.Y=2445.472mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6821.26mil|Location2.X=7147.244mil|Location1.Y=2439.37mil|Location2.Y=2445.472mil|Absolute=True">Un-Routed Net Constraint: Net GND Between Track (131.8mm,21.8mm)(131.8mm,21.8mm) on Top Layer And Pad SB4-1(135mm,16.875mm) on Top Layer [Unplated] </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2790.965mil|Location2.X=2996.063mil|Location1.Y=2527.559mil|Location2.Y=2551.181mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2790.965mil|Location2.X=2996.063mil|Location1.Y=2527.559mil|Location2.Y=2551.181mil|Absolute=True">Un-Routed Net Constraint: Net GND Between Pad SB8-2(27.19mm,21.8mm) on Top Layer [Unplated] And Pad SB7-1(31.8mm,21.8mm) on Top Layer [Unplated] </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2610.628mil|Location2.X=2902.776mil|Location1.Y=2366.537mil|Location2.Y=2639.37mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2610.628mil|Location2.X=2902.776mil|Location1.Y=2366.537mil|Location2.Y=2639.37mil|Absolute=True">Un-Routed Net Constraint: Net GND Between Track (24.85mm,19.95mm)(24.9mm,19.9mm) on Top Layer And Pad SB8-2(27.19mm,21.8mm) on Top Layer [Unplated] </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6259.877mil|Location2.X=6460.63mil|Location1.Y=2921.491mil|Location2.Y=3162.992mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6259.877mil|Location2.X=6460.63mil|Location1.Y=2921.491mil|Location2.Y=3162.992mil|Absolute=True">Un-Routed Net Constraint: Net GND Between Track (117.42mm,33.925mm)(117.541mm,34.046mm) on Top Layer And Via (117.56mm,35.1mm) from Top Layer to Bottom Layer </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDXRASCQIFYYOEDJOA3PNDFJFQGKPELP5USKUDA5BXDFJHYNUW1GHP"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Hole Size Constraint (Min=0.25mm) (Max=3mm) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5930.477mil|Location2.X=6053.775mil|Location1.Y=3647.013mil|Location2.Y=3770.31mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5930.477mil|Location2.X=6053.775mil|Location1.Y=3647.013mil|Location2.Y=3770.31mil|Absolute=True">Hole Size Constraint: (3.1mm &gt; 3mm) Pad J1-10(108.2mm,51.5mm) on Multi-Layer Actual Hole Size = 3.1mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6914.729mil|Location2.X=7038.027mil|Location1.Y=3647.013mil|Location2.Y=3770.31mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6914.729mil|Location2.X=7038.027mil|Location1.Y=3647.013mil|Location2.Y=3770.31mil|Absolute=True">Hole Size Constraint: (3.1mm &gt; 3mm) Pad J1-11(133.2mm,51.5mm) on Multi-Layer Actual Hole Size = 3.1mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6914.729mil|Location2.X=7038.027mil|Location1.Y=2084.021mil|Location2.Y=2207.318mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6914.729mil|Location2.X=7038.027mil|Location1.Y=2084.021mil|Location2.Y=2207.318mil|Absolute=True">Hole Size Constraint: (3.1mm &gt; 3mm) Pad J2-10(133.2mm,11.8mm) on Multi-Layer Actual Hole Size = 3.1mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5930.477mil|Location2.X=6053.775mil|Location1.Y=2084.021mil|Location2.Y=2207.318mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5930.477mil|Location2.X=6053.775mil|Location1.Y=2084.021mil|Location2.Y=2207.318mil|Absolute=True">Hole Size Constraint: (3.1mm &gt; 3mm) Pad J2-11(108.2mm,11.8mm) on Multi-Layer Actual Hole Size = 3.1mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6718.663mil|Location2.X=6845.897mil|Location1.Y=3440.317mil|Location2.Y=3567.551mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=6718.663mil|Location2.X=6845.897mil|Location1.Y=3440.317mil|Location2.Y=3567.551mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 3mm) Pad Mec1-0(128.27mm,46.3mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5218.663mil|Location2.X=5345.897mil|Location1.Y=3817.482mil|Location2.Y=3944.716mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5218.663mil|Location2.X=5345.897mil|Location1.Y=3817.482mil|Location2.Y=3944.716mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 3mm) Pad Mec2-0(90.17mm,55.88mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4268.663mil|Location2.X=4395.897mil|Location1.Y=2121.419mil|Location2.Y=2248.653mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4268.663mil|Location2.X=4395.897mil|Location1.Y=2121.419mil|Location2.Y=2248.653mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 3mm) Pad Mec3-0(66.04mm,12.8mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2218.663mil|Location2.X=2345.897mil|Location1.Y=1917.482mil|Location2.Y=2044.716mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2218.663mil|Location2.X=2345.897mil|Location1.Y=1917.482mil|Location2.Y=2044.716mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 3mm) Pad Mec4-0(13.97mm,7.62mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4268.663mil|Location2.X=4395.897mil|Location1.Y=3217.482mil|Location2.Y=3344.716mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4268.663mil|Location2.X=4395.897mil|Location1.Y=3217.482mil|Location2.Y=3344.716mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 3mm) Pad Mec5-0(66.04mm,40.64mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2218.663mil|Location2.X=2345.897mil|Location1.Y=3817.482mil|Location2.Y=3944.716mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2218.663mil|Location2.X=2345.897mil|Location1.Y=3817.482mil|Location2.Y=3944.716mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 3mm) Pad Mec6-0(13.97mm,55.88mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5468.663mil|Location2.X=5595.897mil|Location1.Y=1917.482mil|Location2.Y=2044.716mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\sylvestr.vankappe\Documents\Telemtetry-for-the-Formula-Student\Hardware\TelemetrySystemAltiumProject\TelemetryBoard.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5468.663mil|Location2.X=5595.897mil|Location1.Y=1917.482mil|Location2.Y=2044.716mil|Absolute=True">Hole Size Constraint: (3.2mm &gt; 3mm) Pad Mec7-0(96.52mm,7.62mm) on Multi-Layer Actual Hole Size = 3.2mm</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br></body>
+</html>
