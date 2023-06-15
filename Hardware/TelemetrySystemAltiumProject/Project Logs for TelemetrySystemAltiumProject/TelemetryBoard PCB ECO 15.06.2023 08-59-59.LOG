@@ -1,0 +1,9 @@
+Change Component Footprint: Designator=C14 Old Footprint=CAPACITOR 1608 REFLOW New Footprint=CAPACITOR 1005 REFLOW
+Change Component Footprint: Designator=C15 Old Footprint=CAPACITOR 1608 REFLOW New Footprint=CAPACITOR 1005 REFLOW
+Change Component Footprint: Designator=L3 Old Footprint=INDUCTOR 1608 REFLOW New Footprint=INDUCTOR 1005 REFLOW
+Change Component Designator: OldDesignator= NewDesignator=B1
+Added Pin To Net: NetName=NetR1_1 Pin=T1-5
+Added Member To Class: ClassName=nRF7002-DK Member=Component B1 NRF52DK socket
+Added Room: Name=CanController
+Added Room: Name=GPS-SD
+Added Room: Name=nRF7002-DK
