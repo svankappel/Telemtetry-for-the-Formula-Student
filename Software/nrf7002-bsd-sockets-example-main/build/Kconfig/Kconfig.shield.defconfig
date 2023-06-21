@@ -1,0 +1,2 @@
+osource "c:/Users/sylve/OneDrive/Bureau/Telemtetry-for-the-Formula-Student/Software/shell/boards/shields/*/Kconfig.defconfig"
+osource "C:/ncs/v2.4.0/nrf/boards/shields/*/Kconfig.defconfig"
