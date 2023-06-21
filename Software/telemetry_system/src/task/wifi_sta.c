@@ -56,6 +56,11 @@ static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 static struct net_mgmt_event_callback wifi_shell_mgmt_cb;
 static struct net_mgmt_event_callback net_shell_mgmt_cb;
 
+/*
+*  context struct
+*  
+*/
+
 static struct {
 	const struct shell *sh;
 	union {
@@ -69,6 +74,11 @@ static struct {
 	};
 } context;
 
+
+/*
+*  toggle led thread
+*  
+*/
 void toggle_led(void)
 {
 	int ret;
@@ -85,18 +95,21 @@ void toggle_led(void)
 	}
 
 	while (1) {
-		if (context.connected) {
+		if (context.connected) 
+		{
 			gpio_pin_toggle_dt(&led);
 			k_msleep(LED_SLEEP_TIME_MS);
-		} else {
+		} 
+		else 
+		{
 			gpio_pin_set_dt(&led, 0);
 			k_msleep(LED_SLEEP_TIME_MS);
 		}
 	}
 }
 
-K_THREAD_DEFINE(led_thread_id, 1024, toggle_led, NULL, NULL, NULL,
-		7, 0, 0);
+K_THREAD_DEFINE(led_thread_id, 1024, toggle_led, NULL, NULL, NULL, 7, 0, 0);
+
 
 static int cmd_wifi_status(void)
 {
@@ -136,16 +149,19 @@ static int cmd_wifi_status(void)
 
 static void handle_wifi_connect_result(struct net_mgmt_event_callback *cb)
 {
-	const struct wifi_status *status =
-		(const struct wifi_status *) cb->info;
+	const struct wifi_status *status =(const struct wifi_status *) cb->info;
 
-	if (context.connected) {
+	if (context.connected) 
+	{
 		return;
 	}
 
-	if (status->status) {
+	if (status->status) 
+	{
 		LOG_ERR("Connection failed (%d)", status->status);
-	} else {
+	} 
+	else 
+	{
 		LOG_INF("Connected");
 		context.connected = true;
 	}
@@ -155,30 +171,30 @@ static void handle_wifi_connect_result(struct net_mgmt_event_callback *cb)
 
 static void handle_wifi_disconnect_result(struct net_mgmt_event_callback *cb)
 {
-	const struct wifi_status *status =
-		(const struct wifi_status *) cb->info;
+	const struct wifi_status *status = (const struct wifi_status *) cb->info;
 
-	if (!context.connected) {
+	if (!context.connected) 
+	{
 		return;
 	}
 
-	if (context.disconnect_requested) {
-		LOG_INF("Disconnection request %s (%d)",
-			 status->status ? "failed" : "done",
-					status->status);
+	if (context.disconnect_requested) 
+	{
+		LOG_INF("Disconnection request %s (%d)", status->status ? "failed" : "done", status->status);
 		context.disconnect_requested = false;
-	} else {
+	} 
+	else 
+	{
 		LOG_INF("Received Disconnected");
 		context.connected = false;
 	}
-
 	cmd_wifi_status();
 }
 
-static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb,
-				     uint32_t mgmt_event, struct net_if *iface)
+static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface)
 {
-	switch (mgmt_event) {
+	switch (mgmt_event) 
+	{
 	case NET_EVENT_WIFI_CONNECT_RESULT:
 		handle_wifi_connect_result(cb);
 		break;
@@ -201,10 +217,10 @@ static void print_dhcp_ip(struct net_mgmt_event_callback *cb)
 
 	LOG_INF("DHCP IP address: %s", dhcp_info);
 }
-static void net_mgmt_event_handler(struct net_mgmt_event_callback *cb,
-				    uint32_t mgmt_event, struct net_if *iface)
+static void net_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface)
 {
-	switch (mgmt_event) {
+	switch (mgmt_event) 
+	{
 	case NET_EVENT_IPV4_DHCP_BOUND:
 		print_dhcp_ip(cb);
 		break;
@@ -252,10 +268,9 @@ static int wifi_connect(void)
 	context.connect_result = false;
 	__wifi_args_to_params(&cnx_params);
 
-	if (net_mgmt(NET_REQUEST_WIFI_CONNECT, iface,
-		     &cnx_params, sizeof(struct wifi_connect_req_params))) {
+	if (net_mgmt(NET_REQUEST_WIFI_CONNECT, iface, &cnx_params, sizeof(struct wifi_connect_req_params))) 
+	{
 		LOG_ERR("Connection request failed");
-
 		return -ENOEXEC;
 	}
 
@@ -287,83 +302,48 @@ int bytes_from_str(const char *str, uint8_t *bytes, size_t bytes_len)
 
 
 
-
-
-/*! Wifi_Stationing implements the task WiFi Stationing.
+/*! Wifi_Sta implements the task WiFi Stationing.
 * 
 * @brief Wifi_Stationing makes the complete connection process, while 
 *       printing by LOG commands the connection status.
 *       This function is used on an independent thread.
 */
-void Wifi_Sta( void ){
-   
-   int i;
+void Wifi_Sta( void )
+{
+   	int i;
 	memset(&context, 0, sizeof(context));
 
-	net_mgmt_init_event_callback(&wifi_shell_mgmt_cb,
-				     wifi_mgmt_event_handler,
-				     WIFI_SHELL_MGMT_EVENTS);
+	net_mgmt_init_event_callback(&wifi_shell_mgmt_cb, wifi_mgmt_event_handler, WIFI_SHELL_MGMT_EVENTS);
 
 	net_mgmt_add_event_callback(&wifi_shell_mgmt_cb);
 
-
-	net_mgmt_init_event_callback(&net_shell_mgmt_cb,
-				     net_mgmt_event_handler,
-				     NET_EVENT_IPV4_DHCP_BOUND);
+	net_mgmt_init_event_callback(&net_shell_mgmt_cb, net_mgmt_event_handler, NET_EVENT_IPV4_DHCP_BOUND);
 
 	net_mgmt_add_event_callback(&net_shell_mgmt_cb);
 
-	LOG_INF("Starting %s with CPU frequency: %d MHz", CONFIG_BOARD, SystemCoreClock/MHZ(1));
 	k_sleep(K_SECONDS(1));
-
-#if defined(CONFIG_BOARD_NRF7002DK_NRF7001_NRF5340_CPUAPP) || \
-	defined(CONFIG_BOARD_NRF7002DK_NRF5340_CPUAPP)
-	if (strlen(CONFIG_NRF700X_QSPI_ENCRYPTION_KEY)) {
-		char key[QSPI_KEY_LEN_BYTES];
-		int ret;
-
-		ret = bytes_from_str(CONFIG_NRF700X_QSPI_ENCRYPTION_KEY, key, sizeof(key));
-		if (ret) {
-			LOG_ERR("Failed to parse encryption key: %d\n", ret);
-			return 0;
-		}
-
-		LOG_DBG("QSPI Encryption key: ");
-		for (int i = 0; i < QSPI_KEY_LEN_BYTES; i++) {
-			LOG_DBG("%02x", key[i]);
-		}
-		LOG_DBG("\n");
-
-		ret = qspi_enable_encryption(key);
-		if (ret) {
-			LOG_ERR("Failed to enable encryption: %d\n", ret);
-			return 0;
-		}
-		LOG_INF("QSPI Encryption enabled");
-	} else {
-		LOG_INF("QSPI Encryption disabled");
-	}
-#endif /* CONFIG_BOARD_NRF700XDK_NRF5340 */
-
-	LOG_INF("Static IP address (overridable): %s/%s -> %s",
-		CONFIG_NET_CONFIG_MY_IPV4_ADDR,
-		CONFIG_NET_CONFIG_MY_IPV4_NETMASK,
-		CONFIG_NET_CONFIG_MY_IPV4_GW);
 
 	while (1) 
     {
 		wifi_connect();
 
-		for (i = 0; i < CONNECTION_TIMEOUT; i++) {
+		for (i = 0; i < CONNECTION_TIMEOUT; i++) 
+		{
 			k_sleep(K_MSEC(STATUS_POLLING_MS));
+
 			cmd_wifi_status();
-			if (context.connect_result) {
+
+			if (context.connect_result) 
+			{
 				break;
 			}
 		}
-		if (context.connected) {
+		if (context.connected) 
+		{
 			k_sleep(K_FOREVER);
-		} else if (!context.connect_result) {
+		} 
+		else if (!context.connect_result) 
+		{
 			LOG_ERR("Connection Timed Out");
 		}
 	}
