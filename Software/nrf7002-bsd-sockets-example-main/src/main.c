@@ -59,7 +59,7 @@ LOG_MODULE_REGISTER(sta, CONFIG_LOG_DEFAULT_LEVEL);
 #include "Task/UDP_Client.h"
 #include "Task/deviceInformation.h"
 
-void main( void ) {
+int main( void ) {
 
 	Task_Wifi_Stationing_Init();
 	Task_Toggle_Led_Init();

@@ -51,8 +51,8 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 #include <errno.h>
 #include <stdio.h>
 
-#include <sys/socket.h>
-#include <arpa/inet.h>
+#include <zephyr/posix/sys/socket.h>
+#include <zephyr/posix/arpa/inet.h>
 #include <zephyr/net/socket.h>
 #include <unistd.h> 
 

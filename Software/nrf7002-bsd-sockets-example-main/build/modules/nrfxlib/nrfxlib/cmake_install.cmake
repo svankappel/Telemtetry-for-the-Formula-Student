@@ -42,3 +42,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("C:/Users/sylve/OneDrive/Bureau/Telemtetry-for-the-Formula-Student/Software/nrf7002-bsd-sockets-example-main/build/modules/nrfxlib/nrfxlib/crypto/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Users/sylve/OneDrive/Bureau/Telemtetry-for-the-Formula-Student/Software/nrf7002-bsd-sockets-example-main/build/modules/nrfxlib/nrfxlib/nrf_security/cmake_install.cmake")
+endif()
+
