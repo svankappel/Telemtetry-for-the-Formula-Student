@@ -51,6 +51,41 @@ static const uint8_t udpTestMessage[] =
 	"\n";
 
 
+
+
+void connectUDPSocket(int * udpClientSocket,struct sockaddr_in * serverAddress)
+{
+	// Server IPV4 address configuration 
+	serverAddress->sin_family = AF_INET;
+	serverAddress->sin_port = htons( UDP_CLIENT_PORT );
+	inet_pton(AF_INET, CONFIG_NET_CONFIG_PEER_IPV4_ADDR, &serverAddress->sin_addr );
+
+	// Client socket creation 
+	*udpClientSocket = socket(serverAddress->sin_family, SOCK_DGRAM, IPPROTO_UDP );
+
+	if ( *udpClientSocket < 0 ) {
+		LOG_ERR( "UDP Client error: socket: %d\n", errno );
+		k_sleep( K_FOREVER );
+	}
+	
+	// Connection to the server. 
+	int connectionResult = connect(*udpClientSocket, ( struct sockaddr * )serverAddress, sizeof( *serverAddress ));
+
+	if ( connectionResult < 0 ) {
+		LOG_ERR( "UDP Client error: connect: %d\n", errno );
+		k_sleep( K_FOREVER );
+	}
+	LOG_INF( "UDP Client connected correctly" );
+
+	k_msleep( UDP_CLIENT_WAIT_TO_SEND_MS );
+}
+
+
+
+
+
+
+
 /*! UDP_Client implements the UDP Client task.
 * @brief UDP_Client uses a BSD socket to send messages to a defined UDP
 *		server. 
@@ -61,52 +96,43 @@ static const uint8_t udpTestMessage[] =
 void UDP_Client() {
     int udpClientSocket;
 	struct sockaddr_in serverAddress;
-	int connectionResult;
 	int sentBytes = 0;
 	
 	// Starve the thread until a DHCP IP is assigned to the board 
-	
-    while( !context.connected ){
+	while(!context.ip_assigned){
 		k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
 	}
+	//connect socket
+	connectUDPSocket(&udpClientSocket,&serverAddress);
 
-	// Server IPV4 address configuration 
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons( UDP_CLIENT_PORT );
-    inet_pton(AF_INET, CONFIG_NET_CONFIG_PEER_IPV4_ADDR, &serverAddress.sin_addr );
-
-	// Client socket creation 
-	udpClientSocket = socket(serverAddress.sin_family, SOCK_DGRAM, IPPROTO_UDP );
-
-	if ( udpClientSocket < 0 ) {
-		LOG_ERR( "UDP Client error: socket: %d\n", errno );
-		k_sleep( K_FOREVER );
-	}
-
-	// Connection to the server. 
-	connectionResult = connect(udpClientSocket, ( struct sockaddr * )&serverAddress, sizeof( serverAddress ));
-
-	if ( connectionResult < 0 ) {
-		LOG_ERR( "UDP Client error: connect: %d\n", errno );
-		k_sleep( K_FOREVER );
-	}
-	LOG_INF( "UDP Client connected correctly" );
-
-	k_msleep( UDP_CLIENT_WAIT_TO_SEND_MS );
 
 	while(true)
 	{
-		// Send the udp message 
-		sentBytes = send(udpClientSocket, udpTestMessage, sizeof(udpTestMessage), 0);
-
-		LOG_INF( "UDP Client mode. Sent: %d", sentBytes );
-		if ( sentBytes < 0 ) 
+		//if wifi connection is lost
+		if(!context.ip_assigned)
 		{
-			LOG_ERR( "UDP Client error: send: %d\n", errno );
-			close( udpClientSocket );
-			LOG_ERR( "UDP Client error Connection from closed\n" );
+			close(udpClientSocket);		//close socket
+
+			// Starve the thread until a DHCP IP is assigned to the board 
+			while( !context.ip_assigned ){
+				k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
+			}
+			connectUDPSocket(&udpClientSocket,&serverAddress); // reconnect the socket
 		}
-		k_msleep(500);
+		else // if wifi connected
+		{
+			// Send the udp message 
+			sentBytes = send(udpClientSocket, udpTestMessage, sizeof(udpTestMessage), 0);
+
+			LOG_INF( "UDP Client mode. Sent: %d", sentBytes );
+			if ( sentBytes < 0 ) 
+			{
+				LOG_ERR( "UDP Client error: send: %d\n", errno );
+				close( udpClientSocket );
+				LOG_ERR( "UDP Client error Connection from closed\n" );
+			}
+			k_msleep(500);
+		}
 	}
 	
 }

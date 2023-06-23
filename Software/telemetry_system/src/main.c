@@ -27,5 +27,5 @@ int main(void)
 	Task_UDP_Client_Init();
 
 	k_sleep( K_FOREVER );
-	
+	return 0;
 }

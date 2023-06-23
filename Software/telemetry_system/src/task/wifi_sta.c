@@ -134,8 +134,8 @@ static void handle_wifi_disconnect_result(struct net_mgmt_event_callback *cb)
 	{
 		LOG_INF("Received Disconnected");
 		context.connected = false;
+		context.ip_assigned=false;
 	}
-	cmd_wifi_status();
 }
 
 static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface)
@@ -163,6 +163,7 @@ static void print_dhcp_ip(struct net_mgmt_event_callback *cb)
 	net_addr_ntop(AF_INET, addr, dhcp_info, sizeof(dhcp_info));
 
 	LOG_INF("DHCP IP address: %s", dhcp_info);
+	context.ip_assigned=true;
 }
 static void net_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface)
 {
@@ -212,6 +213,7 @@ static int wifi_connect(void)
 	static struct wifi_connect_req_params cnx_params;
 
 	context.connected = false;
+	context.ip_assigned = false;
 	context.connect_result = false;
 	__wifi_args_to_params(&cnx_params);
 

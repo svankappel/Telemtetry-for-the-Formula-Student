@@ -22,7 +22,8 @@ typedef struct sContext{
 			uint8_t connected					    : 					      1;
 			uint8_t connect_result				    : 					      1;
 			uint8_t disconnect_requested		    : 					      1;
-			uint8_t _unused						    : 					      5;
+			uint8_t ip_assigned						:						  1;
+			uint8_t _unused						    : 					      4;
 		};
 		uint8_t all;
 	};
