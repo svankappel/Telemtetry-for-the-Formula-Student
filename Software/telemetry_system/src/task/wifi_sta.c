@@ -12,13 +12,15 @@ LOG_MODULE_REGISTER(sta, CONFIG_LOG_DEFAULT_LEVEL);
 #include <zephyr/net/net_if.h>
 #include <zephyr/net/wifi_mgmt.h>
 #include <zephyr/net/net_event.h>
-#include <zephyr/drivers/gpio.h>
+
 
 #include <qspi_if.h>
 
 #include "net_private.h"
 
 #include "wifi_sta.h"
+
+#include "deviceinformation.h"
 
 
 //! Wifi thread priority level
@@ -42,73 +44,18 @@ static struct k_thread wifiThread;
 #define CONNECTION_TIMEOUT  100
 #define STATUS_POLLING_MS   300
 
-/* 1000 msec = 1 sec */
-#define LED_SLEEP_TIME_MS   100
 
-/* The devicetree node identifier for the "led0" alias. */
-#define LED0_NODE DT_ALIAS(led0)
-/*
- * A build error on this line means your board is unsupported.
- * See the sample documentation for information on how to fix this.
- */
-static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
 static struct net_mgmt_event_callback wifi_shell_mgmt_cb;
 static struct net_mgmt_event_callback net_shell_mgmt_cb;
 
 /*
-*  context struct
+*  context struct from deviceInformation.h
 *  
 */
 
-static struct {
-	const struct shell *sh;
-	union {
-		struct {
-			uint8_t connected	: 1;
-			uint8_t connect_result	: 1;
-			uint8_t disconnect_requested	: 1;
-			uint8_t _unused		: 5;
-		};
-		uint8_t all;
-	};
-} context;
+tContext context;
 
-
-/*
-*  toggle led thread
-*  
-*/
-void toggle_led(void)
-{
-	int ret;
-
-	if (!device_is_ready(led.port)) {
-		LOG_ERR("LED device is not ready");
-		return;
-	}
-
-	ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
-	if (ret < 0) {
-		LOG_ERR("Error %d: failed to configure LED pin", ret);
-		return;
-	}
-
-	while (1) {
-		if (context.connected) 
-		{
-			gpio_pin_toggle_dt(&led);
-			k_msleep(LED_SLEEP_TIME_MS);
-		} 
-		else 
-		{
-			gpio_pin_set_dt(&led, 0);
-			k_msleep(LED_SLEEP_TIME_MS);
-		}
-	}
-}
-
-K_THREAD_DEFINE(led_thread_id, 1024, toggle_led, NULL, NULL, NULL, 7, 0, 0);
 
 
 static int cmd_wifi_status(void)

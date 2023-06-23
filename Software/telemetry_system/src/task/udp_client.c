@@ -10,16 +10,16 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 #include <zephyr/net/socket.h>
 #include <unistd.h> 
 
-#include "UDP_Client.h"
-#include "deviceInformation.h"
+#include "udp_client.h"
+#include "deviceinformation.h"
 
 //! Stack size for the UDP_SERVER thread
 #define UDP_CLIENT_STACK_SIZE 2048
 //! UDP_SERVER thread priority level
-#define UDP_SERVER_PRIORITY 7
+#define UDP_SERVER_PRIORITY 5
 //! Time in miliseconds to wait to send the UDP message since the board 
 // gets a stable IP address
-#define UDP_CLIENT_WAIT_TO_SEND_MS 5000
+#define UDP_CLIENT_WAIT_TO_SEND_MS 1000
 
 //! UDP Client stack definition
 K_THREAD_STACK_DEFINE(UDP_CLIENT_STACK, UDP_CLIENT_STACK_SIZE);
@@ -27,27 +27,27 @@ K_THREAD_STACK_DEFINE(UDP_CLIENT_STACK, UDP_CLIENT_STACK_SIZE);
 static struct k_thread udpClientThread;
 
 //! UDP message sent by the client.
-static const uint8_t udpClientMessage[] =
-    "=============================UDP MESSAGE:============================="
-	"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque "
-	"sodales lorem lorem, sed congue enim vehicula a. Sed finibus diam sed "
-	"odio ultrices pharetra. Nullam dictum arcu ultricies turpis congue, "
-	"vel venenatis turpis venenatis. Nam tempus arcu eros, ac congue libero "
-	"tristique congue. Proin velit lectus, euismod sit amet quam in, "
-	"maximus condimentum urna. Cras vel erat luctus, mattis orci ut, varius "
-	"urna. Nam eu lobortis velit."
+static const uint8_t udpTestMessage[] =
+    "=============================UDP MESSAGE:=============================\n"
+	"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque \n"
+	"sodales lorem lorem, sed congue enim vehicula a. Sed finibus diam sed \n"
+	"odio ultrices pharetra. Nullam dictum arcu ultricies turpis congue, \n"
+	"vel venenatis turpis venenatis. Nam tempus arcu eros, ac congue libero \n"
+	"tristique congue. Proin velit lectus, euismod sit amet quam in, \n"
+	"maximus condimentum urna. Cras vel erat luctus, mattis orci ut, varius \n"
+	"urna. Nam eu lobortis velit.\n"
 	"\n"
-	"Nullam sit amet diam vel odio sodales cursus vehicula eu arcu. Proin "
-	"fringilla, enim nec consectetur mollis, lorem orci interdum nisi, "
-	"vitae suscipit nisi mauris eu mi. Proin diam enim, mollis ac rhoncus "
-	"vitae, placerat et eros. Suspendisse convallis, ipsum nec rhoncus "
-	"aliquam, ex augue ultrices nisl, id aliquet mi diam quis ante. "
-	"Pellentesque venenatis ornare ultrices. Quisque et porttitor lectus. "
-	"Ut venenatis nunc et urna imperdiet porttitor non laoreet massa. Donec "
-	"eleifend eros in mi sagittis egestas. Sed et mi nunc. Nunc vulputate, "
-	"mauris non ullamcorper viverra, lorem nulla vulputate diam, et congue "
-	"dui velit non erat. Duis interdum leo et ipsum tempor consequat. In "
-	"faucibus enim quis purus vulputate nullam."
+	"Nullam sit amet diam vel odio sodales cursus vehicula eu arcu. Proin \n"
+	"fringilla, enim nec consectetur mollis, lorem orci interdum nisi, \n"
+	"vitae suscipit nisi mauris eu mi. Proin diam enim, mollis ac rhoncus \n"
+	"vitae, placerat et eros. Suspendisse convallis, ipsum nec rhoncus \n"
+	"aliquam, ex augue ultrices nisl, id aliquet mi diam quis ante. \n"
+	"Pellentesque venenatis ornare ultrices. Quisque et porttitor lectus. \n"
+	"Ut venenatis nunc et urna imperdiet porttitor non laoreet massa. Donec \n"
+	"eleifend eros in mi sagittis egestas. Sed et mi nunc. Nunc vulputate, \n"
+	"mauris non ullamcorper viverra, lorem nulla vulputate diam, et congue \n"
+	"dui velit non erat. Duis interdum leo et ipsum tempor consequat. In \n"
+	"faucibus enim quis purus vulputate nullam.\n"
 	"\n";
 
 
@@ -65,12 +65,11 @@ void UDP_Client() {
 	int sentBytes = 0;
 	
 	// Starve the thread until a DHCP IP is assigned to the board 
-	/*
+	
     while( !context.connected ){
 		k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
 	}
-	*/
-	k_msleep(10000);
+
 	// Server IPV4 address configuration 
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons( UDP_CLIENT_PORT );
@@ -93,16 +92,21 @@ void UDP_Client() {
 	}
 	LOG_INF( "UDP Client connected correctly" );
 
-	// Send the udp message 
 	k_msleep( UDP_CLIENT_WAIT_TO_SEND_MS );
-	sentBytes = send(udpClientSocket, udpClientMessage, sizeof( udpClientMessage ), 0 );
 
-	LOG_INF( "UDP Client mode. Sent: %d", sentBytes );
-	if ( sentBytes < 0 ) 
+	while(true)
 	{
-		LOG_ERR( "UDP Client error: send: %d\n", errno );
-		close( udpClientSocket );
-		LOG_ERR( "UDP Client error Connection from closed\n" );
+		// Send the udp message 
+		sentBytes = send(udpClientSocket, udpTestMessage, sizeof(udpTestMessage), 0);
+
+		LOG_INF( "UDP Client mode. Sent: %d", sentBytes );
+		if ( sentBytes < 0 ) 
+		{
+			LOG_ERR( "UDP Client error: send: %d\n", errno );
+			close( udpClientSocket );
+			LOG_ERR( "UDP Client error Connection from closed\n" );
+		}
+		k_msleep(500);
 	}
 	
 }
