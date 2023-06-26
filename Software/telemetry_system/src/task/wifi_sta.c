@@ -23,10 +23,10 @@ LOG_MODULE_REGISTER(sta, CONFIG_LOG_DEFAULT_LEVEL);
 #include "deviceinformation.h"
 
 
-#define CONFIG_STA_SAMPLE_SSID1 "VRT-Telemetry"
-#define CONFIG_STA_SAMPLE_SSID2 "motog8"
-#define CONFIG_STA_SAMPLE_PASSWORD1 "TJJC2233"
-#define CONFIG_STA_SAMPLE_PASSWORD2 "TJJC2233"
+#define SSID1 "VRT-Telemetry"
+#define SSID2 "motog8"
+#define PASSWORD1 "TJJC2233"
+#define PASSWORD2 "TJJC2233"
 #define REDUNDANCY true
 
 
@@ -185,12 +185,12 @@ static void net_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t 
 	}
 }
 
-static int __wifi_args_to_params1(struct wifi_connect_req_params *params)
+static int __wifi_args_to_params(struct wifi_connect_req_params *params, const char* ssid, const char* pass)
 {
 	params->timeout = SYS_FOREVER_MS;
 
 	/* SSID */
-	params->ssid = CONFIG_STA_SAMPLE_SSID1;
+	params->ssid=ssid;
 	params->ssid_length = strlen(params->ssid);
 
 #if defined(CONFIG_STA_KEY_MGMT_WPA2)
@@ -204,7 +204,7 @@ static int __wifi_args_to_params1(struct wifi_connect_req_params *params)
 #endif
 
 #if !defined(CONFIG_STA_KEY_MGMT_NONE)
-	params->psk = CONFIG_STA_SAMPLE_PASSWORD1;
+	params->psk = pass;
 	params->psk_length = strlen(params->psk);
 #endif
 	params->channel = WIFI_CHANNEL_ANY;
@@ -215,7 +215,7 @@ static int __wifi_args_to_params1(struct wifi_connect_req_params *params)
 	return 0;
 }
 
-static int wifi_connect1(void)
+static int wifi_connect(const char* ssid, const char* pass)
 {
 	struct net_if *iface = net_if_get_default();
 	static struct wifi_connect_req_params cnx_params;
@@ -223,7 +223,7 @@ static int wifi_connect1(void)
 	context.connected = false;
 	context.ip_assigned = false;
 	context.connect_result = false;
-	__wifi_args_to_params1(&cnx_params);
+	__wifi_args_to_params(&cnx_params,ssid,pass);
 
 	if (net_mgmt(NET_REQUEST_WIFI_CONNECT, iface, &cnx_params, sizeof(struct wifi_connect_req_params))) 
 	{
@@ -236,56 +236,6 @@ static int wifi_connect1(void)
 	return 0;
 }
 
-static int __wifi_args_to_params2(struct wifi_connect_req_params *params)
-{
-	params->timeout = SYS_FOREVER_MS;
-
-	/* SSID */
-	params->ssid = CONFIG_STA_SAMPLE_SSID2;
-	params->ssid_length = strlen(params->ssid);
-
-#if defined(CONFIG_STA_KEY_MGMT_WPA2)
-	params->security = 1;
-#elif defined(CONFIG_STA_KEY_MGMT_WPA2_256)
-	params->security = 2;
-#elif defined(CONFIG_STA_KEY_MGMT_WPA3)
-	params->security = 3;
-#else
-	params->security = 0;
-#endif
-
-#if !defined(CONFIG_STA_KEY_MGMT_NONE)
-	params->psk = CONFIG_STA_SAMPLE_PASSWORD2;
-	params->psk_length = strlen(params->psk);
-#endif
-	params->channel = WIFI_CHANNEL_ANY;
-
-	/* MFP (optional) */
-	params->mfp = WIFI_MFP_OPTIONAL;
-
-	return 0;
-}
-
-static int wifi_connect2(void)
-{
-	struct net_if *iface = net_if_get_default();
-	static struct wifi_connect_req_params cnx_params;
-
-	context.connected = false;
-	context.ip_assigned = false;
-	context.connect_result = false;
-	__wifi_args_to_params2(&cnx_params);
-
-	if (net_mgmt(NET_REQUEST_WIFI_CONNECT, iface, &cnx_params, sizeof(struct wifi_connect_req_params))) 
-	{
-		LOG_ERR("Connection request failed");
-		return -ENOEXEC;
-	}
-
-	LOG_INF("Connection requested");
-
-	return 0;
-}
 
 int bytes_from_str(const char *str, uint8_t *bytes, size_t bytes_len)
 {
@@ -307,6 +257,28 @@ int bytes_from_str(const char *str, uint8_t *bytes, size_t bytes_len)
 	return 0;
 }
 
+void connection_handler(void)
+{
+	for (int i = 0; i < CONNECTION_TIMEOUT; i++) 
+	{
+		k_sleep(K_MSEC(STATUS_POLLING_MS));
+
+		cmd_wifi_status();
+
+		if (context.connect_result) 
+		{
+			break;
+		}
+	}
+	if (context.connected) 
+	{
+		k_sleep(K_FOREVER);
+	} 
+	else if (!context.connect_result) 
+	{
+		LOG_INF("Connection Timed Out");
+	}
+}
 
 
 
@@ -333,49 +305,11 @@ void Wifi_Sta( void )
 
 	while (1) 
     {
-		wifi_connect1();
+		wifi_connect(SSID1,PASSWORD1);
+		connection_handler();
+		wifi_connect(SSID2,PASSWORD2);
+		connection_handler();
 
-		for (int i = 0; i < CONNECTION_TIMEOUT; i++) 
-		{
-			k_sleep(K_MSEC(STATUS_POLLING_MS));
-
-			cmd_wifi_status();
-
-			if (context.connect_result) 
-			{
-				break;
-			}
-		}
-		while(context.connected) 
-		{
-			k_msleep(100);
-		} 
-		if (!context.connect_result) 
-		{
-			LOG_INF("Connection Timed Out");
-		}
-
-		wifi_connect2();
-
-		for (int i = 0; i < CONNECTION_TIMEOUT; i++) 
-		{
-			k_sleep(K_MSEC(STATUS_POLLING_MS));
-
-			cmd_wifi_status();
-
-			if (context.connect_result) 
-			{
-				break;
-			}
-		}
-		if (context.connected) 
-		{
-			k_sleep(K_FOREVER);
-		} 
-		else if (!context.connect_result) 
-		{
-			LOG_INF("Connection Timed Out");
-		}
 	}
 }
 

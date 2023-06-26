@@ -13,7 +13,7 @@ int main(void)
 
 	Task_Wifi_Sta_Init();
 	Task_Led_Init();
-	//Task_UDP_Client_Init();
+	Task_UDP_Client_Init();
 
 	k_sleep( K_FOREVER );
 	return 0;
