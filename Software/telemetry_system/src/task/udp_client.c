@@ -5,6 +5,8 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 #define CONFIG_NET_CONFIG_PEER_IPV4_ADDR1 "192.168.50.110"
 #define CONFIG_NET_CONFIG_PEER_IPV4_ADDR2 "192.168.43.205"
 
+#define UDP_CLIENT_PORT1 1502
+#define UDP_CLIENT_PORT2 1502
 
 #include <zephyr/kernel.h>
 #include <errno.h>
@@ -26,8 +28,8 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 // gets a stable IP address
 #define UDP_CLIENT_WAIT_TO_SEND_MS 1000
 
-//! UDP Client port
-#define UDP_CLIENT_PORT 1502
+
+
 //! UDP client connection check interval in miliseconds
 #define UDP_CLIENT_SLEEP_TIME_MS 100
 
@@ -62,19 +64,6 @@ static const uint8_t udpTestMessage[] =
 
 void connectUDPSocket(int * udpClientSocket,struct sockaddr_in * serverAddress)
 {
-	// Server IPV4 address configuration 
-	serverAddress->sin_family = AF_INET;
-	serverAddress->sin_port = htons( UDP_CLIENT_PORT );
-	inet_pton(AF_INET, CONFIG_NET_CONFIG_PEER_IPV4_ADDR, &serverAddress->sin_addr );
-
-	// Client socket creation 
-	*udpClientSocket = socket(serverAddress->sin_family, SOCK_DGRAM, IPPROTO_UDP );
-
-	if ( *udpClientSocket < 0 ) {
-		LOG_ERR( "UDP Client error: socket: %d\n", errno );
-		k_sleep( K_FOREVER );
-	}
-	
 	// Connection to the server. 
 	int connectionResult = connect(*udpClientSocket, ( struct sockaddr * )serverAddress, sizeof( *serverAddress ));
 
@@ -86,10 +75,6 @@ void connectUDPSocket(int * udpClientSocket,struct sockaddr_in * serverAddress)
 
 	k_msleep( UDP_CLIENT_WAIT_TO_SEND_MS );
 }
-
-
-
-
 
 
 
@@ -114,6 +99,33 @@ void UDP_Client() {
 	while(!context.ip_assigned){
 		k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
 	}
+
+	// Server IPV4 address configuration 
+	serverAddress1.sin_family = AF_INET;
+	serverAddress1.sin_port = htons( UDP_CLIENT_PORT1 );
+	inet_pton(AF_INET, CONFIG_NET_CONFIG_PEER_IPV4_ADDR1, &serverAddress1.sin_addr );
+
+	// Client socket creation 
+	udpClientSocket1 = socket(serverAddress1.sin_family, SOCK_DGRAM, IPPROTO_UDP );
+
+	if ( udpClientSocket1 < 0 ) {
+		LOG_ERR( "UDP Client error: socket: %d\n", errno );
+		k_sleep( K_FOREVER );
+	}
+
+	// Server IPV4 address configuration 
+	serverAddress2.sin_family = AF_INET;
+	serverAddress2.sin_port = htons( UDP_CLIENT_PORT2 );
+	inet_pton(AF_INET, CONFIG_NET_CONFIG_PEER_IPV4_ADDR2, &serverAddress2.sin_addr );
+
+	// Client socket creation 
+	udpClientSocket2 = socket(serverAddress2.sin_family, SOCK_DGRAM, IPPROTO_UDP );
+
+	if ( udpClientSocket2 < 0 ) {
+		LOG_ERR( "UDP Client error: socket: %d\n", errno );
+		k_sleep( K_FOREVER );
+	}
+	
 	//connect socket
 	connectUDPSocket(&udpClientSocket1,&serverAddress1);
 	connectUDPSocket(&udpClientSocket2,&serverAddress2);
