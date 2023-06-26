@@ -1,17 +1,6 @@
-
-#include <zephyr/logging/log.h>
-LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
-
 #include <zephyr/kernel.h>
 #include <nrfx_clock.h>
 
-#include <errno.h>
-#include <stdio.h>
-
-#include <zephyr/posix/sys/socket.h>
-#include <zephyr/posix/arpa/inet.h>
-#include <zephyr/net/socket.h>
-#include <unistd.h> 
 
 #include "task/wifi_sta.h"
 #include "task/udp_client.h"
@@ -24,7 +13,7 @@ int main(void)
 
 	Task_Wifi_Sta_Init();
 	Task_Led_Init();
-	Task_UDP_Client_Init();
+	//Task_UDP_Client_Init();
 
 	k_sleep( K_FOREVER );
 	return 0;

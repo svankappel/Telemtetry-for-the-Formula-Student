@@ -1,12 +1,6 @@
 #include <stdio.h>
 
 
-//! UDP Client port
-#define UDP_CLIENT_PORT 1502
-//! UDP client connection check interval in miliseconds
-#define UDP_CLIENT_SLEEP_TIME_MS 100
-
-
 
 /*! @struct sContext
  * @brief Data structure with the Wifi stationing context information

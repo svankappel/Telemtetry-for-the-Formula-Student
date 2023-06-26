@@ -1,6 +1,11 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 
+
+#define CONFIG_NET_CONFIG_PEER_IPV4_ADDR1 "192.168.50.110"
+#define CONFIG_NET_CONFIG_PEER_IPV4_ADDR2 "192.168.43.205"
+
+
 #include <zephyr/kernel.h>
 #include <errno.h>
 #include <stdio.h>
@@ -21,6 +26,12 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 // gets a stable IP address
 #define UDP_CLIENT_WAIT_TO_SEND_MS 1000
 
+//! UDP Client port
+#define UDP_CLIENT_PORT 1502
+//! UDP client connection check interval in miliseconds
+#define UDP_CLIENT_SLEEP_TIME_MS 100
+
+
 //! UDP Client stack definition
 K_THREAD_STACK_DEFINE(UDP_CLIENT_STACK, UDP_CLIENT_STACK_SIZE);
 //! Variable to identify the UDP Client thread
@@ -28,27 +39,23 @@ static struct k_thread udpClientThread;
 
 //! UDP message sent by the client.
 static const uint8_t udpTestMessage[] =
-    "=============================UDP MESSAGE:=============================\n"
-	"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque \n"
-	"sodales lorem lorem, sed congue enim vehicula a. Sed finibus diam sed \n"
-	"odio ultrices pharetra. Nullam dictum arcu ultricies turpis congue, \n"
-	"vel venenatis turpis venenatis. Nam tempus arcu eros, ac congue libero \n"
-	"tristique congue. Proin velit lectus, euismod sit amet quam in, \n"
-	"maximus condimentum urna. Cras vel erat luctus, mattis orci ut, varius \n"
-	"urna. Nam eu lobortis velit.\n"
-	"\n"
-	"Nullam sit amet diam vel odio sodales cursus vehicula eu arcu. Proin \n"
-	"fringilla, enim nec consectetur mollis, lorem orci interdum nisi, \n"
-	"vitae suscipit nisi mauris eu mi. Proin diam enim, mollis ac rhoncus \n"
-	"vitae, placerat et eros. Suspendisse convallis, ipsum nec rhoncus \n"
-	"aliquam, ex augue ultrices nisl, id aliquet mi diam quis ante. \n"
-	"Pellentesque venenatis ornare ultrices. Quisque et porttitor lectus. \n"
-	"Ut venenatis nunc et urna imperdiet porttitor non laoreet massa. Donec \n"
-	"eleifend eros in mi sagittis egestas. Sed et mi nunc. Nunc vulputate, \n"
-	"mauris non ullamcorper viverra, lorem nulla vulputate diam, et congue \n"
-	"dui velit non erat. Duis interdum leo et ipsum tempor consequat. In \n"
-	"faucibus enim quis purus vulputate nullam.\n"
-	"\n";
+
+	"{\n"
+		"\"TensionBatteryHV\": 41,\n"
+		"\"AmperageBatteryHV\": 39,\n"
+		"\"TemperatureBatteryHV\": 32,\n"
+		"\"EnginePower\": 44,\n"
+		"\"EngineTemperature\": 33,\n"
+		"\"EngineAngularSpeed\": 43,\n"
+		"\"CarSpeed\": 44,\n"
+		"\"PressureTireFL\": 38,\n"
+		"\"PressureTireFR\": 38,\n"
+		"\"PressureTireBL\": 39,\n"
+		"\"PressureTireBR\": 43,\n"
+		"\"InverterTemperature\": 34,\n"
+		"\"TemperatureBatteryLV\": 43\n"
+	"}"
+	;
 
 
 
@@ -94,43 +101,60 @@ void connectUDPSocket(int * udpClientSocket,struct sockaddr_in * serverAddress)
 * 		This function is used on an independent thread.
 */
 void UDP_Client() {
-    int udpClientSocket;
-	struct sockaddr_in serverAddress;
-	int sentBytes = 0;
+    int udpClientSocket1;
+	int udpClientSocket2;
+	
+	struct sockaddr_in serverAddress1;
+	struct sockaddr_in serverAddress2;
+
+	int sentBytes1 = 0;
+	int sentBytes2 = 0;
 	
 	// Starve the thread until a DHCP IP is assigned to the board 
 	while(!context.ip_assigned){
 		k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
 	}
 	//connect socket
-	connectUDPSocket(&udpClientSocket,&serverAddress);
-
+	connectUDPSocket(&udpClientSocket1,&serverAddress1);
+	connectUDPSocket(&udpClientSocket2,&serverAddress2);
 
 	while(true)
 	{
 		//if wifi connection is lost
 		if(!context.ip_assigned)
 		{
-			close(udpClientSocket);		//close socket
+			close(udpClientSocket1);		//close socket
+			close(udpClientSocket2);		//close socket
 
 			// Starve the thread until a DHCP IP is assigned to the board 
 			while( !context.ip_assigned ){
 				k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
 			}
-			connectUDPSocket(&udpClientSocket,&serverAddress); // reconnect the socket
+			connectUDPSocket(&udpClientSocket1,&serverAddress1); // reconnect the socket
+			connectUDPSocket(&udpClientSocket2,&serverAddress2); // reconnect the socket
 		}
 		else // if wifi connected
 		{
 			// Send the udp message 
-			sentBytes = send(udpClientSocket, udpTestMessage, sizeof(udpTestMessage), 0);
+			sentBytes1 = send(udpClientSocket1, udpTestMessage, sizeof(udpTestMessage), 0);
+			sentBytes2 = send(udpClientSocket2, udpTestMessage, sizeof(udpTestMessage), 0);
 
-			LOG_INF( "UDP Client mode. Sent: %d", sentBytes );
-			if ( sentBytes < 0 ) 
+			LOG_INF( "UDP 1 Client mode. Sent: %d", sentBytes1);
+			if ( sentBytes1 < 0 ) 
 			{
-				LOG_ERR( "UDP Client error: send: %d\n", errno );
-				close( udpClientSocket );
-				LOG_ERR( "UDP Client error Connection from closed\n" );
+				LOG_ERR( "UDP 1 Client error: send: %d\n", errno );
+				close(udpClientSocket1);
+				LOG_ERR( "UDP 1 Client error Connection from closed\n" );
 			}
+
+			LOG_INF( "UDP 2 Client mode. Sent: %d", sentBytes2);
+			if ( sentBytes2 < 0 ) 
+			{
+				LOG_ERR( "UDP 2 Client error: send: %d\n", errno );
+				close(udpClientSocket2);
+				LOG_ERR( "UDP 2 Client error Connection from closed\n" );
+			}
+
 			k_msleep(500);
 		}
 	}
