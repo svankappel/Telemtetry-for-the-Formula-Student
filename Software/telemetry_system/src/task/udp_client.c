@@ -72,8 +72,6 @@ void connectUDPSocket(int * udpClientSocket,struct sockaddr_in * serverAddress)
 		k_sleep( K_FOREVER );
 	}
 	LOG_INF( "UDP Client connected correctly" );
-
-	k_msleep( UDP_CLIENT_WAIT_TO_SEND_MS );
 }
 
 
@@ -125,7 +123,9 @@ void UDP_Client() {
 		LOG_ERR( "UDP Client error: socket: %d\n", errno );
 		k_sleep( K_FOREVER );
 	}
-	
+
+	k_msleep( UDP_CLIENT_WAIT_TO_SEND_MS );
+
 	//connect socket
 	connectUDPSocket(&udpClientSocket1,&serverAddress1);
 	connectUDPSocket(&udpClientSocket2,&serverAddress2);
@@ -142,6 +142,9 @@ void UDP_Client() {
 			while( !context.ip_assigned ){
 				k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
 			}
+
+			k_msleep( UDP_CLIENT_WAIT_TO_SEND_MS );
+
 			connectUDPSocket(&udpClientSocket1,&serverAddress1); // reconnect the socket
 			connectUDPSocket(&udpClientSocket2,&serverAddress2); // reconnect the socket
 		}

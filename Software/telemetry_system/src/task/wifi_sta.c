@@ -140,10 +140,9 @@ static void handle_wifi_disconnect_result(struct net_mgmt_event_callback *cb)
 	else 
 	{
 		LOG_INF("Received Disconnected");
-		context.connected = false;
-		context.ip_assigned=false;
+		memset(&context, 0, sizeof(context));
 	}
-    memset(&context, 0, sizeof(context));
+
 }
 
 static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface)
@@ -171,7 +170,6 @@ static void print_dhcp_ip(struct net_mgmt_event_callback *cb)
 	net_addr_ntop(AF_INET, addr, dhcp_info, sizeof(dhcp_info));
 
 	LOG_INF("DHCP IP address: %s", dhcp_info);
-	context.ip_assigned=true;
 }
 static void net_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface)
 {
@@ -179,6 +177,7 @@ static void net_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t 
 	{
 	case NET_EVENT_IPV4_DHCP_BOUND:
 		print_dhcp_ip(cb);
+		context.ip_assigned=true;
 		break;
 	default:
 		break;
@@ -237,6 +236,7 @@ static int wifi_connect(const char* ssid, const char* pass)
 }
 
 
+
 int bytes_from_str(const char *str, uint8_t *bytes, size_t bytes_len)
 {
 	size_t i;
@@ -270,11 +270,11 @@ void connection_handler(void)
 			break;
 		}
 	}
-	if (context.connected) 
+	while(context.connected) 
 	{
-		k_sleep(K_FOREVER);
+		k_msleep(100);
 	} 
-	else if (!context.connect_result) 
+	if (!context.connect_result) 
 	{
 		LOG_INF("Connection Timed Out");
 	}
