@@ -2,11 +2,9 @@
 #define __UDP_CLIENT_H
 
 /*! UDP_Client implements the UDP Client task.
-* @brief UDP_Client uses a BSD socket to send messages to a defined UDP
-*		server. 
-*		A sample message will be sent to the IP address defined on the 
-*		configuration file as Peer address.
-* 		This function is used on an independent thread.
+* @brief UDP_Client uses BSD sockets to send messages to one or multiple UDP
+*		server(s). 
+*		The thread send to the UDP servers all the data pushed on the udpQueue.
 */
 void UDP_Client();
 
@@ -15,4 +13,10 @@ void UDP_Client();
 * @brief UDP Client initialization
 */
 void Task_UDP_Client_Init( void );
+
+//functions prototypes
+void connectUDPSocket(int * udpClientSocket,struct sockaddr_in * serverAddress);
+
+
+
 #endif /*__UDP_CLIENT_H*/

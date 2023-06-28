@@ -1,11 +1,9 @@
 #ifndef WIFI_STA_H
 #define WIFI_STA_H
 
-/*! Wifi_Stationing implements the task WiFi Stationing.
+/*! Wifi_Sta implements the task WiFi Stationing.
 * 
-* @brief Wifi_Sta makes the complete connection process, while 
-*       printing by LOG commands the connection status.
-*       This function is used on an independent thread.
+* @brief Wifi_Stationing makes the complete connection process.
 */
 void Wifi_Sta( void );
 
@@ -15,5 +13,7 @@ void Wifi_Sta( void );
 */
 void Task_Wifi_Sta_Init( void );
 
+//functions prototypes
+void connection_handler(void);
 
 #endif /* WIFI_STA_H */
