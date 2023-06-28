@@ -18,7 +18,7 @@ public class UIServerUdp {
 
             while(true)
             {
-                byte[] rxBuf = new byte[2048];   //create a buffer to put the rx message in
+                byte[] rxBuf = new byte[400];   //create a buffer to put the rx message in
                 DatagramPacket rxDatagramPacket = new DatagramPacket(rxBuf, rxBuf.length);  //create a packet for the rx message
                 socket.receive(rxDatagramPacket);   //receive the message
                 String rx = new String(rxBuf);      //convert the byte array in a string

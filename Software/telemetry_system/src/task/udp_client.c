@@ -12,6 +12,7 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 
 #include "udp_client.h"
 #include "deviceinformation.h"
+#include "memory_management.h"
 
 
 
@@ -20,7 +21,7 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 //! Stack size for the UDP_SERVER thread
 #define UDP_CLIENT_STACK_SIZE 2048
 //! UDP_SERVER thread priority level
-#define UDP_SERVER_PRIORITY 5
+#define UDP_CLIENT_PRIORITY 5
 //! Time in miliseconds to wait to send the UDP message since the board 
 // gets a stable IP address
 #define UDP_CLIENT_WAIT_TO_SEND_MS 500
@@ -35,33 +36,6 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 K_THREAD_STACK_DEFINE(UDP_CLIENT_STACK, UDP_CLIENT_STACK_SIZE);
 //! Variable to identify the UDP Client thread
 static struct k_thread udpClientThread;
-
-
-
-
-
-
-
-//! UDP message sent by the client.
-static const uint8_t udpTestMessage[] =
-
-	"{\n"
-		"\"TensionBatteryHV\": 41,\n"
-		"\"AmperageBatteryHV\": 39,\n"
-		"\"TemperatureBatteryHV\": 32,\n"
-		"\"EnginePower\": 44,\n"
-		"\"EngineTemperature\": 33,\n"
-		"\"EngineAngularSpeed\": 43,\n"
-		"\"CarSpeed\": 44,\n"
-		"\"PressureTireFL\": 38,\n"
-		"\"PressureTireFR\": 38,\n"
-		"\"PressureTireBL\": 39,\n"
-		"\"PressureTireBR\": 43,\n"
-		"\"InverterTemperature\": 34,\n"
-		"\"TemperatureBatteryLV\": 43\n"
-	"}"
-	;
-
 
 
 
@@ -97,6 +71,7 @@ void connectUDPSocket(int * udpClientSocket,struct sockaddr_in * serverAddress)
 */
 void UDP_Client() 
 {
+
 	char* addresses[SOCKET_NUMBER] = {"192.168.50.110","192.168.43.205"};
 	int ports[SOCKET_NUMBER] = {1502,1502};
 
@@ -128,6 +103,7 @@ void UDP_Client()
 
 	while(true)
 	{
+
 		//if wifi connection is lost
 		if(!context.ip_assigned)
 		{
@@ -148,10 +124,29 @@ void UDP_Client()
 		}
 		else // if wifi connected
 		{
+	
+			char udpMessage[JSON_TRANSMIT_SIZE];
+			char * memPtr;
+			memPtr = k_queue_get(&udpQueue,K_FOREVER);
+			int size = 0;
+			for(int i=0; i<JSON_TRANSMIT_SIZE; i++)
+			{
+				udpMessage[i]=memPtr[i];
+				if(udpMessage[i]=='}')
+				{
+					udpMessage[i+1]='\0';
+					size = i+2;
+					break;
+				}
+			}
+			k_heap_free(&memHeap,memPtr);
+
+			
+
 			for(int i=0;i<SOCKET_NUMBER;i++)
 			{
 				// Send the udp message 
-				sentBytes[i] = send(udpClientSocket[i], udpTestMessage, sizeof(udpTestMessage), 0);
+				sentBytes[i] = send(udpClientSocket[i], udpMessage, size, 0);
 
 				LOG_INF( "UDP %d Client mode. Sent: %d", i,sentBytes[i]);
 				if ( sentBytes[i] < 0 ) 
@@ -161,8 +156,10 @@ void UDP_Client()
 					LOG_ERR( "UDP %d Client error Connection from closed\n",i );
 				}
 			}
-			k_msleep(500);
+
+			
 		}
+
 	}
 	
 }
@@ -180,7 +177,7 @@ void Task_UDP_Client_Init( void ){
 					NULL,													\
 					NULL,													\
 					NULL,													\
-					UDP_SERVER_PRIORITY,									\
+					UDP_CLIENT_PRIORITY,									\
 					0,														\
 					K_NO_WAIT);	
 

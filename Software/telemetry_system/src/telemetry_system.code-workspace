@@ -13,7 +13,15 @@
 			"wifi_mgmt.h": "c",
 			"net_private.h": "c",
 			"net_event.h": "c",
-			"gpio.h": "c"
+			"gpio.h": "c",
+			"data_sender.h": "c",
+			"json.h": "c",
+			"stdio.h": "c",
+			"kernel.h": "c",
+			"errno.h": "c",
+			"array": "c",
+			"string_view": "c",
+			"initializer_list": "c"
 		}
 	}
 }

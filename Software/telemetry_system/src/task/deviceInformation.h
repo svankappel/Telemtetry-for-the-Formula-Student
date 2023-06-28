@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-
-
 /*! @struct sContext
  * @brief Data structure with the Wifi stationing context information
  * @typedef tContext
@@ -23,5 +21,5 @@ typedef struct sContext{
 	};
 }tContext;
 
-//! Contains the contex information of the Wifi stationing
+//! Contains the context information of the Wifi stationing
 extern tContext context;
