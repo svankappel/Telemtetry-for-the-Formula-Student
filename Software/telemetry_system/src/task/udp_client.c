@@ -66,9 +66,9 @@ void UDP_Client()
 {
 
 	//addresses of the sockets
-	char* addresses[SOCKET_NUMBER] = {"192.168.50.110","192.168.43.205"};
+	char* addresses[SOCKET_NUMBER] = {"192.168.50.110","192.168.43.232"};
 	//ports of the sockets
-	int ports[SOCKET_NUMBER] = {1502,1502};
+	int ports[SOCKET_NUMBER] = {1502,7070};
 
 	
     int udpClientSocket[SOCKET_NUMBER];						//client sockets
@@ -132,7 +132,7 @@ void UDP_Client()
 				if(udpMessage[i]=='}')					//if the loop reached the end of the JSON message
 				{
 					udpMessage[i+1]='\0';				//put the \0 character at the end
-					size = i+2;							//calculate size of the message
+					size = i+1;							//calculate size of the message
 					break;								//break loop
 				}
 			}
