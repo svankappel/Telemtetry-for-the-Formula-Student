@@ -1,0 +1,6 @@
+TensionBatteryHV;AmperageBatteryHV;TemperatureBatteryHV;EnginePower;
+0;2;24;0;
+100;50;30;5000;
+200;80;40;16000;
+400;100;50;40000;
+550;120;55;66000;
