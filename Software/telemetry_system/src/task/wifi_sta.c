@@ -17,7 +17,7 @@ LOG_MODULE_REGISTER(sta, CONFIG_LOG_DEFAULT_LEVEL);
 #include "net_private.h"
 #include "deviceinformation.h"
 #include "wifi_sta.h"
-
+#include "config_read.h"
 
 #define SSID1 "VRT-Telemetry"
 #define SSID2 "motog8"
@@ -111,10 +111,14 @@ void Wifi_Sta( void )
 
 	while (1) 		//--------------   thread infinite loop
     {
-		wifi_connect(SSID1,PASSWORD1);		//try to connect to the first ssid
-		connection_handler();				//bloc the thread if connection succeed
-		wifi_connect(SSID2,PASSWORD2);		//try to connect to the first ssid
-		connection_handler();				//bloc the thread if connection succeed
+		wifi_connect(configFile.WiFiRouter.SSID,configFile.WiFiRouter.Password);							//try to connect to the first ssid
+		connection_handler();																				//bloc the thread if connection succeed
+
+		if(configFile.WiFiRouterRedundancy.Enabled)			//if redundancy is enabled
+		{
+			wifi_connect(configFile.WiFiRouterRedundancy.SSID,configFile.WiFiRouterRedundancy.Password);	//try to connect to the first ssid
+			connection_handler();																			//bloc the thread if connection succeed
+		}																		
 		
 	}				//--------------	en of thread infinite loop
 }

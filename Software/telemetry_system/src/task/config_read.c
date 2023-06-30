@@ -9,11 +9,9 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 
 uint8_t configString[] = 
 "{\"WiFiRouter\":{\"SSID\":\"VRT-Telemetry\",\"Password\":\"TJJC2233\"},\"WiFiRouterRedundancy\":{\"SSID\":\"motog8\",\"Password\":\"TJJC2233\",\"Enabled\": false},"
-"\"Server\":[{\"address\":\"192.168.50.110\",\"port\":1502},{\"address\":\"192.168.43.205\",\"port\":1502}]}";
-
+"\"Server\":[{\"address\":\"192.168.50.110\",\"port\":1502}]}";
 
 struct config configFile;
-
 
 
 static const struct json_obj_descr wifi_router_descr[] = {
@@ -51,7 +49,7 @@ void read_config(void)
 	}
 	else
 	{
-		LOG_LOG("Config file OK");
+		LOG_INF("Config file OK");
 		return;
 	}
 	
