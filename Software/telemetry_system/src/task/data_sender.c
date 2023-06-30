@@ -24,21 +24,7 @@ K_THREAD_STACK_DEFINE(DATA_SENDER_STACK, DATA_SENDER_STACK_SIZE);
 //! Variable to identify the data sender thread
 static struct k_thread dataSenderThread;
 
-struct data {
-	uint32_t TensionBatteryHV;
-	uint32_t AmperageBatteryHV;
-	uint32_t TemperatureBatteryHV;
-	uint32_t EnginePower;
-	uint32_t EngineTemperature;
-	uint32_t EngineAngularSpeed;
-	uint32_t CarSpeed;
-	uint32_t PressureTireFL;
-	uint32_t PressureTireFR;
-	uint32_t PressureTireBL;
-	uint32_t PressureTireBR;
-	uint32_t InverterTemperature;
-	uint32_t TemperatureBatteryLV;
-};
+
 
 static const struct json_obj_descr data_descr[] = {
   JSON_OBJ_DESCR_PRIM(struct data, TensionBatteryHV, JSON_TOK_NUMBER),
