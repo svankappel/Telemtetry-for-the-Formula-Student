@@ -127,22 +127,21 @@ void UDP_Client()
 			//-----------------------------------------
 			//			Receive data from queue
 			
-			char udpMessage[JSON_TRANSMIT_SIZE];				//message to send
+			char udpMessage[configFile.TelemetyDataSize];				//message to send
 			char * memPtr;										//message to get from queue
 			memPtr = k_queue_get(&udpQueue,K_FOREVER);			//wait for message in queue
 			int size = 0;										//size of message
-			for(int i=0; i<JSON_TRANSMIT_SIZE; i++)				//loop to copy message
+			for(int i=0; i<configFile.TelemetyDataSize; i++)				//loop to copy message
 			{
 				udpMessage[i]=memPtr[i];				//copy char
 				if(udpMessage[i]=='}')					//if the loop reached the end of the JSON message
 				{
-					udpMessage[i+1]='\0';				//put the \0 character at the end
 					size = i+1;							//calculate size of the message
 					break;								//break loop
 				}
 			}
 
-			k_heap_free(&memHeap,memPtr);		//free memory allocation made in data sender
+			k_heap_free(&messageHeap,memPtr);		//free memory allocation made in data sender
 
 
 			//------------------------------------------

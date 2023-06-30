@@ -9,12 +9,15 @@
 #include "task/memory_management.h"
 #include "task/config_read.h"
 
-K_HEAP_DEFINE(memHeap,4096);
+K_HEAP_DEFINE(messageHeap,32768);
 K_QUEUE_DEFINE(udpQueue);
 
 
+tSensor sensorBuffer[MAX_SENSORS];
+
 int main(void)
 {
+	
 	nrfx_clock_divider_set(NRF_CLOCK_DOMAIN_HFCLK, NRF_CLOCK_HFCLK_DIV_1);			//set 128 MHZ clock
 	
 	read_config();

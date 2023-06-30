@@ -16,5 +16,63 @@
             "address":"192.168.50.110",
             "port":1502
         }
+    ],
+    
+    "TelemetyDataSize":400,
+
+    "Sensors":
+    [
+        {
+            "name":"TensionBatteryHV",
+            "live":true
+        },
+        {
+            "name":"AmperageBatteryHV",
+            "live":true
+        },
+        {
+            "name":"TemperatureBatteryHV",
+            "live":true
+        },
+        {
+            "name":"EnginePower",
+            "live":true
+        },
+        {
+            "name":"EngineTemperature",
+            "live":true
+        },
+        {
+            "name":"EngineAngularSpeed",
+            "live":true
+        },
+        {
+            "name":"CarSpeed",
+            "live":true
+        },
+        {
+            "name":"PressureTireFL",
+            "live":true
+        },
+        {
+            "name":"PressureTireFR",
+            "live":true
+        },
+        {
+            "name":"PressureTireBL",
+            "live":true
+        },
+        {
+            "name":"PressureTireBR",
+            "live":true
+        },
+        {
+            "name":"InverterTemperature",
+            "live":true
+        },
+        {
+            "name":"TemperatureBatteryLV",
+            "live":true
+        }        
     ]
 }

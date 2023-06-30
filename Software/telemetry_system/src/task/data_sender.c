@@ -10,6 +10,7 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 #include "data_sender.h"
 #include "memory_management.h"
 #include "deviceInformation.h"
+#include "config_read.h"
 
 //! Stack size for the data sender thread
 #define DATA_SENDER_STACK_SIZE 2048
@@ -24,7 +25,21 @@ K_THREAD_STACK_DEFINE(DATA_SENDER_STACK, DATA_SENDER_STACK_SIZE);
 //! Variable to identify the data sender thread
 static struct k_thread dataSenderThread;
 
-
+struct data {
+	uint32_t TensionBatteryHV;
+	uint32_t AmperageBatteryHV;
+	uint32_t TemperatureBatteryHV;
+	uint32_t EnginePower;
+	uint32_t EngineTemperature;
+	uint32_t EngineAngularSpeed;
+	uint32_t CarSpeed;
+	uint32_t PressureTireFL;
+	uint32_t PressureTireFR;
+	uint32_t PressureTireBL;
+	uint32_t PressureTireBR;
+	uint32_t InverterTemperature;
+	uint32_t TemperatureBatteryLV;
+};
 
 static const struct json_obj_descr data_descr[] = {
   JSON_OBJ_DESCR_PRIM(struct data, TensionBatteryHV, JSON_TOK_NUMBER),
@@ -45,6 +60,8 @@ static const struct json_obj_descr data_descr[] = {
 
 void Data_Sender() 
 {
+	
+	
 	struct data myData;
 	
 	while(true)
@@ -66,14 +83,14 @@ void Data_Sender()
 		
 		if(context.ip_assigned)
 		{
-			char * memPtr = k_heap_alloc(&memHeap,JSON_TRANSMIT_SIZE,K_NO_WAIT);
+			char * memPtr = k_heap_alloc(&messageHeap,configFile.TelemetyDataSize,K_NO_WAIT);
 
 
 
 			if(memPtr != NULL)			//memory alloc success
 			{
 
-				json_obj_encode_buf(data_descr,ARRAY_SIZE(data_descr),&myData,memPtr,JSON_TRANSMIT_SIZE);		//put json in allocated memory
+				json_obj_encode_buf(data_descr,ARRAY_SIZE(data_descr),&myData,memPtr,configFile.TelemetyDataSize);		//put json in allocated memory
 				k_queue_append(&udpQueue,memPtr);
 
 			}

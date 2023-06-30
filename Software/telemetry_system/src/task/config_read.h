@@ -4,10 +4,13 @@
 #include <zephyr/kernel.h>
 #include <errno.h>
 #include <stdio.h>
+#include "memory_management.h"
 
-#define MAX_SERVERS 5
 
 void read_config(void);
+
+
+
 
 struct sWiFiRouter{
     char* SSID;
@@ -22,12 +25,19 @@ struct sServer{
     char* address;
     int port;
 };
+struct sSensors{
+    char* name;
+    bool live;
+};
 
 struct config {
 	struct sWiFiRouter WiFiRouter;
     struct sWiFiRouterRedundancy WiFiRouterRedundancy;
     struct sServer Server[MAX_SERVERS];
+    int TelemetyDataSize;
 	int serverNumber;
+    struct sSensors Sensors[MAX_SENSORS];
+    int sensorNumber;
 };
 
 //config file datas accessible in other files
