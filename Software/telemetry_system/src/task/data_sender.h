@@ -11,7 +11,7 @@ void Data_Sender();
 
 /*! Task_Data_Sender_Init initializes the task Data_Sender
 *
-* @brief Data Sender initialisation
+* @brief Data Sender initialization
 */
 void Task_Data_Sender_Init( void );
 

@@ -73,8 +73,8 @@ void Button_Manager(void)
 
 
 //-----------------------------------------------------------------------------------------------------------------------
-/*! Task_Button_Manager_Init implements the Button_Manager task initialisation
-* @brief Button_Manager thread initialisation
+/*! Task_Button_Manager_Init implements the Button_Manager task initialization
+* @brief Button_Manager thread initialization
 *      
 */
 void Task_Button_Manager_Init( void )

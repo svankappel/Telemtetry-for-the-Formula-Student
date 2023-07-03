@@ -24,7 +24,7 @@ bool logEnable;
 //-----------------------------------------------------------------------------------------------------------------------
 /*! Task_Data_Logger_Init initializes the task Data_Logger
 *
-* @brief Data Logger initialisation
+* @brief Data Logger initialization
 */
 void Task_Data_Logger_Init(void)
 {

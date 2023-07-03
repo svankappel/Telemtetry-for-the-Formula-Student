@@ -33,6 +33,7 @@ static const struct gpio_dt_spec led1 = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 static const struct gpio_dt_spec led2 = GPIO_DT_SPEC_GET(LED1_NODE, gpios);
 
 
+//-----------------------------------------------------------------------------------------------------------------------
 /*! Led implements the Led task
 * @brief Led blink led1 when wifi is connected,
 *        blink led2 when data logging is active
@@ -42,26 +43,33 @@ void Led(void)
 {
 	int ret;
 
+	//check if led 1 is ready
 	if (!device_is_ready(led1.port)) 
 		return;
 
+	//configure gpio
 	if (gpio_pin_configure_dt(&led1, GPIO_OUTPUT_ACTIVE) < 0) 
 		return;
 
+	//check if led 2 is ready
 	if (!device_is_ready(led2.port)) 
 		return;
 
+	//configure gpio
 	if (gpio_pin_configure_dt(&led2, GPIO_OUTPUT_ACTIVE) < 0) 
 		return;
 
-	while (true) {
-		
-		if (context.connected) 
+
+	while (true) //---------------------------------------------------thread infinite loop
+	{
+		//blink led 1 if wifi is connected
+		if (context.connected) 	
 			gpio_pin_toggle_dt(&led1);
 		else 
 			gpio_pin_set_dt(&led1, 0);
 
 
+		//blink led 2 if datalogger is recording
 		if(configOK)
 		{
 			if (logEnable) 
@@ -73,18 +81,19 @@ void Led(void)
 				gpio_pin_set_dt(&led2, 0);
 			}
 		}
-		else
+		else	//set led on if config file is not ok
 		{
 			gpio_pin_set_dt(&led2, 1);
 		}
 
-
-
 		k_msleep(LED_SLEEP_TIME_MS);
-	}
+	}		//----------------------------------------------------------- end of thread infinite loop
 }
 
-
+//-----------------------------------------------------------------------------------------------------------------------
+/*! Task_Led_Init implements the Led task initialization
+* @brief Led thread initialization
+*/
 void Task_Led_Init( void )
 {
 	k_thread_create	(&ledThread,

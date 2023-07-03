@@ -52,6 +52,7 @@ static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorNumber, sensors_descr,ARRAY_SIZE(sensors_descr))
 };
 
+//-----------------------------------------------------------------------------------------------------------------------
 /*! read_config function
 * @brief read_config reads the config file and put the datas in a struct	
 * return 0 when config file is ok
