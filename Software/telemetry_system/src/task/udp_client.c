@@ -152,7 +152,8 @@ void UDP_Client()
 				// Send the udp message 
 				sentBytes[i] = send(udpClientSocket[i], udpMessage, size, 0);
 
-				LOG_INF( "UDP %d Client mode. Sent: %d", i,sentBytes[i]);		//log message
+				//LOG_INF( "UDP %d Client mode. Sent: %d", i,sentBytes[i]);		//log message
+				
 				if ( sentBytes[i] < 0 ) 		//in case of error
 				{
 					LOG_ERR( "UDP %d Client error: send: %d\n", i,errno );		//log message
