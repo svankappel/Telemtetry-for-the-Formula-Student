@@ -14,7 +14,10 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 //! Wifi thread priority level
 #define BUTTON_MANAGER_STACK_SIZE 1024
 //! Wifi thread priority level
-#define BUTTON_MANAGER_PRIORITY 6
+#define BUTTON_MANAGER_PRIORITY 8
+
+//rebound delay
+#define REBOUND_DELAY 50
 
 //! WiFi stack definition
 K_THREAD_STACK_DEFINE(BUTTON_MANAGER_STACK, BUTTON_MANAGER_STACK_SIZE);
@@ -32,12 +35,13 @@ static struct k_thread buttonManagerThread;
 static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET_OR(SW0_NODE, gpios,{0});
 static struct gpio_callback button_cb_data;
 
+bool eventPressed;
 
 //-----------------------------------------------------------------------------------------------------------------------
 //button press callback
 void button_pressed(const struct device *dev, struct gpio_callback *cb,uint32_t pins)
 {
-	data_Logger_button_handler(); //call datalogger event handler
+	eventPressed=true;		//event pressed
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -47,6 +51,8 @@ void button_pressed(const struct device *dev, struct gpio_callback *cb,uint32_t 
 */
 void Button_Manager(void)
 {
+	eventPressed=false;
+
 	//check if device is ready
 	if (!device_is_ready(button.port))
 		return;
@@ -66,7 +72,15 @@ void Button_Manager(void)
 	//thread infinite loop
 	while (true) 
 	{
-		k_sleep(K_FOREVER);			//do nothing
+		if(eventPressed)		//if interrupt were triggered
+		{
+			k_msleep(REBOUND_DELAY);		//wait some time
+			if(gpio_pin_get_dt(&button)==1)		//check button state
+				data_Logger_button_handler(); 	//call datalogger event handler
+			eventPressed=false;				//reset event
+		}
+		
+		k_msleep(100);			//loop delay
 	}
 	
 }

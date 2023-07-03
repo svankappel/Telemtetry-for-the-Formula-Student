@@ -12,7 +12,7 @@
 //! Wifi thread priority level
 #define LED_STACK_SIZE 1024
 //! Wifi thread priority level
-#define LED_PRIORITY 6
+#define LED_PRIORITY 7
 
 //! WiFi stack definition
 K_THREAD_STACK_DEFINE(LED_STACK, LED_STACK_SIZE);

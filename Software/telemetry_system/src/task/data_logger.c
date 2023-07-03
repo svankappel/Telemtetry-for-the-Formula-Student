@@ -84,7 +84,6 @@ void data_log_start()
     //create file on sd card
 
     //create first line of csv file
-
     char str[lineSize];
     sprintf(str,"Timestamp;");
     for(int i=0;i<configFile.sensorNumber;i++)
