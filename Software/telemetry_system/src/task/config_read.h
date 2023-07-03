@@ -7,29 +7,37 @@
 #include "memory_management.h"
 
 
+/*! read_config function
+* @brief read_config reads the config file and put the data in a struct	
+*/
 void read_config(void);
 
-
-
-
+//struct for Wifi router data
 struct sWiFiRouter{
     char* SSID;
     char* Password;
 };
+
+//struct for redundancy Wifi router data
 struct sWiFiRouterRedundancy{
     char* SSID;
     char* Password;
     bool Enabled;
 };
+
+//struct for udp servers
 struct sServer{
     char* address;
     int port;
 };
+
+//struct for sensors
 struct sSensors{
     char* name;
     bool live;
 };
 
+//main config struct containing all the previous ones
 struct config {
 	struct sWiFiRouter WiFiRouter;
     struct sWiFiRouterRedundancy WiFiRouterRedundancy;
@@ -41,8 +49,6 @@ struct config {
 
 //config file datas accessible in other files
 extern struct config configFile;
-
-
 
 
 #endif /*__CONFIG_READ_H*/
