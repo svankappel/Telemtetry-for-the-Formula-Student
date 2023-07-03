@@ -23,10 +23,20 @@ K_THREAD_STACK_DEFINE(DATA_SENDER_STACK, DATA_SENDER_STACK_SIZE);
 //! Variable to identify the data sender thread
 static struct k_thread dataSenderThread;
 	
+int udpQueueMesLength;
 
 void Data_Sender() 
 {
-	
+	uint8_t keepAliveCounter = 0;
+
+	udpQueueMesLength = 0;
+	for(int i=0; i<configFile.sensorNumber;i++)
+	{
+		if(sensorBuffer[i].live)
+			udpQueueMesLength+=(strlen(sensorBuffer[i].name)+4+10);	//name length + 4 bytes for ,:"" + 10 bytes for number (32bits in decimal)
+	}
+	udpQueueMesLength+=50;		// space for {} , logRecording and keepalive
+
 	while(true)
 	{
 		for(int i=0; i<configFile.sensorNumber;i++)
@@ -36,7 +46,7 @@ void Data_Sender()
 
 		if(context.ip_assigned)
 		{
-			char * memPtr = k_heap_alloc(&messageHeap,configFile.TelemetyDataSize,K_NO_WAIT);
+			char * memPtr = k_heap_alloc(&messageHeap,udpQueueMesLength,K_NO_WAIT);
 
 			if(memPtr != NULL)			//memory alloc success
 			{
@@ -53,6 +63,8 @@ void Data_Sender()
 						first=false;
 					}
 				}
+				sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);
+				true ? sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr) : sprintf(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;
 				strcat(memPtr,"}");
 
 				k_queue_append(&udpQueue,memPtr);
@@ -63,6 +75,7 @@ void Data_Sender()
 			}
 		}
 
+		keepAliveCounter = keepAliveCounter<99 ? keepAliveCounter+1 : 0 ;
 		k_msleep(500);
 	}
 	
@@ -88,6 +101,3 @@ void Task_Data_Sender_Init( void ){
 	 k_thread_name_set(&dataSenderThread, "dataSender");
 	 k_thread_start(&dataSenderThread);
 }
-
-
-

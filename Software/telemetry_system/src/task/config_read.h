@@ -34,7 +34,6 @@ struct config {
 	struct sWiFiRouter WiFiRouter;
     struct sWiFiRouterRedundancy WiFiRouterRedundancy;
     struct sServer Server[MAX_SERVERS];
-    int TelemetyDataSize;
 	int serverNumber;
     struct sSensors Sensors[MAX_SENSORS];
     int sensorNumber;

@@ -10,7 +10,7 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 
 uint8_t configString[] = 
 "{\"WiFiRouter\":{\"SSID\":\"VRT-Telemetry\",\"Password\":\"TJJC2233\"},\"WiFiRouterRedundancy\":{\"SSID\":\"motog8\",\"Password\":\"TJJC2233\",\"Enabled\": false},"
-"\"Server\":[{\"address\":\"192.168.50.110\",\"port\":1502}],\"TelemetyDataSize\":400,\"Sensors\":[{\"name\":\"TensionBatteryHV\",\"live\":true},{\"name\":\"AmperageBatteryHV\",\"live\":true},"
+"\"Server\":[{\"address\":\"192.168.50.110\",\"port\":1502}],\"Sensors\":[{\"name\":\"TensionBatteryHV\",\"live\":true},{\"name\":\"AmperageBatteryHV\",\"live\":true},"
 "{\"name\":\"TemperatureBatteryHV\",\"live\":true},{\"name\":\"EnginePower\",\"live\":true},{\"name\":\"EngineTemperature\",\"live\":true},"
 "{\"name\":\"EngineAngularSpeed\",\"live\":true},{\"name\":\"CarSpeed\",\"live\":true},{\"name\":\"PressureTireFL\",\"live\":true},"
 "{\"name\":\"PressureTireFR\",\"live\":true},{\"name\":\"PressureTireBL\",\"live\":true},{\"name\":\"PressureTireBR\",\"live\":true},"
@@ -43,7 +43,6 @@ static const struct json_obj_descr sensors_descr[] = {
 static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_OBJECT(struct config, WiFiRouter, wifi_router_descr),
   JSON_OBJ_DESCR_OBJECT(struct config, WiFiRouterRedundancy, wifi_router_red_descr),
-  JSON_OBJ_DESCR_PRIM(struct config, TelemetyDataSize, JSON_TOK_NUMBER),
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Server, MAX_SERVERS, serverNumber, server_descr,ARRAY_SIZE(server_descr)),
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorNumber, sensors_descr,ARRAY_SIZE(sensors_descr))
 };

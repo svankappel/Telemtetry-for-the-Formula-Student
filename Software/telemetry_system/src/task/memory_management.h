@@ -12,6 +12,7 @@ extern struct k_heap sensorHeap;
 
 //queues
 extern struct k_queue udpQueue;
+extern int udpQueueMesLength;
 
 //sensor buffer
 typedef struct sSensor{
