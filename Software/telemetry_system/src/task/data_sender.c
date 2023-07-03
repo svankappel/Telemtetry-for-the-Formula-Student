@@ -13,13 +13,15 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 #include "config_read.h"
 
 
-K_WORK_DEFINE(dataSendWork, Data_Sender);
-
+K_WORK_DEFINE(dataSendWork, Data_Sender);		//dataSendWork -> called by timer to send data
 
 int udpQueueMesLength;		//max length of the json string
 uint8_t keepAliveCounter;	//keepalive counter
 
-
+//-----------------------------------------------------------------------------------------------------------------------
+/*! data_Sender_timer_handler is called by the timer interrupt
+* @brief data_Sender_timer_handler submit a new work that call Data_Sender task     
+*/
 void data_Sender_timer_handler()
 {
     k_work_submit(&dataSendWork);
@@ -81,7 +83,7 @@ void Data_Sender()
 //-----------------------------------------------------------------------------------------------------------------------
 /*! Task_Data_Sender_Init initializes the task Data_Sender
 *
-* @brief Data Sender thread initialisation
+* @brief Data Sender initialisation
 */
 void Task_Data_Sender_Init( void )
 {

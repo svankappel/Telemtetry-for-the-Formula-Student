@@ -8,12 +8,16 @@
 */
 void Data_Sender();
 
+
 /*! Task_Data_Sender_Init initializes the task Data_Sender
 *
-* @brief Data Sender thread initialisation
+* @brief Data Sender initialisation
 */
 void Task_Data_Sender_Init( void );
 
+/*! data_Sender_timer_handler is called by the timer interrupt
+* @brief data_Sender_timer_handler submit a new work that call Data_Sender task     
+*/
 void data_Sender_timer_handler();
 
 
