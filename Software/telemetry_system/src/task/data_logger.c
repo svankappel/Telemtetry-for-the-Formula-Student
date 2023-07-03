@@ -51,7 +51,16 @@ void Data_Logger()
 {
 	if(logEnable)
     {
-
+        //create line of csv file
+        char str[lineSize];
+        sprintf(str,"%d;",timestamp);
+        for(int i=0;i<configFile.sensorNumber;i++)
+        {
+            sprintf(str,"%s%d;",str,sensorBuffer[i].value);
+        }
+        strcat(str,"\n");
+        LOG_INF("%s",str);
+        timestamp++;
     }
 }
 
