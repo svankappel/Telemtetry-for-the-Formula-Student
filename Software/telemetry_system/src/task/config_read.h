@@ -8,9 +8,10 @@
 
 
 /*! read_config function
-* @brief read_config reads the config file and put the data in a struct	
+* @brief read_config reads the config file and put the datas in a struct	
+* return 0 when config file is ok
 */
-void read_config(void);
+int read_config(void);
 
 //struct for Wifi router data
 struct sWiFiRouter{
@@ -50,5 +51,7 @@ struct config {
 //config file datas accessible in other files
 extern struct config configFile;
 
+//config ok
+extern bool configOK;
 
 #endif /*__CONFIG_READ_H*/

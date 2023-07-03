@@ -17,6 +17,7 @@ uint8_t configString[] =
 "{\"name\":\"InverterTemperature\",\"live\":true},{\"name\":\"TemperatureBatteryLV\",\"live\":true}]}";
 
 struct config configFile;
+bool configOK;
 
 //struct for Wifi router data description
 static const struct json_obj_descr wifi_router_descr[] = {
@@ -53,8 +54,9 @@ static const struct json_obj_descr config_descr[] = {
 
 /*! read_config function
 * @brief read_config reads the config file and put the datas in a struct	
+* return 0 when config file is ok
 */
-void read_config(void)
+int read_config(void)
 {
 	//read json string
 	int ret = json_obj_parse(configString,sizeof(configString),config_descr,ARRAY_SIZE(config_descr),&configFile);
@@ -62,19 +64,20 @@ void read_config(void)
 	if(ret<0)		//json parse fail
 	{
 		LOG_ERR("Error reading config file");	//print error
-		k_sleep(K_FOREVER);						//stop the program
+		configOK=false;
+		return 1;
 	}
 	else			//json parse success
 	{		
 		LOG_INF("Config file OK");				//print message		
-
+		configOK=true;
 		for(int i=0; i<configFile.sensorNumber;i++)	 //for all sensors
 		{
 			//configure sensor buffer
 			sensorBuffer[i].name=configFile.Sensors[i].name;	
 			sensorBuffer[i].live=configFile.Sensors[i].live;
 		}
-		return;
+		return 0;
 	}
 	
 }
