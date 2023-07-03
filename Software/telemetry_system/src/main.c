@@ -12,6 +12,7 @@
 K_HEAP_DEFINE(messageHeap,32768);
 K_QUEUE_DEFINE(udpQueue);
 
+K_TIMER_DEFINE(dataSenderTimer, data_Sender_timer_handler,NULL);
 
 tSensor sensorBuffer[MAX_SENSORS];
 
@@ -25,7 +26,9 @@ int main(void)
 	Task_Wifi_Sta_Init();
 	Task_Led_Init();
 	Task_UDP_Client_Init();
+
 	Task_Data_Sender_Init();
+	k_timer_start(&dataSenderTimer, K_SECONDS(1), K_MSEC(500));
 
 	k_sleep( K_FOREVER );
 	return 0;

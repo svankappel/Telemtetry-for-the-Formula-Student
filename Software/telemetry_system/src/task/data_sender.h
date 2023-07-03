@@ -14,5 +14,7 @@ void Data_Sender();
 */
 void Task_Data_Sender_Init( void );
 
+void data_Sender_timer_handler();
+
 
 #endif /*__DATA_SENDER_H*/
