@@ -1,5 +1,5 @@
 #include <zephyr/logging/log.h>
-LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
+LOG_MODULE_REGISTER(udp);
 
 #include <zephyr/kernel.h>
 #include <errno.h>

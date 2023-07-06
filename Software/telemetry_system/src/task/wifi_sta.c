@@ -1,5 +1,5 @@
 #include <zephyr/logging/log.h>
-LOG_MODULE_REGISTER(sta, CONFIG_LOG_DEFAULT_LEVEL);
+LOG_MODULE_REGISTER(wifi);
 
 #include <nrfx_clock.h>
 #include <zephyr/kernel.h>
