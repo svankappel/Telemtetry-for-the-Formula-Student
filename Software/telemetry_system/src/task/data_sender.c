@@ -36,7 +36,7 @@ void data_Sender_timer_handler()
 void Data_Sender() 
 {
 	//put some random datas in sensor buffer
-	for(int i=0; i<configFile.sensorNumber;i++)
+	for(int i=0; i<configFile.sensorCount;i++)
 	{
 		sensorBuffer[i].value=sys_rand32_get()%100;
 	}
@@ -51,7 +51,7 @@ void Data_Sender()
 			sprintf(memPtr,"{");	// open json section
 
 			bool first = true;		
-			for(int i=0; i<configFile.sensorNumber;i++)	//loop for every sensor
+			for(int i=0; i<configFile.sensorCount;i++)	//loop for every sensor
 			{
 				if(sensorBuffer[i].wifi_enable)
 				{
@@ -97,7 +97,7 @@ void Task_Data_Sender_Init( void )
 	udpQueueMesLength = 0;				//initialize message length
 
 	//calculate length of json message
-	for(int i=0; i<configFile.sensorNumber;i++)		//loop for every sensor
+	for(int i=0; i<configFile.sensorCount;i++)		//loop for every sensor
 	{
 		if(sensorBuffer[i].wifi_enable)			//if sensor is used in live telemetry
 			udpQueueMesLength+=(strlen(sensorBuffer[i].name_wifi)+4+10);	//name length + 4 bytes for ,:"" + 10 bytes for number (32bits in decimal)

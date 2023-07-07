@@ -63,7 +63,7 @@ void Task_UDP_Client_Init( void ){
 */
 void UDP_Client() 
 {
-	int socketNumber = configFile.serverNumber;
+	int socketNumber = configFile.serverCount;
 
 	//addresses of the sockets
 	char* addresses[socketNumber];

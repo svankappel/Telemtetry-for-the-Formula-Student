@@ -49,7 +49,7 @@ void Task_Data_Logger_Init(void)
 	logEnable=false;
 
     lineSize=10;          //size for timestamp
-    for(int i=0;i<configFile.sensorNumber;i++)
+    for(int i=0;i<configFile.sensorCount;i++)
     {
         if(strlen(sensorBuffer[i].name_log)<10)                 //if name is shorter than 10
             lineSize+=11;                                 // add max length of 32 bit variable in decimal + 1 for the ;
@@ -71,7 +71,7 @@ void Data_Logger()
         //create line of csv file
         char str[lineSize];
         sprintf(str,"%d;",timestamp);
-        for(int i=0;i<configFile.sensorNumber;i++)
+        for(int i=0;i<configFile.sensorCount;i++)
         {
             sprintf(str,"%s%d;",str,sensorBuffer[i].value);
         }
@@ -113,7 +113,7 @@ void data_log_start()
     //create first line of csv file
     char str[lineSize];
     sprintf(str,"Timestamp;");
-    for(int i=0;i<configFile.sensorNumber;i++)
+    for(int i=0;i<configFile.sensorCount;i++)
     {
         sprintf(str,"%s%s;",str,sensorBuffer[i].name_log);
     }

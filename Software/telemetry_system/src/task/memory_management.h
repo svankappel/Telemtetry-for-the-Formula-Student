@@ -20,7 +20,6 @@ typedef struct sSensor{
     char* name_log;
     uint32_t value;
     bool wifi_enable;
-    bool log_enable;
 }tSensor;
 
 extern tSensor sensorBuffer[MAX_SENSORS];

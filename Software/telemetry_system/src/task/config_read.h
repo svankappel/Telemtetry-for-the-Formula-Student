@@ -34,10 +34,9 @@ struct sServer{
     
 //struct for sensors
 struct sSensors{
-    const char* name_wifi;
-    const char* name_log;
-    bool wifi_enable;
-    bool log_enable;
+    const char* NameLive;
+    const char* NameLog;
+    bool LiveEnable;
 };
 
 //main config struct containing all the previous ones
@@ -45,9 +44,9 @@ struct config {
 	struct sWiFiRouter WiFiRouter;
     struct sWiFiRouterRedundancy WiFiRouterRedundancy;
     struct sServer Server[MAX_SERVERS];
-	int serverNumber;
+	int serverCount;
     struct sSensors Sensors[MAX_SENSORS];
-    int sensorNumber;
+    int sensorCount;
 };
 
 //config file datas accessible in other files

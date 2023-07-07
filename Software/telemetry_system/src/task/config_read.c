@@ -49,18 +49,17 @@ static const struct json_obj_descr server_descr[] = {
 
 //struct for sensors description
 static const struct json_obj_descr sensors_descr[] = {
-	JSON_OBJ_DESCR_PRIM(struct sSensors, name_wifi, JSON_TOK_STRING),
-	JSON_OBJ_DESCR_PRIM(struct sSensors, name_log, JSON_TOK_STRING),
-	JSON_OBJ_DESCR_PRIM(struct sSensors, wifi_enable, JSON_TOK_TRUE),
-	JSON_OBJ_DESCR_PRIM(struct sSensors, log_enable, JSON_TOK_TRUE)
+	JSON_OBJ_DESCR_PRIM(struct sSensors, NameLive, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sSensors, NameLog, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sSensors, LiveEnable, JSON_TOK_TRUE)
 };
 
 //main config struct description
 static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_OBJECT(struct config, WiFiRouter, wifi_router_descr),
   JSON_OBJ_DESCR_OBJECT(struct config, WiFiRouterRedundancy, wifi_router_red_descr),
-  JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Server, MAX_SERVERS, serverNumber, server_descr,ARRAY_SIZE(server_descr)),
-  JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorNumber, sensors_descr,ARRAY_SIZE(sensors_descr))
+  JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Server, MAX_SERVERS, serverCount, server_descr,ARRAY_SIZE(server_descr)),
+  JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorCount, sensors_descr,ARRAY_SIZE(sensors_descr))
 };
 
 
@@ -152,6 +151,7 @@ int read_config(void)
 
 
 	//--------------------------------------- parse json string
+
 	int ret = json_obj_parse(readBuf,entry.size,config_descr,ARRAY_SIZE(config_descr),&configFile);
 	
 	if(ret<0)		//json parse fail
@@ -164,15 +164,14 @@ int read_config(void)
 	{		
 		LOG_INF("Config file OK");				//print message		
 		configOK=true;
-		for(int i=0; i<configFile.sensorNumber;i++)	 //for all sensors
+		for(int i=0; i<configFile.sensorCount;i++)	 //for all sensors
 		{
 			//configure sensor buffer
-			LOG_INF("%s",configFile.Sensors[i].name_wifi);
-			sensorBuffer[i].name_wifi=configFile.Sensors[i].name_wifi;	
-			sensorBuffer[i].name_log=configFile.Sensors[i].name_log;
-			sensorBuffer[i].wifi_enable=configFile.Sensors[i].wifi_enable;
-			sensorBuffer[i].log_enable=configFile.Sensors[i].log_enable;
+			LOG_INF("%s",configFile.Sensors[i].NameLive);
 			
+			sensorBuffer[i].name_wifi=configFile.Sensors[i].NameLive;	
+			sensorBuffer[i].name_log=configFile.Sensors[i].NameLog;
+			sensorBuffer[i].wifi_enable=configFile.Sensors[i].LiveEnable;
 		}
 		return 0;
 	}

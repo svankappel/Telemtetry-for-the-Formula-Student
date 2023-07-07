@@ -21,82 +21,69 @@
     "Sensors":
     [
         {
-            "name_log":"TensionBatteryHV",
-            "name_wifi":"TensionBatteryHV",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"TensionBatteryHV",
+            "NameLog":"TensionBatteryHV",
+            "LiveEnable":true
         },
         {
-            "name_log":"AmperageBatteryHV",
-            "name_wifi":"AmperageBatteryHV",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"AmperageBatteryHV",
+            "NameLog":"AmperageBatteryHV",
+            "LiveEnable":true
         },
         {
-            "name_log":"TemperatureBatteryHV",
-            "name_wifi":"TemperatureBatteryHV",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"TemperatureBatteryHV",
+            "NameLog":"TemperatureBatteryHV",
+            "LiveEnable":true
         },
         {
-            "name_log":"EnginePower",
-            "name_wifi":"EnginePower",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"EnginePower",
+            "NameLog":"EnginePower",
+            "LiveEnable":true
         },
         {
-            "name_log":"EngineTemperature",
-            "name_wifi":"EngineTemperature",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"EngineTemperature",
+            "NameLog":"EngineTemperature",
+            "LiveEnable":true
         },
         {
-            "name_log":"EngineAngularSpeed",
-            "name_wifi":"EngineAngularSpeed",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"EngineAngularSpeed",
+            "NameLog":"EngineAngularSpeed",
+            "LiveEnable":true
         },
         {
-            "name_log":"CarSpeed",
-            "name_wifi":"CarSpeed",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"CarSpeed",
+            "NameLog":"CarSpeed",
+            "LiveEnable":true
         },
         {
-            "name_log":"PressureTireFL",
-            "name_wifi":"PressureTireFL",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"PressureTireFL",
+            "NameLog":"PressureTireFL",
+            "LiveEnable":true
         },
         {
-            "name_log":"PressureTireFR",
-            "name_wifi":"PressureTireFR",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"PressureTireFR",
+            "NameLog":"PressureTireFR",
+            "LiveEnable":true
         },
         {
-            "name_log":"PressureTireBL",
-            "name_wifi":"PressureTireBL",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"PressureTireBL",
+            "NameLog":"PressureTireBL",
+            "LiveEnable":true
         },
         {
-            "name_log":"PressureTireBR",
-            "name_wifi":"PressureTireBR",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"PressureTireBR",
+            "NameLog":"PressureTireBR",
+            "LiveEnable":true
         },
         {
-            "name_log":"InverterTemperature",
-            "name_wifi":"InverterTemperature",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"InverterTemperature",
+            "NameLog":"InverterTemperature",
+            "LiveEnable":true
         },
         {
-            "name_log":"TemperatureBatteryLV",
-            "name_wifi":"TemperatureBatteryLV",
-            "wifi_enable":true,
-            "log_enable":true
+            "NameLive":"TemperatureBatteryLV",
+            "NameLog":"TemperatureBatteryLV",
+            "LiveEnable":true
         }        
     ]
 }
