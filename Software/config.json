@@ -17,6 +17,10 @@
             "port":1502
         }
     ],
+
+    "LiveFrameRate":2,
+
+    "LogFrameRate":20,
     
     "Sensors":
     [

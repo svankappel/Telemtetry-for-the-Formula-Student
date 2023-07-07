@@ -59,6 +59,8 @@ static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_OBJECT(struct config, WiFiRouter, wifi_router_descr),
   JSON_OBJ_DESCR_OBJECT(struct config, WiFiRouterRedundancy, wifi_router_red_descr),
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Server, MAX_SERVERS, serverCount, server_descr,ARRAY_SIZE(server_descr)),
+  JSON_OBJ_DESCR_PRIM(struct config, LiveFrameRate, JSON_TOK_NUMBER),
+  JSON_OBJ_DESCR_PRIM(struct config, LogFrameRate, JSON_TOK_NUMBER),
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorCount, sensors_descr,ARRAY_SIZE(sensors_descr))
 };
 
@@ -167,8 +169,6 @@ int read_config(void)
 		for(int i=0; i<configFile.sensorCount;i++)	 //for all sensors
 		{
 			//configure sensor buffer
-			LOG_INF("%s",configFile.Sensors[i].NameLive);
-			
 			sensorBuffer[i].name_wifi=configFile.Sensors[i].NameLive;	
 			sensorBuffer[i].name_log=configFile.Sensors[i].NameLog;
 			sensorBuffer[i].wifi_enable=configFile.Sensors[i].LiveEnable;

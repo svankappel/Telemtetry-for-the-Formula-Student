@@ -45,6 +45,8 @@ struct config {
     struct sWiFiRouterRedundancy WiFiRouterRedundancy;
     struct sServer Server[MAX_SERVERS];
 	int serverCount;
+    int LiveFrameRate;
+    int LogFrameRate;
     struct sSensors Sensors[MAX_SENSORS];
     int sensorCount;
 };
