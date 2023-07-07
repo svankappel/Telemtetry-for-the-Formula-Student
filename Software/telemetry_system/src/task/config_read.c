@@ -12,29 +12,21 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(config);
 
+//file system
 static FATFS fat_fs;
-/* mounting info */
+
+// SD mounting info 
 static struct fs_mount_t mp = {
 	.type = FS_FATFS,
 	.fs_data = &fat_fs,
 };
 
-/*
-*  Note the fatfs library is able to mount only strings inside _VOLUME_STRS
-*  in ffconf.h
-*/
+// SD mount name
 static const char *disk_mount_pt = "/SD:";
 
-uint8_t configString[] = 
-"{\"WiFiRouter\":{\"SSID\":\"VRT-Telemetry\",\"Password\":\"TJJC2233\"},\"WiFiRouterRedundancy\":{\"SSID\":\"motog8\",\"Password\":\"TJJC2233\",\"Enabled\": false},"
-"\"Server\":[{\"address\":\"192.168.50.110\",\"port\":1502}],\"Sensors\":[{\"name\":\"TensionBatteryHV\",\"live\":true},{\"name\":\"AmperageBatteryHV\",\"live\":true},"
-"{\"name\":\"TemperatureBatteryHV\",\"live\":true},{\"name\":\"EnginePower\",\"live\":true},{\"name\":\"EngineTemperature\",\"live\":true},"
-"{\"name\":\"EngineAngularSpeed\",\"live\":true},{\"name\":\"CarSpeed\",\"live\":true},{\"name\":\"PressureTireFL\",\"live\":true},"
-"{\"name\":\"PressureTireFR\",\"live\":true},{\"name\":\"PressureTireBL\",\"live\":true},{\"name\":\"PressureTireBR\",\"live\":true},"
-"{\"name\":\"InverterTemperature\",\"live\":true},{\"name\":\"TemperatureBatteryLV\",\"live\":true}]}";
-
+//json config file struct
 struct config configFile;
-bool configOK;
+bool configOK;		//boolean variable for printing state on led
 
 //struct for Wifi router data description
 static const struct json_obj_descr wifi_router_descr[] = {
@@ -76,11 +68,13 @@ static const struct json_obj_descr config_descr[] = {
 */
 int read_config(void)
 {
+
+	//------------------------------------------------  Mount SD disk
 	mp.mnt_point = disk_mount_pt;
 
-	int res = fs_mount(&mp);
+	int res = fs_mount(&mp);	//mount sd card
 
-	if (res == FR_OK) 
+	if (res == FR_OK) 		//return error if mount failed
 	{
 		LOG_INF("Disk mounted.\n");
 	} 
@@ -90,14 +84,18 @@ int read_config(void)
 		return 2;
 	}
 
+
+	// -----------------------------------------------      Find config file
+
 	struct fs_dir_t dirp;
 	static struct fs_dirent entry;
 
-	fs_dir_t_init(&dirp);
+	fs_dir_t_init(&dirp);		//initialize directory
 
-	/* Verify fs_opendir() */
-	res = fs_opendir(&dirp, "/SD:");
-	if (res) {
+	// Verify fs_opendir() 			
+	res = fs_opendir(&dirp, "/SD:");		//open SD card base directory
+	if (res) 								//return error if open failed
+	{
 		LOG_ERR("Error opening dir /SD: [%d]\n" , res);
 		return 2;
 	}
@@ -120,29 +118,37 @@ int read_config(void)
 	fs_closedir(&dirp);	//close directory
 
 
+	// ------------------------------------------   Read file
+
+	//create and init file
 	struct fs_file_t myFile;
 	fs_file_t_init(&myFile);
 
-	char path[20];
+	//path with the name found in the previous section
+	char path[20];	
 	sprintf(path,"/SD:/");
 	strcat(path,entry.name);
 
-	res = fs_open(&myFile,path,FS_O_READ);
+	//open file
+	res = fs_open(&myFile,path,FS_O_READ);	
 
-	if (res) {
+	if (res) 			//return error if open fail
+	{
 		LOG_ERR("Error opening dir /SD: [%d]\n" , res);
 		return 2;
 	}
 	
-	char readBuf[entry.size];
-	fs_read(&myFile,readBuf,entry.size);
+	char readBuf[entry.size];					//buffer for the content
+	fs_read(&myFile,readBuf,entry.size);		//read file
 
 
-	fs_close(&myFile);
+	fs_close(&myFile);							//close file
 
-	fs_unmount(&mp);
+	fs_unmount(&mp);							//unmount sd disk
 
-	//read json string
+
+	//--------------------------------------- parse json string
+
 	int ret = json_obj_parse(readBuf,sizeof(readBuf),config_descr,ARRAY_SIZE(config_descr),&configFile);
 
 	if(ret<0)		//json parse fail
