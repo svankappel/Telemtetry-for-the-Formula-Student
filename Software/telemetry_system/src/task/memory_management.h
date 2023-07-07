@@ -16,9 +16,11 @@ extern int udpQueueMesLength;
 
 //sensor buffer
 typedef struct sSensor{
-    char* name;
+    char* name_wifi;
+    char* name_log;
     uint32_t value;
-    bool live;
+    bool wifi_enable;
+    bool log_enable;
 }tSensor;
 
 extern tSensor sensorBuffer[MAX_SENSORS];

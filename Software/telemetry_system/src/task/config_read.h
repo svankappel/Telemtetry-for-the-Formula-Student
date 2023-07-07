@@ -15,27 +15,29 @@ int read_config(void);
 
 //struct for Wifi router data
 struct sWiFiRouter{
-    char* SSID;
-    char* Password;
+    const char* SSID;
+    const char* Password;
 };
 
 //struct for redundancy Wifi router data
 struct sWiFiRouterRedundancy{
-    char* SSID;
-    char* Password;
+    const char* SSID;
+    const char* Password;
     bool Enabled;
 };
 
 //struct for udp servers
 struct sServer{
-    char* address;
+    const char* address;
     int port;
 };
-
+    
 //struct for sensors
 struct sSensors{
-    char* name;
-    bool live;
+    const char* name_wifi;
+    const char* name_log;
+    bool wifi_enable;
+    bool log_enable;
 };
 
 //main config struct containing all the previous ones

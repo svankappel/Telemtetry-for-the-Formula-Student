@@ -5,7 +5,11 @@ LOG_MODULE_REGISTER(logger);
 #include <errno.h>
 #include <stdio.h>
 #include <zephyr/data/json.h>
-#include <zephyr/random/rand32.h>
+#include <zephyr/device.h>
+#include <zephyr/storage/disk_access.h>
+#include <zephyr/data/json.h>
+#include <zephyr/fs/fs.h>
+#include <ff.h>
 
 #include "data_logger.h"
 #include "memory_management.h"
@@ -16,6 +20,19 @@ LOG_MODULE_REGISTER(logger);
 K_WORK_DEFINE(dataLogWork, Data_Logger);		//dataLogWork -> called by timer to log data
 K_WORK_DEFINE(startLog, data_log_start);		    //dataLogWork -> called by button
 K_WORK_DEFINE(stopLog, data_log_stop);		    //dataLogWork -> called by button
+
+
+//file system
+static FATFS fat_fs;
+
+// SD mounting info 
+static struct fs_mount_t mp = {
+	.type = FS_FATFS,
+	.fs_data = &fat_fs,
+};
+
+// SD mount name
+static const char *disk_mount_pt = "/SD:";
 
 
 bool logEnable;             //log is recording variable
@@ -34,10 +51,10 @@ void Task_Data_Logger_Init(void)
     lineSize=10;          //size for timestamp
     for(int i=0;i<configFile.sensorNumber;i++)
     {
-        if(strlen(sensorBuffer[i].name)<10)                 //if name is shorter than 10
+        if(strlen(sensorBuffer[i].name_log)<10)                 //if name is shorter than 10
             lineSize+=11;                                 // add max length of 32 bit variable in decimal + 1 for the ;
         else                                                //else
-            lineSize+=(1+strlen(sensorBuffer[i].name));   // add string length of name + 1 for the ;
+            lineSize+=(1+strlen(sensorBuffer[i].name_log));   // add string length of name + 1 for the ;
     }
 }
 
@@ -98,7 +115,7 @@ void data_log_start()
     sprintf(str,"Timestamp;");
     for(int i=0;i<configFile.sensorNumber;i++)
     {
-        sprintf(str,"%s%s;",str,sensorBuffer[i].name);
+        sprintf(str,"%s%s;",str,sensorBuffer[i].name_log);
     }
     strcat(str,"\n");
     LOG_INF("%s",str);

@@ -53,13 +53,13 @@ void Data_Sender()
 			bool first = true;		
 			for(int i=0; i<configFile.sensorNumber;i++)	//loop for every sensor
 			{
-				if(sensorBuffer[i].live)
+				if(sensorBuffer[i].wifi_enable)
 				{
 					//print name and value in json string
 					if(first)
-						sprintf(memPtr,"%s\"%s\":%d",memPtr,sensorBuffer[i].name,sensorBuffer[i].value);		
+						sprintf(memPtr,"%s\"%s\":%d",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);		
 					else
-						sprintf(memPtr,"%s,\"%s\":%d",memPtr,sensorBuffer[i].name,sensorBuffer[i].value);
+						sprintf(memPtr,"%s,\"%s\":%d",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);
 					first=false;
 				}
 			}
@@ -71,7 +71,7 @@ void Data_Sender()
 				(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	//print log recording variable
 
 			strcat(memPtr,"}");		//close json section
-
+			
 			k_queue_append(&udpQueue,memPtr);		//add message to the queue
 		}
 		else					 //memory alloc fail
@@ -99,8 +99,8 @@ void Task_Data_Sender_Init( void )
 	//calculate length of json message
 	for(int i=0; i<configFile.sensorNumber;i++)		//loop for every sensor
 	{
-		if(sensorBuffer[i].live)			//if sensor is used in live telemetry
-			udpQueueMesLength+=(strlen(sensorBuffer[i].name)+4+10);	//name length + 4 bytes for ,:"" + 10 bytes for number (32bits in decimal)
+		if(sensorBuffer[i].wifi_enable)			//if sensor is used in live telemetry
+			udpQueueMesLength+=(strlen(sensorBuffer[i].name_wifi)+4+10);	//name length + 4 bytes for ,:"" + 10 bytes for number (32bits in decimal)
 	}
 	udpQueueMesLength+=50;		// space for {} , logRecording and keepalive
 }
