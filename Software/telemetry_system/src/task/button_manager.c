@@ -24,7 +24,8 @@ K_THREAD_STACK_DEFINE(BUTTON_MANAGER_STACK, BUTTON_MANAGER_STACK_SIZE);
 //! Variable to identify the Wifi thread
 static struct k_thread buttonManagerThread;
 
-
+//button press callback
+void button_pressed(const struct device *dev, struct gpio_callback *cb,uint32_t pins);
 /*
  * Get button configuration from the devicetree sw0 alias. This is mandatory.
  */

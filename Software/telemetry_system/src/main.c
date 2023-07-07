@@ -22,9 +22,6 @@ tSensor sensorBuffer[MAX_SENSORS];
 
 int main(void)
 {
-	
-	nrfx_clock_divider_set(NRF_CLOCK_DOMAIN_HFCLK, NRF_CLOCK_HFCLK_DIV_1);			//set 128 MHZ clock
-	
 	Task_Led_Init();		//start led controller
 
 	if(read_config() == 0)			//read configuration file ok

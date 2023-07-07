@@ -64,7 +64,12 @@ void Data_Sender()
 				}
 			}
 			sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter
-			true ? sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr) : sprintf(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	//print log recording variable
+			
+			if(true)
+				sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr);
+			else
+				(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	//print log recording variable
+
 			strcat(memPtr,"}");		//close json section
 
 			k_queue_append(&udpQueue,memPtr);		//add message to the queue

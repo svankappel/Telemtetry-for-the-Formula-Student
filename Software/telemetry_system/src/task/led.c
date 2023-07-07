@@ -41,8 +41,6 @@ static const struct gpio_dt_spec led2 = GPIO_DT_SPEC_GET(LED1_NODE, gpios);
 */
 void Led(void)
 {
-	int ret;
-
 	//check if led 1 is ready
 	if (!device_is_ready(led1.port)) 
 		return;

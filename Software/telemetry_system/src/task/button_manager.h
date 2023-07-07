@@ -13,7 +13,5 @@ void Button_Manager(void);
 */
 void Task_Button_Manager_Init( void );
 
-//button press callback
-void button_pressed(const struct device *dev, struct gpio_callback *cb,uint32_t pins);
 
 #endif /*__BUTTON_MANAGER_H*/
