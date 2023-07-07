@@ -75,16 +75,20 @@ void Data_Logger()
 	if(logEnable)
     {
         //create line of csv file
-        char str[lineSize];
+        uint8_t str[lineSize];
         sprintf(str,"%d;",timestamp);
         for(int i=0;i<configFile.sensorCount;i++)
         {
             sprintf(str,"%s%d;",str,sensorBuffer[i].value);
         }
         strcat(str,"\n");
-        LOG_INF("%s",str);
+        
+        //write in file
+        //fs_write(&logFile,str,sizeof(str));
+
         timestamp+=(int)(1000/configFile.LogFrameRate);
     }
+        
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -125,13 +129,13 @@ void data_log_start()
     fs_file_t_init(&logFile);
 
     //create file on SD card
-    res = fs_open(&logFile,"/SD:/LOG.txt",FS_O_CREATE);
+    res = fs_open(&logFile,"/SD:/log.txt",FS_O_CREATE);
     if (res != 0) 		     // return if file creation failed
         return;
     fs_close(&logFile);
 
     //open file on SD card
-    res = fs_open(&logFile,"/SD:/log.csv",FS_O_WRITE);
+    res = fs_open(&logFile,"/SD:/log.txt",FS_O_WRITE);
     if (res != 0) 		     // return if file creation failed
         return;
     
@@ -146,7 +150,6 @@ void data_log_start()
     }
 
     strcat(str,"\n");
-    LOG_INF("%s",str);
 
     //write in file
     res = fs_write(&logFile,str,sizeof(str));
@@ -163,12 +166,12 @@ void data_log_start()
 //  stop log function -> called by button handler
 void data_log_stop()
 {
+    //set log enable to false
+    logEnable=false;
+
     //close file on sd card
     fs_close(&logFile);
 
     //unmount disk
     fs_unmount(&mp);
-
-    //set log enable to false
-    logEnable=false;
 }
