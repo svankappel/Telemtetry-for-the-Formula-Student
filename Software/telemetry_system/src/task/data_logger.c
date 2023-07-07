@@ -34,6 +34,10 @@ static struct fs_mount_t mp = {
 // SD mount name
 static const char *disk_mount_pt = "/SD:";
 
+//log file
+struct fs_file_t logFile;
+
+
 
 bool logEnable;             //log is recording variable
 uint32_t timestamp;         //timestamp of the current data
@@ -48,7 +52,7 @@ void Task_Data_Logger_Init(void)
 {
 	logEnable=false;
 
-    lineSize=10;          //size for timestamp
+    lineSize=15;          //size for "Timestamp [ms];"
     for(int i=0;i<configFile.sensorCount;i++)
     {
         if(strlen(sensorBuffer[i].name_log)<10)                 //if name is shorter than 10
@@ -56,6 +60,8 @@ void Task_Data_Logger_Init(void)
         else                                                //else
             lineSize+=(1+strlen(sensorBuffer[i].name_log));   // add string length of name + 1 for the ;
     }
+
+    
 }
 
 
@@ -77,7 +83,7 @@ void Data_Logger()
         }
         strcat(str,"\n");
         LOG_INF("%s",str);
-        timestamp++;
+        timestamp+=(int)(1000/configFile.LogFrameRate);
     }
 }
 
@@ -107,18 +113,46 @@ void data_Logger_button_handler()
 //  start log function -> called by button handler
 void data_log_start()
 {
-    //create file on sd card
+    //mount sd card
+    mp.mnt_point = disk_mount_pt;
 
+	int res = fs_mount(&mp);	//mount sd card
 
+	if (res != FR_OK) 		// return if mount failed
+        return;
+
+    //init file object
+    fs_file_t_init(&logFile);
+
+    //create file on SD card
+    res = fs_open(&logFile,"/SD:/LOG.txt",FS_O_CREATE);
+    if (res != 0) 		     // return if file creation failed
+        return;
+    fs_close(&logFile);
+
+    //open file on SD card
+    res = fs_open(&logFile,"/SD:/log.csv",FS_O_WRITE);
+    if (res != 0) 		     // return if file creation failed
+        return;
+    
     //create first line of csv file
-    char str[lineSize];
-    sprintf(str,"Timestamp;");
+    uint8_t str[lineSize];
+
+    sprintf(str,"Timestamp [ms];");
+
     for(int i=0;i<configFile.sensorCount;i++)
     {
         sprintf(str,"%s%s;",str,sensorBuffer[i].name_log);
     }
+
     strcat(str,"\n");
     LOG_INF("%s",str);
+
+    //write in file
+    res = fs_write(&logFile,str,sizeof(str));
+    if (res < 0) 		     // return if write failed
+        return;
+    
 
     //set log enable to true
     logEnable=true;
@@ -130,6 +164,10 @@ void data_log_start()
 void data_log_stop()
 {
     //close file on sd card
+    fs_close(&logFile);
+
+    //unmount disk
+    fs_unmount(&mp);
 
     //set log enable to false
     logEnable=false;

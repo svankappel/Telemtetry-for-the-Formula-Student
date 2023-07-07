@@ -126,8 +126,8 @@ int read_config(void)
 	// ------------------------------------------   Read file
 
 	//create and init file
-	struct fs_file_t myFile;
-	fs_file_t_init(&myFile);
+	struct fs_file_t fs_configFile;
+	fs_file_t_init(&fs_configFile);
 
 	//path with the name found in the previous section
 	char path[20];	
@@ -135,7 +135,7 @@ int read_config(void)
 	strcat(path,entry.name);
 
 	//open file
-	res = fs_open(&myFile,path,FS_O_READ);	
+	res = fs_open(&fs_configFile,path,FS_O_READ);	
 
 	if (res) 			//return error if open fail
 	{
@@ -144,10 +144,10 @@ int read_config(void)
 	}
 	
 	uint8_t readBuf[entry.size];					//buffer for the content
-	fs_read(&myFile,readBuf,entry.size);		//read file
+	fs_read(&fs_configFile,readBuf,entry.size);		//read file
 
 
-	fs_close(&myFile);							//close file
+	fs_close(&fs_configFile);							//close file
 
 	fs_unmount(&mp);							//unmount sd disk
 
