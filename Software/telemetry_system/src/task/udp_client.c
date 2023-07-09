@@ -1,5 +1,5 @@
 #include <zephyr/logging/log.h>
-LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
+LOG_MODULE_REGISTER(udp);
 
 #include <zephyr/kernel.h>
 #include <errno.h>
@@ -63,7 +63,7 @@ void Task_UDP_Client_Init( void ){
 */
 void UDP_Client() 
 {
-	int socketNumber = configFile.serverNumber;
+	int socketNumber = configFile.serverCount;
 
 	//addresses of the sockets
 	char* addresses[socketNumber];
@@ -127,11 +127,11 @@ void UDP_Client()
 			//-----------------------------------------
 			//			Receive data from queue
 			
-			char udpMessage[configFile.TelemetyDataSize];				//message to send
+			char udpMessage[udpQueueMesLength];				//message to send
 			char * memPtr;										//message to get from queue
 			memPtr = k_queue_get(&udpQueue,K_FOREVER);			//wait for message in queue
 			int size = 0;										//size of message
-			for(int i=0; i<configFile.TelemetyDataSize; i++)				//loop to copy message
+			for(int i=0; i<udpQueueMesLength; i++)				//loop to copy message
 			{
 				udpMessage[i]=memPtr[i];				//copy char
 				if(udpMessage[i]=='}')					//if the loop reached the end of the JSON message
@@ -152,7 +152,8 @@ void UDP_Client()
 				// Send the udp message 
 				sentBytes[i] = send(udpClientSocket[i], udpMessage, size, 0);
 
-				LOG_INF( "UDP %d Client mode. Sent: %d", i,sentBytes[i]);		//log message
+				//LOG_INF( "UDP %d Client mode. Sent: %d", i,sentBytes[i]);		//log message
+				
 				if ( sentBytes[i] < 0 ) 		//in case of error
 				{
 					LOG_ERR( "UDP %d Client error: send: %d\n", i,errno );		//log message

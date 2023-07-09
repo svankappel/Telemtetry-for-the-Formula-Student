@@ -7,43 +7,54 @@
 #include "memory_management.h"
 
 
-void read_config(void);
+/*! read_config function
+* @brief read_config reads the config file and put the datas in a struct	
+* return 0 when config file is ok
+*/
+int read_config(void);
 
-
-
-
+//struct for Wifi router data
 struct sWiFiRouter{
-    char* SSID;
-    char* Password;
+    const char* SSID;
+    const char* Password;
 };
+
+//struct for redundancy Wifi router data
 struct sWiFiRouterRedundancy{
-    char* SSID;
-    char* Password;
+    const char* SSID;
+    const char* Password;
     bool Enabled;
 };
+
+//struct for udp servers
 struct sServer{
-    char* address;
+    const char* address;
     int port;
 };
+    
+//struct for sensors
 struct sSensors{
-    char* name;
-    bool live;
+    const char* NameLive;
+    const char* NameLog;
+    bool LiveEnable;
 };
 
+//main config struct containing all the previous ones
 struct config {
 	struct sWiFiRouter WiFiRouter;
     struct sWiFiRouterRedundancy WiFiRouterRedundancy;
     struct sServer Server[MAX_SERVERS];
-    int TelemetyDataSize;
-	int serverNumber;
+	int serverCount;
+    int LiveFrameRate;
+    int LogFrameRate;
     struct sSensors Sensors[MAX_SENSORS];
-    int sensorNumber;
+    int sensorCount;
 };
 
 //config file datas accessible in other files
 extern struct config configFile;
 
-
-
+//config ok
+extern bool configOK;
 
 #endif /*__CONFIG_READ_H*/

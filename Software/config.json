@@ -18,61 +18,76 @@
         }
     ],
 
-    "TelemetyDataSize":400,
+    "LiveFrameRate":2,
 
+    "LogFrameRate":20,
+    
     "Sensors":
     [
         {
-            "name":"TensionBatteryHV",
-            "live":true
+            "NameLive":"TensionBatteryHV",
+            "NameLog":"TensionBatteryHV",
+            "LiveEnable":true
         },
         {
-            "name":"AmperageBatteryHV",
-            "live":true
+            "NameLive":"AmperageBatteryHV",
+            "NameLog":"AmperageBatteryHV",
+            "LiveEnable":true
         },
         {
-            "name":"TemperatureBatteryHV",
-            "live":true
+            "NameLive":"TemperatureBatteryHV",
+            "NameLog":"TemperatureBatteryHV",
+            "LiveEnable":true
         },
         {
-            "name":"EnginePower",
-            "live":true
+            "NameLive":"EnginePower",
+            "NameLog":"EnginePower",
+            "LiveEnable":true
         },
         {
-            "name":"EngineTemperature",
-            "live":true
+            "NameLive":"EngineTemperature",
+            "NameLog":"EngineTemperature",
+            "LiveEnable":true
         },
         {
-            "name":"EngineAngularSpeed",
-            "live":true
+            "NameLive":"EngineAngularSpeed",
+            "NameLog":"EngineAngularSpeed",
+            "LiveEnable":true
         },
         {
-            "name":"CarSpeed",
-            "live":true
+            "NameLive":"CarSpeed",
+            "NameLog":"CarSpeed",
+            "LiveEnable":true
         },
         {
-            "name":"PressureTireFL",
-            "live":true
+            "NameLive":"PressureTireFL",
+            "NameLog":"PressureTireFL",
+            "LiveEnable":true
         },
         {
-            "name":"PressureTireFR",
-            "live":true
+            "NameLive":"PressureTireFR",
+            "NameLog":"PressureTireFR",
+            "LiveEnable":true
         },
         {
-            "name":"PressureTireBL",
-            "live":true
+            "NameLive":"PressureTireBL",
+            "NameLog":"PressureTireBL",
+            "LiveEnable":true
         },
         {
-            "name":"PressureTireBR",
-            "live":true
+            "NameLive":"PressureTireBR",
+            "NameLog":"PressureTireBR",
+            "LiveEnable":true
         },
         {
-            "name":"InverterTemperature",
-            "live":true
+            "NameLive":"InverterTemperature",
+            "NameLog":"InverterTemperature",
+            "LiveEnable":true
         },
         {
-            "name":"TemperatureBatteryLV",
-            "live":true
+            "NameLive":"TemperatureBatteryLV",
+            "NameLog":"TemperatureBatteryLV",
+            "LiveEnable":true
         }        
     ]
 }

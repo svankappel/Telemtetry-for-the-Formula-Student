@@ -12,12 +12,14 @@ extern struct k_heap sensorHeap;
 
 //queues
 extern struct k_queue udpQueue;
+extern int udpQueueMesLength;
 
 //sensor buffer
 typedef struct sSensor{
-    char* name;
+    char* name_wifi;
+    char* name_log;
     uint32_t value;
-    bool live;
+    bool wifi_enable;
 }tSensor;
 
 extern tSensor sensorBuffer[MAX_SENSORS];
