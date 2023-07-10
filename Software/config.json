@@ -26,68 +26,148 @@
     [
         {
             "NameLive":"TensionBatteryHV",
-            "NameLog":"TensionBatteryHV",
+            "NameLog":"TensionBatteryHV_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"AmperageBatteryHV",
-            "NameLog":"AmperageBatteryHV",
+            "NameLog":"AmperageBatteryHV_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"TemperatureBatteryHV",
-            "NameLog":"TemperatureBatteryHV",
+            "NameLog":"TemperatureBatteryHV_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"EnginePower",
-            "NameLog":"EnginePower",
+            "NameLog":"EnginePower_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"EngineTemperature",
-            "NameLog":"EngineTemperature",
+            "NameLog":"EngineTemperature_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"EngineAngularSpeed",
-            "NameLog":"EngineAngularSpeed",
+            "NameLog":"EngineAngularSpeed_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"CarSpeed",
-            "NameLog":"CarSpeed",
+            "NameLog":"CarSpeed_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"PressureTireFL",
-            "NameLog":"PressureTireFL",
+            "NameLog":"PressureTireFL_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"PressureTireFR",
-            "NameLog":"PressureTireFR",
+            "NameLog":"PressureTireFR_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"PressureTireBL",
-            "NameLog":"PressureTireBL",
+            "NameLog":"PressureTireBL_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"PressureTireBR",
-            "NameLog":"PressureTireBR",
+            "NameLog":"PressureTireBR_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"InverterTemperature",
-            "NameLog":"InverterTemperature",
+            "NameLog":"InverterTemperature_NL",
             "LiveEnable":true
         },
         {
             "NameLive":"TemperatureBatteryLV",
-            "NameLog":"TemperatureBatteryLV",
+            "NameLog":"TemperatureBatteryLV_NL",
             "LiveEnable":true
-        }        
+        },
+        {
+            "NameLive":"SteeringWheelAngle",
+            "NameLog":"SteeringWheelAngle",
+            "LiveEnable":false
+        },
+        {
+            "NameLive":"AxisInertialSensor",
+            "NameLog":"AxisInertialSensor",
+            "LiveEnable":false
+        },
+        {
+            "NameLive":"BreakPedalPosition",
+            "NameLog":"BreakPedalPosition",
+            "LiveEnable":false
+        }, 
+        {
+            "NameLive":"AcceleratorPedalPosition",
+            "NameLog":"AcceleratorPedalPosition",
+            "LiveEnable":false
+        },
+        {
+            "NameLive":"SuspensionFL",
+            "NameLog":"SuspensionFL",
+            "LiveEnable":false
+        },
+        {
+            "NameLive":"SuspensionFR",
+            "NameLog":"SuspensionFR",
+            "LiveEnable":false
+        }, 
+        {
+            "NameLive":"SuspensionBL",
+            "NameLog":"SuspensionBL",
+            "LiveEnable":false
+        }, 
+        {
+            "NameLive":"SuspensionBR",
+            "NameLog":"SuspensionBR",
+            "LiveEnable":false
+        },
+        {
+            "NameLive":"TemperatureTireFL",
+            "NameLog":"TemperatureTireFL",
+            "LiveEnable":false
+        },
+        {
+            "NameLive":"TemperatureTireFR",
+            "NameLog":"TemperatureTireFR",
+            "LiveEnable":false
+        }, 
+        {
+            "NameLive":"TemperatureTireBL",
+            "NameLog":"TemperatureTireBL",
+            "LiveEnable":false
+        }, 
+        {
+            "NameLive":"TemperatureTireBR",
+            "NameLog":"TemperatureTireBR",
+            "LiveEnable":false
+        }, 
+        {
+            "NameLive":"CoupleEngine",
+            "NameLog":"CoupleEngine",
+            "LiveEnable":false
+        },
+        {
+            "NameLive":"CoupleWheelBL",
+            "NameLog":"CoupleWheelBL",
+            "LiveEnable":false
+        },
+        {
+            "NameLive":"CoupleWheelBR",
+            "NameLog":"CoupleWheelBR",
+            "LiveEnable":false
+        },
+        {
+            "NameLive":"TemperatureCoolingSystem",
+            "NameLog":"TemperatureCoolingSystem",
+            "LiveEnable":false
+        }         
     ]
 }
