@@ -72,16 +72,15 @@ void Task_Data_Logger_Init(void)
 */
 void Data_Logger() 
 {
+    //put some random datas in sensor buffer
+    k_mutex_lock(&sensorBufferMutex,K_FOREVER);
+    for(int i=0; i<configFile.sensorCount;i++)
+    {
+        sensorBuffer[i].value=sys_rand32_get()%100;
+    }
+    k_mutex_unlock(&sensorBufferMutex);
 	if(logEnable)
     {
-        //put some random datas in sensor buffer
-        k_mutex_lock(&sensorBufferMutex,K_FOREVER);
-        for(int i=0; i<configFile.sensorCount;i++)
-        {
-            sensorBuffer[i].value=sys_rand32_get()%100;
-        }
-        k_mutex_unlock(&sensorBufferMutex);
-
         //create line of csv file
         char str[lineSize];
         sprintf(str,"%d;",timestamp);                       //timestamp at first column

@@ -68,7 +68,7 @@ void Data_Sender()
 			if(logEnable)
 				sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr);
 			else
-				(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	//print log recording variable in json
+				sprintf(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	//print log recording variable in json
 
 			strcat(memPtr,"}");		//close json section
 			
