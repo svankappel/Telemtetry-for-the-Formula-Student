@@ -60,8 +60,6 @@ void Task_Data_Logger_Init(void)
         else                                                //else
             lineSize+=(1+strlen(sensorBuffer[i].name_log));   // add string length of name + 1 for the ;
     }
-
-    
 }
 
 
@@ -75,20 +73,19 @@ void Data_Logger()
 	if(logEnable)
     {
         //create line of csv file
-        uint8_t str[lineSize];
-        sprintf(str,"%d;",timestamp);
-        for(int i=0;i<configFile.sensorCount;i++)
+        char str[lineSize];
+        sprintf(str,"%d;",timestamp);                       //timestamp at first column
+        for(int i=0;i<configFile.sensorCount;i++)           //sensor values
         {
             sprintf(str,"%s%d;",str,sensorBuffer[i].value);
         }
-        strcat(str,"\n");
+        sprintf(str,"%s\n",str);                            // \n at end of line
         
-        //write in file
-        //fs_write(&logFile,str,sizeof(str));
+        //write line in file
+        fs_write(&logFile,str,strlen(str));
 
-        timestamp+=(int)(1000/configFile.LogFrameRate);
-    }
-        
+        timestamp+=(int)(1000/configFile.LogFrameRate);     //increment timestamp
+    }     
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -125,37 +122,62 @@ void data_log_start()
 	if (res != FR_OK) 		// return if mount failed
         return;
 
+    struct fs_dir_t dirp;
+	static struct fs_dirent entry;
+    char fileName[9];
+    int n = 0;
+
+	fs_dir_t_init(&dirp);		//initialize directory
+
+	// Verify fs_opendir() 			
+	res = fs_opendir(&dirp, "/SD:");		//open SD card base directory
+	if (res) 								//return error if open failed
+		return;
+
+	for (;;) 			//loop to find config file
+	{
+		res = fs_readdir(&dirp, &entry);			//read directory
+        sprintf(fileName,"LOG_%04d",n);
+
+		if (res || entry.name[0] == 0) 		//no more files
+			break;						     //return
+
+		if (entry.type == FS_DIR_ENTRY_FILE)		//file found
+		{
+			if(strstr(entry.name, fileName) != NULL)				//check if file is config file
+                n++;
+            else
+                break;
+		} 
+	}
+
+	fs_closedir(&dirp);	//close directory
+
     //init file object
     fs_file_t_init(&logFile);
-
+    char path[18];
+    sprintf(path,"/SD:/%s.csv",fileName);
     //create file on SD card
-    res = fs_open(&logFile,"/SD:/log.txt",FS_O_CREATE);
+    res = fs_open(&logFile,path,FS_O_CREATE | FS_O_WRITE);
     if (res != 0) 		     // return if file creation failed
         return;
-    fs_close(&logFile);
 
-    //open file on SD card
-    res = fs_open(&logFile,"/SD:/log.txt",FS_O_WRITE);
-    if (res != 0) 		     // return if file creation failed
-        return;
-    
     //create first line of csv file
-    uint8_t str[lineSize];
+    char str[lineSize];
 
-    sprintf(str,"Timestamp [ms];");
+    sprintf(str,"Timestamp [ms];");     //timestamp at first column
 
-    for(int i=0;i<configFile.sensorCount;i++)
+    for(int i=0;i<configFile.sensorCount;i++)       //every sensors
     {
         sprintf(str,"%s%s;",str,sensorBuffer[i].name_log);
     }
 
-    strcat(str,"\n");
+    sprintf(str,"%s\n",str);                // \n at end of line
 
     //write in file
-    res = fs_write(&logFile,str,sizeof(str));
+    res = fs_write(&logFile,str,strlen(str));
     if (res < 0) 		     // return if write failed
         return;
-    
 
     //set log enable to true
     logEnable=true;

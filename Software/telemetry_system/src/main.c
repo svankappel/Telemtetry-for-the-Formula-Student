@@ -33,10 +33,10 @@ int main(void)
 		Task_UDP_Client_Init();			//start udp client
 
 		Task_Data_Sender_Init();		// start data sender
-		k_timer_start(&dataSenderTimer, K_SECONDS(1), K_MSEC((int)(1000/configFile.LiveFrameRate)));
+		k_timer_start(&dataSenderTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LiveFrameRate)));
 
 		Task_Data_Logger_Init();		//start data logger
-		k_timer_start(&dataLoggerTimer, K_SECONDS(1), K_MSEC((int)(1000/configFile.LogFrameRate)));
+		k_timer_start(&dataLoggerTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LogFrameRate)));
 	}
 
 	k_sleep( K_FOREVER );
