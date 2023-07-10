@@ -8,7 +8,6 @@
 
 //memory heap
 extern struct k_heap messageHeap;
-extern struct k_heap sensorHeap;
 
 //queues
 extern struct k_queue udpQueue;
@@ -23,6 +22,6 @@ typedef struct sSensor{
 }tSensor;
 
 extern tSensor sensorBuffer[MAX_SENSORS];
-
+extern struct k_mutex sensorBufferMutex;
 
 #endif /*__MEMORY_MANAGEMENT_H*/

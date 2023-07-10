@@ -19,6 +19,7 @@ K_TIMER_DEFINE(dataSenderTimer, data_Sender_timer_handler,NULL);
 K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 
 tSensor sensorBuffer[MAX_SENSORS];
+K_MUTEX_DEFINE(sensorBufferMutex);
 
 int main(void)
 {

@@ -5,12 +5,12 @@ LOG_MODULE_REGISTER(sender);
 #include <errno.h>
 #include <stdio.h>
 #include <zephyr/data/json.h>
-#include <zephyr/random/rand32.h>
 
 #include "data_sender.h"
 #include "memory_management.h"
 #include "deviceInformation.h"
 #include "config_read.h"
+#include "data_logger.h"
 
 
 K_WORK_DEFINE(dataSendWork, Data_Sender);		//dataSendWork -> called by timer to send data
@@ -35,12 +35,6 @@ void data_Sender_timer_handler()
 */
 void Data_Sender() 
 {
-	//put some random datas in sensor buffer
-	for(int i=0; i<configFile.sensorCount;i++)
-	{
-		sensorBuffer[i].value=sys_rand32_get()%100;
-	}
-
 	//send data only if the system is connected and an IP address is assigned
 	if(context.ip_assigned)
 	{
@@ -50,7 +44,10 @@ void Data_Sender()
 		{
 			sprintf(memPtr,"{");	// open json section
 
-			bool first = true;		
+			bool first = true;	
+
+			k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
+
 			for(int i=0; i<configFile.sensorCount;i++)	//loop for every sensor
 			{
 				if(sensorBuffer[i].wifi_enable)
@@ -63,12 +60,15 @@ void Data_Sender()
 					first=false;
 				}
 			}
-			sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter
+
+			k_mutex_unlock(&sensorBufferMutex);				//unlock sensor buffer mutex
+
+			sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter in json
 			
-			if(true)
+			if(logEnable)
 				sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr);
 			else
-				(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	//print log recording variable
+				(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	//print log recording variable in json
 
 			strcat(memPtr,"}");		//close json section
 			
