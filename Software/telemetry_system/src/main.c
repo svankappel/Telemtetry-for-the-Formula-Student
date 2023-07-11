@@ -22,11 +22,10 @@ K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 int main(void)
 {
 	Task_Led_Init();		//start led controller Thread
+	Task_Button_Manager_Init();		//start button manager thread
 
 	if(read_config() == 0)			//read configuration file ok
 	{
-		Task_Button_Manager_Init();		//start button manager thread
-
 		Task_Wifi_Sta_Init();			//start wifi stationning Thread
 		
 		Task_UDP_Client_Init();			//start udp client Thread
