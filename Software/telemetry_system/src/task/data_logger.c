@@ -16,8 +16,6 @@ LOG_MODULE_REGISTER(logger);
 #include "deviceInformation.h"
 #include "config_read.h"
 
-#include <zephyr/random/rand32.h>
-
 
 K_WORK_DEFINE(dataLogWork, Data_Logger);		//dataLogWork -> called by timer to log data
 K_WORK_DEFINE(startLog, data_log_start);		    //dataLogWork -> called by button
@@ -72,14 +70,7 @@ void Task_Data_Logger_Init(void)
 */
 void Data_Logger() 
 {
-    //put some random datas in sensor buffer
-    k_mutex_lock(&sensorBufferMutex,K_FOREVER);
-    for(int i=0; i<configFile.sensorCount;i++)
-    {
-        sensorBuffer[i].value=sys_rand32_get()%100;
-    }
-    k_mutex_unlock(&sensorBufferMutex);
-	if(logEnable)
+	if(logEnable)       //if logging is enabled
     {
         //create line of csv file
         char str[lineSize];
