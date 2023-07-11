@@ -1,5 +1,5 @@
 #include <zephyr/logging/log.h>
-LOG_MODULE_REGISTER(sta, CONFIG_LOG_DEFAULT_LEVEL);
+LOG_MODULE_REGISTER(wifi);
 
 #include <nrfx_clock.h>
 #include <zephyr/kernel.h>
@@ -17,7 +17,7 @@ LOG_MODULE_REGISTER(sta, CONFIG_LOG_DEFAULT_LEVEL);
 #include "net_private.h"
 #include "deviceinformation.h"
 #include "wifi_sta.h"
-
+#include "config_read.h"
 
 #define SSID1 "VRT-Telemetry"
 #define SSID2 "motog8"
@@ -42,7 +42,8 @@ static struct k_thread wifiThread;
 
 #define MAX_SSID_LEN        32
 #define DHCP_TIMEOUT        70
-#define CONNECTION_TIMEOUT  30
+#define CONNECTION_TIMEOUT_RED_ENABLED  30
+#define CONNECTION_TIMEOUT_RED_DISABLED  50000
 #define STATUS_POLLING_MS   300
 
 
@@ -64,6 +65,7 @@ static struct net_mgmt_event_callback net_shell_mgmt_cb;
 
 //context struct from deviceInformation.h
 tContext context;
+int connectionTimeout;
 
 //-----------------------------------------------------------------------------------------------------------------------
 /*! Task_Wifi_Stationing_Init initializes the task Wifi Stationing.
@@ -95,6 +97,7 @@ void Task_Wifi_Sta_Init( void ){
 */
 void Wifi_Sta( void )
 {
+	connectionTimeout = configFile.WiFiRouterRedundancy.Enabled ? CONNECTION_TIMEOUT_RED_ENABLED : CONNECTION_TIMEOUT_RED_DISABLED;
 	//initialize context struct
 	memset(&context, 0, sizeof(context));
 
@@ -111,10 +114,14 @@ void Wifi_Sta( void )
 
 	while (1) 		//--------------   thread infinite loop
     {
-		wifi_connect(SSID1,PASSWORD1);		//try to connect to the first ssid
-		connection_handler();				//bloc the thread if connection succeed
-		wifi_connect(SSID2,PASSWORD2);		//try to connect to the first ssid
-		connection_handler();				//bloc the thread if connection succeed
+		wifi_connect(configFile.WiFiRouter.SSID,configFile.WiFiRouter.Password);							//try to connect to the first ssid
+		connection_handler();																				//bloc the thread if connection succeed
+
+		if(configFile.WiFiRouterRedundancy.Enabled)			//if redundancy is enabled
+		{
+			wifi_connect(configFile.WiFiRouterRedundancy.SSID,configFile.WiFiRouterRedundancy.Password);	//try to connect to the first ssid
+			connection_handler();																			//bloc the thread if connection succeed
+		}																		
 		
 	}				//--------------	en of thread infinite loop
 }
@@ -154,7 +161,7 @@ static int wifi_connect(const char* ssid, char* pass)
 
 void connection_handler(void)
 {
-	for (int i = 0; i < CONNECTION_TIMEOUT; i++) 		//wait some time 
+	for (int i = 0; i < connectionTimeout; i++) 		//wait some time 
 	{
 		k_sleep(K_MSEC(STATUS_POLLING_MS));
 		cmd_wifi_status();

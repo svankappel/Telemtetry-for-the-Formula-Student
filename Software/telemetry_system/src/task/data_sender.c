@@ -1,127 +1,106 @@
 #include <zephyr/logging/log.h>
-LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
+LOG_MODULE_REGISTER(sender);
 
 #include <zephyr/kernel.h>
 #include <errno.h>
 #include <stdio.h>
 #include <zephyr/data/json.h>
-#include <zephyr/random/rand32.h>
 
 #include "data_sender.h"
 #include "memory_management.h"
 #include "deviceInformation.h"
-
-//! Stack size for the data sender thread
-#define DATA_SENDER_STACK_SIZE 2048
-//! data sender thread priority level
-#define DATA_SENDER_PRIORITY 5
-
-//! data sender stack definition
-K_THREAD_STACK_DEFINE(DATA_SENDER_STACK, DATA_SENDER_STACK_SIZE);
+#include "config_read.h"
+#include "data_logger.h"
 
 
+K_WORK_DEFINE(dataSendWork, Data_Sender);		//dataSendWork -> called by timer to send data
 
-//! Variable to identify the data sender thread
-static struct k_thread dataSenderThread;
+int udpQueueMesLength;		//max length of the json string
+uint8_t keepAliveCounter;	//keepalive counter
 
-struct data {
-	uint32_t TensionBatteryHV;
-	uint32_t AmperageBatteryHV;
-	uint32_t TemperatureBatteryHV;
-	uint32_t EnginePower;
-	uint32_t EngineTemperature;
-	uint32_t EngineAngularSpeed;
-	uint32_t CarSpeed;
-	uint32_t PressureTireFL;
-	uint32_t PressureTireFR;
-	uint32_t PressureTireBL;
-	uint32_t PressureTireBR;
-	uint32_t InverterTemperature;
-	uint32_t TemperatureBatteryLV;
-};
+//-----------------------------------------------------------------------------------------------------------------------
+/*! data_Sender_timer_handler is called by the timer interrupt
+* @brief data_Sender_timer_handler submit a new work that call Data_Sender task     
+*/
+void data_Sender_timer_handler()
+{
+    k_work_submit(&dataSendWork);
+}
 
-static const struct json_obj_descr data_descr[] = {
-  JSON_OBJ_DESCR_PRIM(struct data, TensionBatteryHV, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, AmperageBatteryHV, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, TemperatureBatteryHV, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, EnginePower, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, EngineTemperature, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, EngineAngularSpeed, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, CarSpeed, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, PressureTireFL, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, PressureTireFR, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, PressureTireBL, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, PressureTireBR, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, InverterTemperature, JSON_TOK_NUMBER),
-  JSON_OBJ_DESCR_PRIM(struct data, TemperatureBatteryLV, JSON_TOK_NUMBER),
-};
-		
-
+//-----------------------------------------------------------------------------------------------------------------------
+/*! Data_Sender implements the Data_Sender task
+* @brief Data_Sender reads the data in the sensor buffer array and
+*        creates the json string to send via Wi-Fi to the base 
+*        station. This string is placed in the UDP_Client queue.
+*/
 void Data_Sender() 
 {
-	struct data myData;
-	
-	while(true)
+	//send data only if the system is connected and an IP address is assigned
+	if(context.ip_assigned)
 	{
-		myData.TensionBatteryHV= sys_rand32_get()%600;
-		myData.AmperageBatteryHV=sys_rand32_get()%200;
-		myData.TemperatureBatteryHV=sys_rand32_get()%80;
-		myData.EnginePower=sys_rand32_get()%35000;
-		myData.EngineTemperature=sys_rand32_get()%80;
-		myData.EngineAngularSpeed=sys_rand32_get()%2300;
-		myData.CarSpeed=sys_rand32_get()%120;
-		myData.PressureTireFL=sys_rand32_get()%6;
-		myData.PressureTireFR=sys_rand32_get()%6;
-		myData.PressureTireBL=sys_rand32_get()%6;
-		myData.PressureTireBR=sys_rand32_get()%6;
-		myData.InverterTemperature=sys_rand32_get()%80;
-		myData.TemperatureBatteryLV=sys_rand32_get()%80;
+		char * memPtr = k_heap_alloc(&messageHeap,udpQueueMesLength,K_NO_WAIT);		//memory allocation for message string
 
-		
-		if(context.ip_assigned)
+		if(memPtr != NULL)			//memory alloc success
 		{
-			char * memPtr = k_heap_alloc(&memHeap,JSON_TRANSMIT_SIZE,K_NO_WAIT);
+			sprintf(memPtr,"{");	// open json section
 
+			bool first = true;	
 
+			k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
 
-			if(memPtr != NULL)			//memory alloc success
+			for(int i=0; i<configFile.sensorCount;i++)	//loop for every sensor
 			{
-
-				json_obj_encode_buf(data_descr,ARRAY_SIZE(data_descr),&myData,memPtr,JSON_TRANSMIT_SIZE);		//put json in allocated memory
-				k_queue_append(&udpQueue,memPtr);
-
+				if(sensorBuffer[i].wifi_enable)
+				{
+					//print name and value in json string
+					if(first)
+						sprintf(memPtr,"%s\"%s\":%d",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);		
+					else
+						sprintf(memPtr,"%s,\"%s\":%d",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);
+					first=false;
+				}
 			}
-			else //mem alloc fail
-			{
-				LOG_ERR("data sender memory allocation failed");
-			}
+
+			k_mutex_unlock(&sensorBufferMutex);				//unlock sensor buffer mutex
+
+			sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter in json
+			
+			if(logEnable)
+				sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr);
+			else
+				sprintf(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	//print log recording variable in json
+
+			strcat(memPtr,"}");		//close json section
+			
+			k_queue_append(&udpQueue,memPtr);		//add message to the queue
 		}
-
-		k_msleep(500);
+		else					 //memory alloc fail
+		{
+			LOG_ERR("data sender memory allocation failed");	//print error
+		}	
 	}
-	
+
+	keepAliveCounter = keepAliveCounter<99 ? keepAliveCounter+1 : 0 ;		//increment keepalive
 }
 
-/*! Task_UDP_Client_Init initializes the task UDP Client
+
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! Task_Data_Sender_Init initializes the task Data_Sender
 *
-* @brief UDP Client initialization
+* @brief Data Sender initialization
 */
-void Task_Data_Sender_Init( void ){
-	k_thread_create	(														\
-					&dataSenderThread,										\
-					DATA_SENDER_STACK,										\
-					DATA_SENDER_STACK_SIZE,									\
-					(k_thread_entry_t)Data_Sender,							\
-					NULL,													\
-					NULL,													\
-					NULL,													\
-					DATA_SENDER_PRIORITY,									\
-					0,														\
-					K_NO_WAIT);	
+void Task_Data_Sender_Init( void )
+{
+	keepAliveCounter = 0;		//initialize keep alive
 
-	 k_thread_name_set(&dataSenderThread, "dataSender");
-	 k_thread_start(&dataSenderThread);
+	udpQueueMesLength = 0;				//initialize message length
+
+	//calculate length of json message
+	for(int i=0; i<configFile.sensorCount;i++)		//loop for every sensor
+	{
+		if(sensorBuffer[i].wifi_enable)			//if sensor is used in live telemetry
+			udpQueueMesLength+=(strlen(sensorBuffer[i].name_wifi)+4+10);	//name length + 4 bytes for ,:"" + 10 bytes for number (32bits in decimal)
+	}
+	udpQueueMesLength+=50;		// space for {} , logRecording and keepalive
 }
-
-
-

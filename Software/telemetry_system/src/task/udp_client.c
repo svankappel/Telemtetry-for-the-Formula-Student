@@ -1,5 +1,5 @@
 #include <zephyr/logging/log.h>
-LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
+LOG_MODULE_REGISTER(udp);
 
 #include <zephyr/kernel.h>
 #include <errno.h>
@@ -13,7 +13,7 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 #include "udp_client.h"
 #include "deviceinformation.h"
 #include "memory_management.h"
-
+#include "config_read.h"
 
 //! Stack size for the UDP_SERVER thread
 #define UDP_CLIENT_STACK_SIZE 2048
@@ -23,7 +23,6 @@ LOG_MODULE_DECLARE(sta, LOG_LEVEL_DBG);
 // gets a stable IP address
 #define UDP_CLIENT_WAIT_TO_SEND_MS 500
 
-#define SOCKET_NUMBER 2
 
 //! UDP client connection check interval in miliseconds
 #define UDP_CLIENT_SLEEP_TIME_MS 100
@@ -64,16 +63,22 @@ void Task_UDP_Client_Init( void ){
 */
 void UDP_Client() 
 {
+	int socketCount = configFile.serverCount;
 
 	//addresses of the sockets
-	char* addresses[SOCKET_NUMBER] = {"192.168.50.110","192.168.43.232"};
+	char* addresses[socketCount];
 	//ports of the sockets
-	int ports[SOCKET_NUMBER] = {1502,7070};
+	int ports[socketCount];
 
+	for(int i=0;i<socketCount;i++)		//loop for all sockets
+	{
+		addresses[i]=configFile.Server[i].address;		//assign address
+		ports[i]=configFile.Server[i].port;				//assign port
+	}
 	
-    int udpClientSocket[SOCKET_NUMBER];						//client sockets
-	struct sockaddr_in serverAddress[SOCKET_NUMBER];		//servers addresses for all sockets
-	int sentBytes[SOCKET_NUMBER];										//sent bytes variable for all sockets
+    int udpClientSocket[socketCount];					//client sockets
+	struct sockaddr_in serverAddress[socketCount];		//servers addresses for all sockets
+	int sentBytes[socketCount];						//sent bytes variable for all sockets
 
 
 	// Starve the thread until a DHCP IP is assigned to the board 
@@ -81,7 +86,7 @@ void UDP_Client()
 		k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
 	}
 
-	for(int i=0;i<SOCKET_NUMBER;i++)		//loop for all sockets
+	for(int i=0;i<socketCount;i++)		//loop for all sockets
 	{
 		sentBytes[i]=0;		//set sent byte variable
 
@@ -102,7 +107,7 @@ void UDP_Client()
 		if(!context.ip_assigned) 	// ------------------------------------ if wifi connection is lost
 		{
 			//close all sockets
-			for(int i=0;i<SOCKET_NUMBER;i++)
+			for(int i=0;i<socketCount;i++)
 				close(udpClientSocket[i]);		
 
 			// Starve the thread until a DHCP IP is assigned to the board 
@@ -111,7 +116,7 @@ void UDP_Client()
 			}
 			
 			// reconnect all sockets
-			for(int i=0;i<SOCKET_NUMBER;i++)
+			for(int i=0;i<socketCount;i++)
 				connectUDPSocket(&udpClientSocket[i],&serverAddress[i]); 
 
 			//wait some time before sending messages
@@ -122,33 +127,33 @@ void UDP_Client()
 			//-----------------------------------------
 			//			Receive data from queue
 			
-			char udpMessage[JSON_TRANSMIT_SIZE];				//message to send
+			char udpMessage[udpQueueMesLength];				//message to send
 			char * memPtr;										//message to get from queue
 			memPtr = k_queue_get(&udpQueue,K_FOREVER);			//wait for message in queue
 			int size = 0;										//size of message
-			for(int i=0; i<JSON_TRANSMIT_SIZE; i++)				//loop to copy message
+			for(int i=0; i<udpQueueMesLength; i++)				//loop to copy message
 			{
 				udpMessage[i]=memPtr[i];				//copy char
 				if(udpMessage[i]=='}')					//if the loop reached the end of the JSON message
 				{
-					udpMessage[i+1]='\0';				//put the \0 character at the end
 					size = i+1;							//calculate size of the message
 					break;								//break loop
 				}
 			}
 
-			k_heap_free(&memHeap,memPtr);		//free memory allocation made in data sender
+			k_heap_free(&messageHeap,memPtr);		//free memory allocation made in data sender
 
 
 			//------------------------------------------
 			//		send data to socket(s)
 
-			for(int i=0;i<SOCKET_NUMBER;i++)		//loop for all sockets
+			for(int i=0;i<socketCount;i++)		//loop for all sockets
 			{
 				// Send the udp message 
 				sentBytes[i] = send(udpClientSocket[i], udpMessage, size, 0);
 
-				LOG_INF( "UDP %d Client mode. Sent: %d", i,sentBytes[i]);		//log message
+				//LOG_INF( "UDP %d Client mode. Sent: %d", i,sentBytes[i]);		//log message
+				
 				if ( sentBytes[i] < 0 ) 		//in case of error
 				{
 					LOG_ERR( "UDP %d Client error: send: %d\n", i,errno );		//log message

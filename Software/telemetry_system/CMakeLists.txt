@@ -5,6 +5,9 @@ cmake_minimum_required(VERSION 3.20.0)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(nrf_wifi_sta)
 
+FILE(GLOB app_sources src/*.c)
+target_sources(app PRIVATE ${app_sources})
+
 target_include_directories(app PUBLIC ${ZEPHYR_BASE}/subsys/net/ip)
 
 target_sources(app PRIVATE src/main.c)
@@ -12,4 +15,7 @@ target_sources(app PRIVATE src/main.c)
 target_sources(app PRIVATE src/task/wifi_sta.c) 
 target_sources(app PRIVATE src/task/udp_client.c) 
 target_sources(app PRIVATE src/task/led.c) 
+target_sources(app PRIVATE src/task/button_manager.c)
 target_sources(app PRIVATE src/task/data_sender.c)
+target_sources(app PRIVATE src/task/data_logger.c)
+target_sources(app PRIVATE src/task/config_read.c)

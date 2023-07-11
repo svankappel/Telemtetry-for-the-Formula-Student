@@ -1,3 +1,6 @@
+#ifndef __DEVICEINFORMATION_H
+#define __DEVICEINFORMATION_H
+
 #include <stdio.h>
 
 /*! @struct sContext
@@ -23,3 +26,6 @@ typedef struct sContext{
 
 //! Contains the context information of the Wifi stationing
 extern tContext context;
+
+
+#endif /*__DEVICEINFORMATION_H*/
