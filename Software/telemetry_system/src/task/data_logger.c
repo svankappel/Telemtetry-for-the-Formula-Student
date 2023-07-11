@@ -88,7 +88,10 @@ void Data_Logger()
         sprintf(str,"%s\n",str);                            // \n at end of line
         
         //write line in file
-        fs_write(&logFile,str,strlen(str));
+        if(fs_write(&logFile,str,strlen(str))<0)
+            k_work_submit(&stopLog);                //stop log in case of error
+
+        fs_sync(&logFile);   //flush
 
         timestamp+=(int)(1000/configFile.LogFrameRate);     //increment timestamp
     }     

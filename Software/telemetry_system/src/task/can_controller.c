@@ -6,6 +6,7 @@ LOG_MODULE_REGISTER(can);
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/device.h>
 #include <zephyr/sys/util.h>
+#include <zephyr/drivers/can.h>
 
 #include "can_controller.h"
 #include "memory_management.h"
@@ -28,6 +29,19 @@ static struct k_thread canControllerThread;
 tSensor sensorBuffer[MAX_SENSORS];
 K_MUTEX_DEFINE(sensorBufferMutex);
 
+
+const struct can_filter filter = {
+        .flags = CAN_FILTER_DATA | CAN_FILTER_IDE,
+        .id = 0x123,
+        .mask = CAN_STD_ID_MASK
+};
+
+CAN_MSGQ_DEFINE(can_rx_msgq,2);
+
+struct can_frame rx_frame;
+int filter_id;
+const struct device * can_dev;
+
 //-----------------------------------------------------------------------------------------------------------------------
 /*! CAN_Controller implements the CAN_Controller task
 * @brief CAN_Controller read the CAN Bus and fill the sensorBuffer array 
@@ -36,18 +50,25 @@ K_MUTEX_DEFINE(sensorBufferMutex);
 void CAN_Controller(void)
 {
 	
+	can_dev = device_get_binding("CAN_1");
+	if (!can_dev) {
+		printk("CAN: Device driver not found.\n");
+		return;
+	}
+
+	filter_id = can_add_rx_filter_msgq(can_dev, &can_rx_msgq, &filter);
+	if (filter_id < 0) 
+	{
+		LOG_ERR("Unable to add rx msgq [%d]", filter_id);
+		return;
+	}
+
 	//thread infinite loop
 	while (true) 
 	{
-		//put some random datas in sensor buffer
-		k_mutex_lock(&sensorBufferMutex,K_FOREVER);
-		for(int i=0; i<configFile.sensorCount;i++)
-		{
-			sensorBuffer[i].value=sys_rand32_get()%100;
-		}
-		k_mutex_unlock(&sensorBufferMutex);
-		
-		k_msleep(50);			//loop delay
+		k_msgq_get(&can_rx_msgq, &rx_frame, K_FOREVER);
+
+		LOG_INF("coucou");
 	}
 	
 }

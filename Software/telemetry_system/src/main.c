@@ -21,6 +21,8 @@ K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 
 int main(void)
 {
+	Task_CAN_Controller_Init();		//start can controller thread
+	/*
 	Task_Led_Init();		//start led controller Thread
 	Task_Button_Manager_Init();		//start button manager thread
 
@@ -38,7 +40,7 @@ int main(void)
 		Task_Data_Logger_Init();		//start data logger
 		k_timer_start(&dataLoggerTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LogFrameRate)));
 	}
-
+*/
 	k_sleep( K_FOREVER );
 	return 0;
 }
