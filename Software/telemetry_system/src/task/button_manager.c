@@ -24,7 +24,7 @@ K_THREAD_STACK_DEFINE(BUTTON_MANAGER_STACK, BUTTON_MANAGER_STACK_SIZE);
 //! Variable to identify the button thread 
 static struct k_thread buttonManagerThread;
 
-//interrupt callbacks
+//interrupt callbacks prototypes
 void button_pressed(const struct device *dev, struct gpio_callback *cb,uint32_t pins);
 void card_inserted(const struct device *dev, struct gpio_callback *cb,uint32_t pins);
 
@@ -39,7 +39,7 @@ static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET_OR(SW0_NODE, gpios,{0
 static struct gpio_callback button_cb_data;
 
 /*
- * Get button configuration from the devicetree sddetect alias. This is mandatory.
+ * Get sd card detect gpio configuration from the devicetree sddetect alias. This is mandatory.
  */
 #define SD_DET_NODE	DT_ALIAS(sddetect)
 #if !DT_NODE_HAS_STATUS(SD_DET_NODE, okay)
@@ -49,70 +49,51 @@ static const struct gpio_dt_spec sd_det = GPIO_DT_SPEC_GET_OR(SD_DET_NODE, gpios
 static struct gpio_callback sd_det_cb_data;
 
 
-
+//button pressed and card inserted events
 bool eventPressed;
 bool eventCard;
 
 //-----------------------------------------------------------------------------------------------------------------------
-//button press callback
+//button pressed interrupt callback
 void button_pressed(const struct device *dev, struct gpio_callback *cb,uint32_t pins)
 {
 	eventPressed=true;		//event pressed
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
-//button press callback
+//card inserted interrupt callback
 void card_inserted(const struct device *dev, struct gpio_callback *cb,uint32_t pins)
 {
-	eventCard=true;		//event pressed
+	eventCard=true;		//event card inserted
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
 /*! Button_Manager implements the Button_Manager task
-* @brief Button_Manager call data logger button handler
-*        when a button is pressed
+* @brief Button_Manager calls data logger button handler when a button is pressed
+*        and reboot the system when an SD card is inserted
 */
 void Button_Manager(void)
 {
+	//set events
 	eventPressed=false;
 	eventCard=false;
 
-	//check if device is ready
-	if (!device_is_ready(button.port))
-		return;
+	//button
+	gpio_pin_configure_dt(&button, GPIO_INPUT);								//configure pin
+	gpio_pin_interrupt_configure_dt(&button,GPIO_INT_EDGE_TO_ACTIVE); 		//configure interrupt
+	gpio_init_callback(&button_cb_data, button_pressed, BIT(button.pin));	//init callback
+	gpio_add_callback(button.port, &button_cb_data);						//add callback
 
-	//configure pin
-	if (gpio_pin_configure_dt(&button, GPIO_INPUT) != 0)
-		return;
-	
-	//configure interrupt
-	if (gpio_pin_interrupt_configure_dt(&button,GPIO_INT_EDGE_TO_ACTIVE) != 0) 
-		return;
-
-	//add callback
-	gpio_init_callback(&button_cb_data, button_pressed, BIT(button.pin));
-	gpio_add_callback(button.port, &button_cb_data);
-
-	//check if device is ready
-	if (!device_is_ready(sd_det.port))
-		return;
-
-	//configure pin
-	if (gpio_pin_configure_dt(&sd_det, GPIO_INPUT) != 0)
-		return;
-	
-	//configure interrupt
-	if (gpio_pin_interrupt_configure_dt(&sd_det,GPIO_INT_EDGE_TO_ACTIVE) != 0) 
-		return;
-
-	//add callback
-	gpio_init_callback(&sd_det_cb_data, card_inserted, BIT(sd_det.pin));
-	gpio_add_callback(sd_det.port, &sd_det_cb_data);
+	//sd card detect pin
+	gpio_pin_configure_dt(&sd_det, GPIO_INPUT);								//configure pin
+	gpio_pin_interrupt_configure_dt(&sd_det,GPIO_INT_EDGE_TO_ACTIVE);		//configure interrupt
+	gpio_init_callback(&sd_det_cb_data, card_inserted, BIT(sd_det.pin));	//init callback
+	gpio_add_callback(sd_det.port, &sd_det_cb_data);						//add callback
 
 	//thread infinite loop
 	while (true) 
 	{
-		if(eventPressed)		//if interrupt were triggered
+		if(eventPressed)		//if interrupt of button were triggered
 		{
 			k_msleep(REBOUND_DELAY);		//wait some time
 			if(gpio_pin_get_dt(&button)==1)		//check button state
@@ -120,22 +101,17 @@ void Button_Manager(void)
 			eventPressed=false;				//reset event
 		}
 
-		if(eventCard)		//if interrupt were triggered
+		if(eventCard)		//if interrupt of sd card were triggered
 		{
 			k_msleep(REBOUND_DELAY);		//wait some time
-			if(gpio_pin_get_dt(&sd_det)==1)		//check button state
+			if(gpio_pin_get_dt(&sd_det)==1)		//check gpio state
 			{
-				LOG_INF("reset"); 	//call datalogger event handler
-				sys_reboot(0);
+				sys_reboot(0);		//reboot system
 			}
-				
-			eventCard=false;				//reset event
 		}
-		
 		
 		k_msleep(100);			//loop delay
 	}
-	
 }
 
 
