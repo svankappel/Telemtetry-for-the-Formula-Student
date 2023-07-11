@@ -4,5 +4,19 @@
 			"name": "telemetry_system",
 			"path": "../.."
 		}
-	]
+	],
+	"settings": {
+		"files.associations": {
+			"config_read.h": "c",
+			"*.tcc": "c",
+			"chrono": "c",
+			"istream": "c",
+			"ostream": "c",
+			"deviceinformation.h": "c",
+			"data_logger.h": "c",
+			"memory_management.h": "c",
+			"can_controller.h": "c",
+			"button_manager.h": "c"
+		}
+	}
 }
