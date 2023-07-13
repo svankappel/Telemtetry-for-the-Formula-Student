@@ -10,6 +10,7 @@
 #include "task/config_read.h"
 #include "task/button_manager.h"
 #include "task/can_controller.h"
+#include "task/gps_controller.h"
 
 K_HEAP_DEFINE(messageHeap,32768);
 K_QUEUE_DEFINE(udpQueue);
@@ -21,7 +22,7 @@ K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 
 int main(void)
 {
-	Task_CAN_Controller_Init();		//start can controller thread
+	Task_GPS_Controller_Init();		//start can controller thread
 	/*
 	Task_Led_Init();		//start led controller Thread
 	Task_Button_Manager_Init();		//start button manager thread

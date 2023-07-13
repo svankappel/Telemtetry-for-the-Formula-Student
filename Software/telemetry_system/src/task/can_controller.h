@@ -1,7 +1,7 @@
 #ifndef __CAN_CONTROLLER_H
 #define __CAN_CONTROLLER_H
 
-/*! Button_Manager implements the CAN_Controller task
+/*! CAN_Controller implements the CAN_Controller task
 * @brief CAN_Controller read the CAN Bus and fill the sensorBuffer array 
 *        
 */

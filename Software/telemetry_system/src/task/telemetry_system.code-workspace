@@ -16,7 +16,14 @@
 			"data_logger.h": "c",
 			"memory_management.h": "c",
 			"can_controller.h": "c",
-			"button_manager.h": "c"
+			"button_manager.h": "c",
+			"gpio.h": "c",
+			"device.h": "c",
+			"uart.h": "c",
+			"can.h": "c",
+			"util.h": "c",
+			"udp_client.h": "c",
+			"log.h": "c"
 		}
 	}
 }
