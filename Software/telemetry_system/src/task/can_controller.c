@@ -49,7 +49,6 @@ const struct device * can_dev;
 */
 void CAN_Controller(void)
 {
-	
 	can_dev = device_get_binding("CAN_1");
 	if (!can_dev) {
 		printk("CAN: Device driver not found.\n");

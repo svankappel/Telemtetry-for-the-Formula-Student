@@ -47,6 +47,20 @@ static const struct json_obj_descr server_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sServer, port, JSON_TOK_NUMBER)
 };
 
+//struct for GPS data description
+static const struct json_obj_descr gpsdata_descr[] = {
+	JSON_OBJ_DESCR_PRIM(struct sGPSData, NameLive, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sGPSData, NameLog, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sGPSData, LiveEnable, JSON_TOK_TRUE)
+};
+
+//struct for GPS description
+static const struct json_obj_descr gps_descr[] = {
+  JSON_OBJ_DESCR_OBJECT(struct sGPS, Coordinates, gpsdata_descr),
+  JSON_OBJ_DESCR_OBJECT(struct sGPS, Speed, gpsdata_descr),
+  JSON_OBJ_DESCR_OBJECT(struct sGPS, Fix, gpsdata_descr)
+};
+
 //struct for sensors description
 static const struct json_obj_descr sensors_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sSensors, NameLive, JSON_TOK_STRING),
@@ -61,6 +75,7 @@ static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Server, MAX_SERVERS, serverCount, server_descr,ARRAY_SIZE(server_descr)),
   JSON_OBJ_DESCR_PRIM(struct config, LiveFrameRate, JSON_TOK_NUMBER),
   JSON_OBJ_DESCR_PRIM(struct config, LogFrameRate, JSON_TOK_NUMBER),
+  JSON_OBJ_DESCR_OBJECT(struct config, GPS, gps_descr),
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorCount, sensors_descr,ARRAY_SIZE(sensors_descr))
 };
 
@@ -166,13 +181,32 @@ int read_config(void)
 	{		
 		LOG_INF("Config file OK");				//print message		
 		configOK=true;
+		
+		//initialize sensor buffer
 		for(int i=0; i<configFile.sensorCount;i++)	 //for all sensors
 		{
 			//configure sensor buffer
 			sensorBuffer[i].name_wifi=configFile.Sensors[i].NameLive;	
 			sensorBuffer[i].name_log=configFile.Sensors[i].NameLog;
 			sensorBuffer[i].wifi_enable=configFile.Sensors[i].LiveEnable;
+			sensorBuffer[i].value=0;
 		}
+
+		//initialize gps buffer
+		gpsBuffer.fix=false;
+		strcpy(gpsBuffer.speed,"0.0");
+		strcpy(gpsBuffer.speed,"0.0 0.0");
+		gpsBuffer.LiveCoordEnable=configFile.GPS.Coordinates.LiveEnable;
+		gpsBuffer.LiveSpeedEnable=configFile.GPS.Speed.LiveEnable;
+		gpsBuffer.LiveFixEnable=configFile.GPS.Fix.LiveEnable;
+		gpsBuffer.NameLiveCoord=configFile.GPS.Coordinates.NameLive;
+		gpsBuffer.NameLogCoord=configFile.GPS.Coordinates.NameLog;
+		gpsBuffer.NameLiveSpeed=configFile.GPS.Speed.NameLive;
+		gpsBuffer.NameLogSpeed=configFile.GPS.Speed.NameLog;
+		gpsBuffer.NameLiveFix=configFile.GPS.Fix.NameLive;
+		gpsBuffer.NameLogFix=configFile.GPS.Fix.NameLog;
+
+
 		return 0;
 	}
 	

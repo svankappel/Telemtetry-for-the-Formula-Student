@@ -28,6 +28,10 @@ static struct k_thread gpsControllerThread;
 
 #define MSG_SIZE 85
 
+//gps data buffer
+tGps gpsBuffer;
+K_MUTEX_DEFINE(gpsBufferMutex);
+
 // queue to store up to 10 messages (aligned to 4-byte boundary) 
 K_MSGQ_DEFINE(uart_msgq, MSG_SIZE, 10, 4);
 
@@ -41,9 +45,6 @@ static int rx_buf_pos;
 void serial_cb(const struct device *dev, void *user_data);
 
 
-//gps fix
-bool gpsFix;
-
 //-----------------------------------------------------------------------------------------------------------------------
 /*! GPS_Controller implements the GPS_Controller task
 * @brief GPS_Controller read the UART form GPS and fill the sensorBuffer array 
@@ -51,8 +52,10 @@ bool gpsFix;
 */
 void GPS_Controller(void)
 {
-	gpsFix = false;
-
+	//gps fix
+	bool gpsFix = false;
+	
+	//rx buffer
 	char rx_buf[MSG_SIZE];
 
 	if (!device_is_ready(uart_dev)) 
@@ -75,8 +78,13 @@ void GPS_Controller(void)
 		{
 			if(rx_buf[10]=='3')		//detect if gps has fix
 				gpsFix=true;
+
 			else
 				gpsFix=false;
+
+			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+			gpsBuffer.fix = gpsFix;							//copy gps fix value to buffer
+			k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
 		}
 
 		//analyse other frames only if GPS is fixed
@@ -87,7 +95,60 @@ void GPS_Controller(void)
 
 			if(strstr(rx_buf,"$GNGLL"))
 			{
+				// NMEA frame DMm + sign
+				char latDeg[4];
+				char latMin[12];
+				char latSign[2];
+				char lonDeg[4];
+				char lonMin[12];
+				char lonSign[2];
 				
+				char * saveptr=NULL;			//strtok save pointer
+				char * str = rx_buf;			//string of frame
+				char * token = strtok_r(str,",",&saveptr);	// get first token
+
+				int i = 0;		//loop index
+
+				//loop for all token of NMEA frame
+				while (token!=NULL) 
+				{  
+					token = strtok_r(NULL,",",&saveptr);	//get next token
+					switch(i)
+					{
+						case 0: strncpy(latDeg,token,2);				// latitude degree angle
+								latDeg[2] = '\0';
+								strncpy(latMin,token+2,2);				// latitude minutes
+								strcpy(latMin+2,token+5);				// latitude degrees of minutes
+						break;
+						case 1: strcpy(latSign,*token=='N' ? "" : "-");	// latitude sign (north or south)
+						break;
+						case 2: strncpy(lonDeg,token,3);				// longitude degree angle
+								lonDeg[3]='\0';
+								strncpy(lonMin,token+3,2);				// longitude minutes
+								strcpy(lonMin+2,token+6);				// longitude degrees of minutes
+						break;
+						case 3: strcpy(lonSign,*token=='E' ? "" : "-");	// longitude sign (west or east)
+						break;
+					}
+					if(i<3)				//break after 5 loops (other data not intersting)
+						i++;	
+					else
+						break;
+				}
+				
+				//calculate decimal coords from NMEA DM.m
+				uint32_t lat = atoi(latDeg);
+				uint32_t lon = atoi(lonDeg);
+				uint32_t lat_dec = atoi(latMin)/6;
+				uint32_t lon_dec = atoi(lonMin)/6;
+
+				//generate decimal coords string
+				char coord[25];
+				sprintf(coord,"%s%d.%d %s%d.%d",latSign,lat,lat_dec,lonSign,lon,lon_dec);
+
+				k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+				strcpy(gpsBuffer.coord,coord);					//copy coords to gps buffer
+				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
 			}
 
 			//-----------------------------------------------------
@@ -95,7 +156,67 @@ void GPS_Controller(void)
 
 			if(strstr(rx_buf,"$GNRMC"))
 			{
+				bool frameValid = false;
+
+				// NMEA frame DMm + sign
+				char latDeg[4];
+				char latMin[12];
+				char latSign[2];
+				char lonDeg[4];
+				char lonMin[12];
+				char lonSign[2];
 				
+				char * saveptr=NULL;			//strtok save pointer
+				char * str = rx_buf;			//string of frame
+				char * token = strtok_r(str,",",&saveptr);	// get first token
+
+				int i = 0;		//loop index
+
+				//loop for all token of NMEA frame
+				while (token!=NULL) 
+				{  
+					token = strtok_r(NULL,",",&saveptr);	//get next token
+					switch(i)
+					{
+						case 1: frameValid = (*token=='A');				//NMEA RMC valid 
+						break;
+						case 2: strncpy(latDeg,token,2);				// latitude degree angle
+								latDeg[2] = '\0';
+								strncpy(latMin,token+2,2);				// latitude minutes
+								strcpy(latMin+2,token+5);				// latitude degrees of minutes
+						break;
+						case 3: strcpy(latSign,*token=='N' ? "" : "-");	// latitude sign (north or south)
+						break;
+						case 4: strncpy(lonDeg,token,3);				// longitude degree angle
+								lonDeg[3]='\0';
+								strncpy(lonMin,token+3,2);				// longitude minutes
+								strcpy(lonMin+2,token+6);				// longitude degrees of minutes
+						break;
+						case 5: strcpy(lonSign,*token=='E' ? "" : "-");	// longitude sign (west or east)
+						break;
+					}
+					if(i<5)				//break after 5 loops (other data not intersting)
+						i++;	
+					else
+						break;
+				}
+				if(frameValid)			//if frame is valid
+				{
+					//calculate decimal coords from NMEA DM.m
+					uint32_t lat = atoi(latDeg);
+					uint32_t lon = atoi(lonDeg);
+					uint32_t lat_dec = atoi(latMin)/6;
+					uint32_t lon_dec = atoi(lonMin)/6;
+
+					//generate decimal coords string
+					char coord[25];
+					sprintf(coord,"%s%d.%d %s%d.%d",latSign,lat,lat_dec,lonSign,lon,lon_dec);
+
+					
+					k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+					strcpy(gpsBuffer.coord,coord);					//copy coords to gps buffer
+					k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
+				}
 			}
 
 			//-----------------------------------------------------
@@ -103,7 +224,60 @@ void GPS_Controller(void)
 
 			if(strstr(rx_buf,"$GNGGA"))
 			{
+				// NMEA frame DMm + sign
+				char latDeg[4];
+				char latMin[12];
+				char latSign[2];
+				char lonDeg[4];
+				char lonMin[12];
+				char lonSign[2];
 				
+				char * saveptr=NULL;			//strtok save pointer
+				char * str = rx_buf;			//string of frame
+				char * token = strtok_r(str,",",&saveptr);	// get first token
+
+				int i = 0;		//loop index
+
+				//loop for all token of NMEA frame
+				while (token!=NULL) 
+				{  
+					token = strtok_r(NULL,",",&saveptr);	//get next token
+					switch(i)
+					{
+						case 1: strncpy(latDeg,token,2);				// latitude degree angle
+								latDeg[2] = '\0';
+								strncpy(latMin,token+2,2);				// latitude minutes
+								strcpy(latMin+2,token+5);				// latitude degrees of minutes
+						break;
+						case 2: strcpy(latSign,*token=='N' ? "" : "-");	// latitude sign (north or south)
+						break;
+						case 3: strncpy(lonDeg,token,3);				// longitude degree angle
+								lonDeg[3]='\0';
+								strncpy(lonMin,token+3,2);				// longitude minutes
+								strcpy(lonMin+2,token+6);				// longitude degrees of minutes
+						break;
+						case 4: strcpy(lonSign,*token=='E' ? "" : "-");	// longitude sign (west or east)
+						break;
+					}
+					if(i<4)				//break after 5 loops (other data not intersting)
+						i++;	
+					else
+						break;
+				}
+				
+				//calculate decimal coords from NMEA DM.m
+				uint32_t lat = atoi(latDeg);
+				uint32_t lon = atoi(lonDeg);
+				uint32_t lat_dec = atoi(latMin)/6;
+				uint32_t lon_dec = atoi(lonMin)/6;
+
+				//generate decimal coords string
+				char coord[25];
+				sprintf(coord,"%s%d.%d %s%d.%d",latSign,lat,lat_dec,lonSign,lon,lon_dec);
+
+				k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+				strcpy(gpsBuffer.coord,coord);					//copy coords to gps buffer
+				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
 			}
 
 			//-----------------------------------------------------
@@ -111,7 +285,25 @@ void GPS_Controller(void)
 
 			if(strstr(rx_buf,"$GNVTG"))
 			{
-				
+				char *str = rx_buf;		//string buffer
+				char *saveptr = NULL;	//save pointer for strtok_r
+
+				char * token;			//token of data frame
+				char lastToken[12];		//variable to stock last token
+
+				token = strtok_r(str,",",&saveptr);			//get first token
+
+				while (token != NULL) 		//loop for all tokens
+				{
+					strcpy(lastToken, token);				//save token for next cycle
+					token = strtok_r(NULL, ",",&saveptr);	//get next token
+					if(token[0]=='K')		//if current token is 'K'				
+						break;				//speed is last token -> break
+				}
+
+				k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+				strcpy(gpsBuffer.speed,lastToken);				//read speed in frame
+				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
 			}
 		}
 	}

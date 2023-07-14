@@ -21,7 +21,27 @@ typedef struct sSensor{
     bool wifi_enable;
 }tSensor;
 
+//gps buffer
+typedef struct sGps{
+    char speed[10];
+    char coord[25];
+    bool fix;
+    char * NameLiveCoord;
+    char * NameLogCoord;
+    bool LiveCoordEnable;
+    char * NameLiveSpeed;
+    char * NameLogSpeed;
+    bool LiveSpeedEnable;
+    char * NameLiveFix;
+    char * NameLogFix;
+    bool LiveFixEnable;
+}tGps;
+
+//extern global variables for sensor buffer and gps buffer
 extern tSensor sensorBuffer[MAX_SENSORS];
 extern struct k_mutex sensorBufferMutex;
+
+extern tGps gpsBuffer;
+extern struct k_mutex gpsBufferMutex;
 
 #endif /*__MEMORY_MANAGEMENT_H*/

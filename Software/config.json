@@ -9,7 +9,7 @@
         "SSID":"motog8",
         "Password":"TJJC2233",
         "Enabled": false
-    },
+    }, 
     "Server": 
     [
         {
@@ -22,6 +22,28 @@
 
     "LogFrameRate":20,
     
+    "GPS":
+    {
+        "Coordinates":
+        {
+            "NameLive":"GPSCoords",
+            "NameLog":"GPSCoords",
+            "LiveEnable":true
+        },
+        "Speed":
+        {
+            "NameLive":"GSPSpeed",
+            "NameLog":"GSPSpeed",
+            "LiveEnable":true
+        },
+        "Fix":
+        {
+            "NameLive":"GSPFix",
+            "NameLog":"GSPFix",
+            "LiveEnable":true
+        }
+    },
+
     "Sensors":
     [
         {
