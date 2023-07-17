@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=GND Pin=B1-P24.19
+Removed Pin From Net: NetName=GND Pin=B1-P24.20
+Added Pin To Net: NetName=NetR2_2 Pin=T1-5
+Added Room: Name=CanController
+Added Room: Name=GPS-SD
+Added Room: Name=nRF7002-DK
