@@ -16,6 +16,7 @@ LOG_MODULE_REGISTER(logger);
 #include "deviceInformation.h"
 #include "config_read.h"
 
+K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 
 K_WORK_DEFINE(dataLogWork, Data_Logger);		//dataLogWork -> called by timer to log data
 K_WORK_DEFINE(startLog, data_log_start);		    //dataLogWork -> called by button
@@ -43,24 +44,6 @@ bool logEnable;             //log is recording variable
 uint32_t timestamp;         //timestamp of the current data
 int lineSize;               //line size in the csv file
 
-//-----------------------------------------------------------------------------------------------------------------------
-/*! Task_Data_Logger_Init initializes the task Data_Logger
-*
-* @brief Data Logger initialization
-*/
-void Task_Data_Logger_Init(void)
-{
-	logEnable=false;
-
-    lineSize=15;          //size for "Timestamp [ms];"
-    for(int i=0;i<configFile.sensorCount;i++)
-    {
-        if(strlen(sensorBuffer[i].name_log)<10)                 //if name is shorter than 10
-            lineSize+=11;                                 // add max length of 32 bit variable in decimal + 1 for the ;
-        else                                                //else
-            lineSize+=(1+strlen(sensorBuffer[i].name_log));   // add string length of name + 1 for the ;
-    }
-}
 
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -84,6 +67,14 @@ void Data_Logger()
         }
 
         k_mutex_unlock(&sensorBufferMutex);		//unlock sensor buffer mutex
+
+        k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+
+        sprintf(str,"%s%s;",str,gpsBuffer.coord);                   //add gps data
+        sprintf(str,"%s%s;",str,gpsBuffer.speed);
+        sprintf(str,"%s%s;",str,gpsBuffer.fix ? "true" : "false");
+        
+        k_mutex_unlock(&gpsBufferMutex);		//unlock gps buffer mutex
 
         sprintf(str,"%s\n",str);                            // \n at end of line
         
@@ -144,6 +135,14 @@ void data_log_start()
     }
 
     k_mutex_unlock(&sensorBufferMutex);		//unlock sensor buffer mutex
+
+    k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+
+    sprintf(str,"%s%s;",str,gpsBuffer.NameLogCoord);        //add gps names
+    sprintf(str,"%s%s;",str,gpsBuffer.NameLogSpeed);
+    sprintf(str,"%s%s;",str,gpsBuffer.NameLogFix);
+    
+    k_mutex_unlock(&gpsBufferMutex);		//unlock gps buffer mutex
 
     sprintf(str,"%s\n",str);                // \n at end of line
 
@@ -210,4 +209,46 @@ void data_log_stop()
 
     //unmount disk
     fs_unmount(&mp);
+}
+
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! Task_Data_Logger_Init initializes the task Data_Logger
+*
+* @brief Data Logger initialization
+*/
+void Task_Data_Logger_Init(void)
+{
+	logEnable=false;
+
+    lineSize=15;          //size for "Timestamp [ms];"
+    for(int i=0;i<configFile.sensorCount;i++)
+    {
+        if(strlen(sensorBuffer[i].name_log)<10)                 //if name is shorter than 10
+            lineSize+=11;                                       // add max length of 32 bit variable in decimal + 1 for the ;
+        else                                                    //else
+            lineSize+=(1+strlen(sensorBuffer[i].name_log));     // add string length of name + 1 for the ;
+    }
+
+
+    //add size of gps coordinates
+    if(strlen(gpsBuffer.NameLiveCoord)<25)                  //if name is shorter than 25
+        lineSize+=26;                                       // add max length of gps coordinates + 1 for the ;
+    else                                                    //else
+        lineSize+=(1+strlen(gpsBuffer.NameLiveCoord));      // add string length of name + 1 for the ;
+
+    //add size of gps speed
+    if(strlen(gpsBuffer.NameLiveSpeed)<6)                   //if name is shorter than 6
+        lineSize+=7;                                        // add max length of gps speed + 1 for the ;
+    else                                                    //else
+        lineSize+=(1+strlen(gpsBuffer.NameLiveSpeed));      // add string length of name + 1 for the ;
+
+    //add size of gps fix
+    if(strlen(gpsBuffer.NameLiveFix)<5)                     //if name is shorter than 5
+        lineSize+=6;                                        //  add max length of gps speed + 1 for the ;
+    else                                                    //else
+        lineSize+=(1+strlen(gpsBuffer.NameLiveFix));        // add string length of name + 1 for the ;
+    
+
+    k_timer_start(&dataLoggerTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LogFrameRate)));
 }

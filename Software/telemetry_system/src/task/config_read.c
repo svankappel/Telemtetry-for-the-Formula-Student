@@ -8,6 +8,7 @@
 #include <ff.h>
 
 #include "config_read.h"
+#include "memory_management.h"
 
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(config);

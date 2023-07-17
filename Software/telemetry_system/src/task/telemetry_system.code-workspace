@@ -23,7 +23,10 @@
 			"can.h": "c",
 			"util.h": "c",
 			"udp_client.h": "c",
-			"log.h": "c"
+			"log.h": "c",
+			"fs.h": "c",
+			"disk_access.h": "c",
+			"json.h": "c"
 		}
 	}
 }
