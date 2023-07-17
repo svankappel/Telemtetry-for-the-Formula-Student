@@ -195,7 +195,7 @@ int read_config(void)
 		//initialize gps buffer
 		gpsBuffer.fix=false;
 		strcpy(gpsBuffer.speed,"0.0");
-		strcpy(gpsBuffer.speed,"0.0 0.0");
+		strcpy(gpsBuffer.coord,"0.0 0.0");
 		gpsBuffer.LiveCoordEnable=configFile.GPS.Coordinates.LiveEnable;
 		gpsBuffer.LiveSpeedEnable=configFile.GPS.Speed.LiveEnable;
 		gpsBuffer.LiveFixEnable=configFile.GPS.Fix.LiveEnable;

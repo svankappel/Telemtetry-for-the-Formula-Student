@@ -15,7 +15,6 @@
 K_HEAP_DEFINE(messageHeap,32768);
 K_QUEUE_DEFINE(udpQueue);
 
-K_TIMER_DEFINE(dataSenderTimer, data_Sender_timer_handler,NULL);
 
 K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 
@@ -36,7 +35,6 @@ int main(void)
 		Task_GPS_Controller_Init();		//start gps controller thread
 
 		Task_Data_Sender_Init();		// start data sender
-		k_timer_start(&dataSenderTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LiveFrameRate)));
 
 		Task_Data_Logger_Init();		//start data logger
 		k_timer_start(&dataLoggerTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LogFrameRate)));
