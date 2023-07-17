@@ -123,7 +123,7 @@ void Task_Data_Sender_Init( void )
 			udpQueueMesLength+=(strlen(gpsBuffer.NameLiveCoord)+6+25);	//name length + 6 bytes for ,:"""" + 25 bytes for data
 	
 	if(gpsBuffer.LiveSpeedEnable)			//if gps coord is used in live telemetry
-			udpQueueMesLength+=(strlen(gpsBuffer.NameLiveSpeed)+4+6);	//name length + 4 bytes for ,:"" + 6 bytes for data
+			udpQueueMesLength+=(strlen(gpsBuffer.NameLiveSpeed)+4+7);	//name length + 4 bytes for ,:"" + 7 bytes for data
 
 	if(gpsBuffer.LiveFixEnable)			//if gps coord is used in live telemetry
 			udpQueueMesLength+=(strlen(gpsBuffer.NameLiveFix)+4+5);	//name length + 4 bytes for ,:"" + 5 bytes for data

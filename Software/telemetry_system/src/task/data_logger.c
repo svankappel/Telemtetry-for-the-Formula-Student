@@ -238,8 +238,8 @@ void Task_Data_Logger_Init(void)
         lineSize+=(1+strlen(gpsBuffer.NameLiveCoord));      // add string length of name + 1 for the ;
 
     //add size of gps speed
-    if(strlen(gpsBuffer.NameLiveSpeed)<6)                   //if name is shorter than 6
-        lineSize+=7;                                        // add max length of gps speed + 1 for the ;
+    if(strlen(gpsBuffer.NameLiveSpeed)<7)                   //if name is shorter than 7
+        lineSize+=8;                                        // add max length of gps speed + 1 for the ;
     else                                                    //else
         lineSize+=(1+strlen(gpsBuffer.NameLiveSpeed));      // add string length of name + 1 for the ;
 
