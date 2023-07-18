@@ -52,7 +52,7 @@ static const struct json_obj_descr server_descr[] = {
 static const struct json_obj_descr gpsdata_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sGPSData, NameLive, JSON_TOK_STRING),
 	JSON_OBJ_DESCR_PRIM(struct sGPSData, NameLog, JSON_TOK_STRING),
-	JSON_OBJ_DESCR_PRIM(struct sGPSData, LiveEnable, JSON_TOK_TRUE)
+	JSON_OBJ_DESCR_PRIM(struct sGPSData, LiveEnable, JSON_TOK_TRUE),
 };
 
 //struct for GPS description
@@ -66,7 +66,9 @@ static const struct json_obj_descr gps_descr[] = {
 static const struct json_obj_descr sensors_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sSensors, NameLive, JSON_TOK_STRING),
 	JSON_OBJ_DESCR_PRIM(struct sSensors, NameLog, JSON_TOK_STRING),
-	JSON_OBJ_DESCR_PRIM(struct sSensors, LiveEnable, JSON_TOK_TRUE)
+	JSON_OBJ_DESCR_PRIM(struct sSensors, LiveEnable, JSON_TOK_TRUE),
+	JSON_OBJ_DESCR_PRIM(struct sSensors, CanID, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sSensors, CanFrame, JSON_TOK_STRING),
 };
 
 //main config struct description
@@ -191,6 +193,57 @@ int read_config(void)
 			sensorBuffer[i].name_log=configFile.Sensors[i].NameLog;
 			sensorBuffer[i].wifi_enable=configFile.Sensors[i].LiveEnable;
 			sensorBuffer[i].value=0;
+			sensorBuffer[i].canID=(uint32_t)strtol(configFile.Sensors[i].CanID, NULL, 0);
+			
+			sensorBuffer[i].B1=-1;
+			sensorBuffer[i].B2=-1;
+			sensorBuffer[i].B3=-1;
+			sensorBuffer[i].B4=-1;
+
+			char * saveptr=NULL;									//strtok save pointer
+			char * str = configFile.Sensors[i].CanFrame;			//string of frame
+			char * token = strtok_r(str,":",&saveptr);				// get first token
+
+			int idx = 0;		//loop index
+
+			//loop for all token of NMEA frame
+			while (token!=NULL) 
+			{
+				if(strcmp(token,"X")==0)
+				{
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else if(strcmp(token,"B1")==0)
+				{
+					sensorBuffer[i].B1=idx;
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else if(strcmp(token,"B2")==0)
+				{
+					sensorBuffer[i].B2=idx;
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else if(strcmp(token,"B3")==0)
+				{
+					sensorBuffer[i].B3=idx;
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else if(strcmp(token,"B4")==0)
+				{
+					sensorBuffer[i].B4=idx;
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else
+				{
+					sensorBuffer[i].conditions[idx]=(int)strtol(token, NULL, 0);
+				}
+
+				
+				token = strtok_r(NULL,":",&saveptr);				// get next token
+				idx++;
+			}
+			sensorBuffer[i].dlc=idx;
+
 		}
 
 		//initialize gps buffer

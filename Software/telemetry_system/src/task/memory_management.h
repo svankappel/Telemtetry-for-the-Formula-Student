@@ -19,6 +19,16 @@ typedef struct sSensor{
     char* name_log;
     uint32_t value;
     bool wifi_enable;
+    uint32_t canID;
+    
+    int B1;
+    int B2;
+    int B3;
+    int B4;
+
+    int dlc;
+
+    int conditions[8];
 }tSensor;
 
 //gps buffer

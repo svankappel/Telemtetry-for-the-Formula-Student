@@ -46,11 +46,13 @@ struct sGPS{
     struct sGPSData Fix;
 };
 
-//struct for GPS
+//struct for Can sensors
 struct sSensors{
     const char* NameLive;
     const char* NameLog;
     bool LiveEnable;
+    const char * CanID;
+    const char * CanFrame;
 };
 
 //main config struct containing all the previous ones

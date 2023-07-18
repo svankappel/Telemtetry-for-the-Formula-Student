@@ -74,7 +74,33 @@ void CAN_Controller(void)
 	while (1) 
 	{
 		k_msgq_get(&can_msgq, &frame, K_FOREVER);
-		printk("Message received form 0x%x : %x %x %x %x %x %x %x %x\n",frame.id,frame.data[0],frame.data[1],frame.data[02],frame.data[3],frame.data[4],frame.data[5],frame.data[6],frame.data[7]);
+
+		k_mutex_lock(&sensorBufferMutex,K_FOREVER);
+		for(int i = 0; i<configFile.sensorCount;i++)
+		{
+			if(sensorBuffer[i].canID==frame.id)
+			{
+				if(sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1 &&		//if no bytes assigned (config file error)
+					sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1)
+				{
+					break;													//break loop
+				}
+
+				if(sensorBuffer[i].dlc != frame.dlc)						//break lool if dlc error (config file error)
+					break;
+
+				sensorBuffer[i].value = 
+				frame.data[sensorBuffer[i].B1] + 
+				(sensorBuffer[i].B2 != -1) ? frame.data[sensorBuffer[i].B2] << 8 : 0 +
+				(sensorBuffer[i].B3 != -1) ? frame.data[sensorBuffer[i].B3] << 16 : 0 +
+				(sensorBuffer[i].B4 != -1) ? frame.data[sensorBuffer[i].B4] << 24 : 0 ;
+	
+				printk("Frame : 0x%x 0x%x\n",frame.data[0],frame.data[1]);
+				printk("value : 0x%x - %d\n",sensorBuffer[i].value,sensorBuffer[i].value);
+
+			}
+		}
+		k_mutex_unlock(&sensorBufferMutex);
 	}
 }
 
