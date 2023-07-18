@@ -27,7 +27,7 @@ int main(void)
 		
 		Task_UDP_Client_Init();			//start udp client Thread
 
-		//Task_CAN_Controller_Init();		//start can controller thread
+		Task_CAN_Controller_Init();		//start can controller thread
 
 		Task_GPS_Controller_Init();		//start gps controller thread
 

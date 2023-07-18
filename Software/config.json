@@ -6,7 +6,7 @@
     },
     "WiFiRouterRedundancy":
     {
-        "SSID":"motog8",
+        "SSID":"VRT-Telemetry",
         "Password":"TJJC2233",
         "Enabled": false
     }, 
@@ -14,7 +14,7 @@
     [
         {
             "address":"192.168.50.110",
-            "port":1502
+            "port":7070
         }
     ],
 
