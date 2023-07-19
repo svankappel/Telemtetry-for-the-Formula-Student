@@ -20,20 +20,20 @@ int main(void)
 {
 	Task_Led_Init();		//start led controller Thread
 	Task_Button_Manager_Init();		//start button manager thread
-
-	if(read_config() == 0)			//read configuration file ok
+	int ret = read_config();
+	if(ret == 0)			//read configuration file ok
 	{
 		Task_Wifi_Sta_Init();			//start wifi stationning Thread
 		
 		Task_UDP_Client_Init();			//start udp client Thread
-
-		Task_CAN_Controller_Init();		//start can controller thread
 
 		Task_GPS_Controller_Init();		//start gps controller thread
 
 		Task_Data_Sender_Init();		// start data sender
 
 		Task_Data_Logger_Init();		//start data logger
+
+		Task_CAN_Controller_Init();		//start can controller thread
 		
 	}
 

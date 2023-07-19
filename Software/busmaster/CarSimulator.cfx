@@ -18,10 +18,10 @@
     <Window_Position>
       <Visibility>SHOWNORMAL</Visibility>
       <WindowPlacement>HIDE</WindowPlacement>
-      <Top>574</Top>
-      <Left>3</Left>
-      <Bottom>817</Bottom>
-      <Right>1535</Right>
+      <Top>587</Top>
+      <Left>-3</Left>
+      <Bottom>830</Bottom>
+      <Right>1529</Right>
     </Window_Position>
   </Global_Configuration>
   <Module_Configuration>
@@ -185,10 +185,10 @@
       <Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>186</Top>
-        <Left>704</Left>
-        <Bottom>726</Bottom>
-        <Right>1127</Right>
+        <Top>170</Top>
+        <Left>868</Left>
+        <Bottom>710</Bottom>
+        <Right>1291</Right>
       </Window_Position>
       <Node>
         <Name>BMS</Name>
@@ -198,9 +198,45 @@
       </Node>
       <Node>
         <Name>Inverter</Name>
-        <Is_Enabled>FALSE</Is_Enabled>
+        <Is_Enabled>TRUE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
-        <File_Path/>
+        <File_Path>inverter.cpp</File_Path>
+      </Node>
+      <Node>
+        <Name>Tire</Name>
+        <Is_Enabled>TRUE</Is_Enabled>
+        <File_Type>C_CPP_FILE</File_Type>
+        <File_Path>tire.cpp</File_Path>
+      </Node>
+      <Node>
+        <Name>LVS</Name>
+        <Is_Enabled>TRUE</Is_Enabled>
+        <File_Type>C_CPP_FILE</File_Type>
+        <File_Path>lvs.cpp</File_Path>
+      </Node>
+      <Node>
+        <Name>Motor</Name>
+        <Is_Enabled>TRUE</Is_Enabled>
+        <File_Type>C_CPP_FILE</File_Type>
+        <File_Path>motor.cpp</File_Path>
+      </Node>
+      <Node>
+        <Name>Suspension</Name>
+        <Is_Enabled>TRUE</Is_Enabled>
+        <File_Type>C_CPP_FILE</File_Type>
+        <File_Path>suspension.cpp</File_Path>
+      </Node>
+      <Node>
+        <Name>Tork</Name>
+        <Is_Enabled>TRUE</Is_Enabled>
+        <File_Type>C_CPP_FILE</File_Type>
+        <File_Path>tork.cpp</File_Path>
+      </Node>
+      <Node>
+        <Name>Misc</Name>
+        <Is_Enabled>TRUE</Is_Enabled>
+        <File_Type>C_CPP_FILE</File_Type>
+        <File_Path>misc.cpp</File_Path>
       </Node>
     </CAN_Simulated_Systems>
     <J1939_Simulated_Systems>

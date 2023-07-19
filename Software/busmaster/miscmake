@@ -1,0 +1,25 @@
+CXX = mingw32-g++
+BM_LIB = -L"C:\Program Files (x86)\BUSMASTER_v3.2.2\SimulatedSystems\OBJ" -lWrapper_CAN
+
+BM_INCLUDES = -I"C:\Program Files (x86)\BUSMASTER_v3.2.2\SimulatedSystems\Include"
+
+CXXFLAGS = -Wall -c
+#$(BM_INCLUDE)
+
+dll = misc.dll
+
+DBOBJFILE = 
+
+DBINCLUDES = 
+
+
+all: $(dll)
+
+$(dll): misc.o
+	$(CXX) -shared -Wl,--dll  misc.o $(DBOBJFILE) $(BM_LIB) -o $@
+
+misc.o: C:/Users/sylve/OneDrive/Bureau/TELEMT~1/Software/BUSMAS~1/misc.cpp
+	$(CXX) $(DBINCLUDES) $(CXXFLAGS) $(BM_INCLUDES) $< -o $@
+
+clean: 
+	del /f misc.o

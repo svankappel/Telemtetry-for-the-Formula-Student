@@ -18,7 +18,7 @@ LOG_MODULE_REGISTER(udp);
 //! Stack size for the UDP_SERVER thread
 #define UDP_CLIENT_STACK_SIZE 2048
 //! UDP_SERVER thread priority level
-#define UDP_CLIENT_PRIORITY 5
+#define UDP_CLIENT_PRIORITY 3
 //! Time in miliseconds to wait to send the UDP message since the board 
 // gets a stable IP address
 #define UDP_CLIENT_WAIT_TO_SEND_MS 500

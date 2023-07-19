@@ -29,7 +29,7 @@ LOG_MODULE_REGISTER(wifi);
 //! Wifi thread priority level
 #define WIFI_STACK_SIZE 4096
 //! Wifi thread priority level
-#define WIFI_PRIORITY 4
+#define WIFI_PRIORITY 2
 
 //! WiFi stack definition
 K_THREAD_STACK_DEFINE(WIFI_STACK, WIFI_STACK_SIZE);

@@ -19,7 +19,7 @@ LOG_MODULE_REGISTER(can);
 //! Can controller thread priority level
 #define CAN_CONTROLLER_STACK_SIZE 8192
 //! Can controller thread priority level
-#define CAN_CONTROLLER_PRIORITY 2
+#define CAN_CONTROLLER_PRIORITY 4
 
 
 //! Can controller stack definition
@@ -36,7 +36,7 @@ K_MUTEX_DEFINE(sensorBufferMutex);
 const struct device *const can_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_canbus));
 
 //can receive message queue
-CAN_MSGQ_DEFINE(can_msgq, 5);
+CAN_MSGQ_DEFINE(can_msgq, 100);
 
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -67,6 +67,8 @@ void CAN_Controller(void)
 		.mask = 0
 	};
 	can_add_rx_filter_msgq(can_dev, &can_msgq, &filter);
+
+	
 
 	//frame struct
 	struct can_frame frame;
@@ -109,6 +111,7 @@ void CAN_Controller(void)
 			}
 		}
 		k_mutex_unlock(&sensorBufferMutex);
+		
 	}
 }
 
@@ -129,7 +132,7 @@ void Task_CAN_Controller_Init( void )
 					NULL,
 					CAN_CONTROLLER_PRIORITY,
 					0,
-					K_NO_WAIT);	
+					K_SECONDS(3));	
 
 	 k_thread_name_set(&canControllerThread, "canController");
 	 k_thread_start(&canControllerThread);
