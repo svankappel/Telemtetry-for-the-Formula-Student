@@ -63,7 +63,7 @@ void Data_Logger()
 
         for(int i=0;i<configFile.sensorCount;i++)           //sensor values
         {
-            sprintf(str,"%s%d;",str,sensorBuffer[i].value);
+            sprintf(str,"%s%u;",str,sensorBuffer[i].value);
         }
 
         k_mutex_unlock(&sensorBufferMutex);		//unlock sensor buffer mutex

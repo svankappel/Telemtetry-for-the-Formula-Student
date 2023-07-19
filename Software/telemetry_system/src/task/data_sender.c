@@ -54,9 +54,9 @@ void Data_Sender()
 				{
 					//print name and value in json string
 					if(i==0)
-						sprintf(memPtr,"%s\"%s\":%d",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);		
+						sprintf(memPtr,"%s\"%s\":%u",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);		
 					else
-						sprintf(memPtr,"%s,\"%s\":%d",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);
+						sprintf(memPtr,"%s,\"%s\":%u",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);
 				}
 			}
 
