@@ -48,14 +48,14 @@ void CAN_Controller(void)
 {
 	//check if canbus device is ready	
 	if (!device_is_ready(can_dev)) {
-		printk("CAN: Device %s not ready.\n", can_dev->name);
+		LOG_ERR("CAN: Device %s not ready.\n", can_dev->name);
 		return;
 	}
 
 	//start canbus controller
 	int ret = can_start(can_dev);
 	if (ret != 0) {
-		printk("Error starting CAN controller [%d]", ret);
+		LOG_ERR("Error starting CAN controller [%d]", ret);
 		return;
 	}
 	
@@ -74,7 +74,7 @@ void CAN_Controller(void)
 	while (1) 
 	{
 		k_msgq_get(&can_msgq, &frame, K_FOREVER);
-
+		
 		k_mutex_lock(&sensorBufferMutex,K_FOREVER);
 		for(int i = 0; i<configFile.sensorCount;i++)
 		{
@@ -83,19 +83,20 @@ void CAN_Controller(void)
 				if(sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1 &&		//if no bytes assigned (config file error)
 					sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1)
 				{
-					break;													//break loop
+					continue;												//continue loop
 				}
 
-				if(sensorBuffer[i].dlc != frame.dlc)						//break lool if dlc error (config file error)
-					break;
+				if(sensorBuffer[i].dlc != frame.dlc)						//continue lool if dlc error (config file error)
+					continue;
 
 				sensorBuffer[i].value = 
-				frame.data[sensorBuffer[i].B1] + 
-				(sensorBuffer[i].B2 != -1) ? frame.data[sensorBuffer[i].B2] << 8 : 0 +
-				(sensorBuffer[i].B3 != -1) ? frame.data[sensorBuffer[i].B3] << 16 : 0 +
-				(sensorBuffer[i].B4 != -1) ? frame.data[sensorBuffer[i].B4] << 24 : 0 ;
+				(uint32_t)frame.data[sensorBuffer[i].B1] + 
+				(uint32_t)((sensorBuffer[i].B2 != -1) ? frame.data[sensorBuffer[i].B2] << 8 : 0) +
+				(uint32_t)((sensorBuffer[i].B3 != -1) ? frame.data[sensorBuffer[i].B3] << 16 : 0) +
+				(uint32_t)((sensorBuffer[i].B4 != -1) ? frame.data[sensorBuffer[i].B4] << 24 : 0) ;
 	
 				printk("Frame : 0x%x 0x%x\n",frame.data[0],frame.data[1]);
+				printk("%x\n",frame.data[sensorBuffer[i].B1]);
 				printk("value : 0x%x - %d\n",sensorBuffer[i].value,sensorBuffer[i].value);
 
 			}
