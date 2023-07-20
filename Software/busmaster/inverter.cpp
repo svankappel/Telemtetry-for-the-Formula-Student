@@ -19,15 +19,15 @@ int brake;
 
 
 /* Start BUSMASTER Function Prototype  */
-GCC_EXTERN void GCC_EXPORT OnTimer_inverterTmr_50( );
+GCC_EXTERN void GCC_EXPORT OnTimer_inverterTmr_25( );
 /* End BUSMASTER Function Prototype  */
 
 /* Start BUSMASTER Function Wrapper Prototype  */
 /* End BUSMASTER Function Wrapper Prototype  */
 
 
-/* Start BUSMASTER generated function - OnTimer_inverterTmr_50 */
-void OnTimer_inverterTmr_50( )
+/* Start BUSMASTER generated function - OnTimer_inverterTmr_25 */
+void OnTimer_inverterTmr_25( )
 {
 /* TODO */
 tempMot= rand()%5 + 80;
@@ -53,4 +53,4 @@ tx.data[1]=brake;
 SendMsg(tx);
 
 
-}/* End BUSMASTER generated function - OnTimer_inverterTmr_50 */
+}/* End BUSMASTER generated function - OnTimer_inverterTmr_25 */

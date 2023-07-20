@@ -67,7 +67,12 @@ void CAN_Controller(void)
 		.mask = 0
 	};
 	can_add_rx_filter_msgq(can_dev, &can_msgq, &filter);
+	
 
+	uint32_t bufferFill=0;
+	int lastBufferFill=0;
+
+	k_msgq_purge(&can_msgq);
 	
 
 	//frame struct
@@ -111,6 +116,23 @@ void CAN_Controller(void)
 			}
 		}
 		k_mutex_unlock(&sensorBufferMutex);
+
+		
+		bufferFill=k_msgq_num_used_get(&can_msgq);
+		if(bufferFill >= 90)
+		{
+			LOG_ERR("CAN receive buffer overflowed !");
+			k_msgq_purge(&can_msgq);
+		}
+		else
+		{
+			if(bufferFill/10 != lastBufferFill)
+			{
+				lastBufferFill = bufferFill/10;
+
+				LOG_WRN("CAN receive buffer between %d0 and %d0",bufferFill/10,bufferFill/10+1);
+			}
+		}
 		
 	}
 }
@@ -132,7 +154,7 @@ void Task_CAN_Controller_Init( void )
 					NULL,
 					CAN_CONTROLLER_PRIORITY,
 					0,
-					K_SECONDS(3));	
+					K_SECONDS(5));	
 
 	 k_thread_name_set(&canControllerThread, "canController");
 	 k_thread_start(&canControllerThread);

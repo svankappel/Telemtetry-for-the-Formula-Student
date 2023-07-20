@@ -19,4 +19,4 @@ vSetGetMessageName
 vSetTimeNow
 vSetGetFirstCANdbName
 
-OnTimer_torkTmr_50
+OnTimer_torkTmr_25
