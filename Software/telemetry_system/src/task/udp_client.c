@@ -18,7 +18,7 @@ LOG_MODULE_REGISTER(udp);
 //! Stack size for the UDP_SERVER thread
 #define UDP_CLIENT_STACK_SIZE 2048
 //! UDP_SERVER thread priority level
-#define UDP_CLIENT_PRIORITY 5
+#define UDP_CLIENT_PRIORITY 3
 //! Time in miliseconds to wait to send the UDP message since the board 
 // gets a stable IP address
 #define UDP_CLIENT_WAIT_TO_SEND_MS 500
@@ -63,22 +63,22 @@ void Task_UDP_Client_Init( void ){
 */
 void UDP_Client() 
 {
-	int socketNumber = configFile.serverCount;
+	int socketCount = configFile.serverCount;
 
 	//addresses of the sockets
-	char* addresses[socketNumber];
+	char* addresses[socketCount];
 	//ports of the sockets
-	int ports[socketNumber];
+	int ports[socketCount];
 
-	for(int i=0;i<socketNumber;i++)		//loop for all sockets
+	for(int i=0;i<socketCount;i++)		//loop for all sockets
 	{
 		addresses[i]=configFile.Server[i].address;		//assign address
 		ports[i]=configFile.Server[i].port;				//assign port
 	}
 	
-    int udpClientSocket[socketNumber];					//client sockets
-	struct sockaddr_in serverAddress[socketNumber];		//servers addresses for all sockets
-	int sentBytes[socketNumber];						//sent bytes variable for all sockets
+    int udpClientSocket[socketCount];					//client sockets
+	struct sockaddr_in serverAddress[socketCount];		//servers addresses for all sockets
+	int sentBytes[socketCount];						//sent bytes variable for all sockets
 
 
 	// Starve the thread until a DHCP IP is assigned to the board 
@@ -86,7 +86,7 @@ void UDP_Client()
 		k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
 	}
 
-	for(int i=0;i<socketNumber;i++)		//loop for all sockets
+	for(int i=0;i<socketCount;i++)		//loop for all sockets
 	{
 		sentBytes[i]=0;		//set sent byte variable
 
@@ -107,7 +107,7 @@ void UDP_Client()
 		if(!context.ip_assigned) 	// ------------------------------------ if wifi connection is lost
 		{
 			//close all sockets
-			for(int i=0;i<socketNumber;i++)
+			for(int i=0;i<socketCount;i++)
 				close(udpClientSocket[i]);		
 
 			// Starve the thread until a DHCP IP is assigned to the board 
@@ -116,7 +116,7 @@ void UDP_Client()
 			}
 			
 			// reconnect all sockets
-			for(int i=0;i<socketNumber;i++)
+			for(int i=0;i<socketCount;i++)
 				connectUDPSocket(&udpClientSocket[i],&serverAddress[i]); 
 
 			//wait some time before sending messages
@@ -147,7 +147,7 @@ void UDP_Client()
 			//------------------------------------------
 			//		send data to socket(s)
 
-			for(int i=0;i<socketNumber;i++)		//loop for all sockets
+			for(int i=0;i<socketCount;i++)		//loop for all sockets
 			{
 				// Send the udp message 
 				sentBytes[i] = send(udpClientSocket[i], udpMessage, size, 0);

@@ -8,7 +8,6 @@
 
 //memory heap
 extern struct k_heap messageHeap;
-extern struct k_heap sensorHeap;
 
 //queues
 extern struct k_queue udpQueue;
@@ -20,9 +19,39 @@ typedef struct sSensor{
     char* name_log;
     uint32_t value;
     bool wifi_enable;
+    uint32_t canID;
+    
+    int B1;
+    int B2;
+    int B3;
+    int B4;
+
+    int dlc;
+
+    int conditions[8];
 }tSensor;
 
-extern tSensor sensorBuffer[MAX_SENSORS];
+//gps buffer
+typedef struct sGps{
+    char speed[10];
+    char coord[25];
+    bool fix;
+    char * NameLiveCoord;
+    char * NameLogCoord;
+    bool LiveCoordEnable;
+    char * NameLiveSpeed;
+    char * NameLogSpeed;
+    bool LiveSpeedEnable;
+    char * NameLiveFix;
+    char * NameLogFix;
+    bool LiveFixEnable;
+}tGps;
 
+//extern global variables for sensor buffer and gps buffer
+extern tSensor sensorBuffer[MAX_SENSORS];
+extern struct k_mutex sensorBufferMutex;
+
+extern tGps gpsBuffer;
+extern struct k_mutex gpsBufferMutex;
 
 #endif /*__MEMORY_MANAGEMENT_H*/

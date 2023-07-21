@@ -16,6 +16,7 @@ LOG_MODULE_REGISTER(logger);
 #include "deviceInformation.h"
 #include "config_read.h"
 
+K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 
 K_WORK_DEFINE(dataLogWork, Data_Logger);		//dataLogWork -> called by timer to log data
 K_WORK_DEFINE(startLog, data_log_start);		    //dataLogWork -> called by button
@@ -43,26 +44,6 @@ bool logEnable;             //log is recording variable
 uint32_t timestamp;         //timestamp of the current data
 int lineSize;               //line size in the csv file
 
-//-----------------------------------------------------------------------------------------------------------------------
-/*! Task_Data_Logger_Init initializes the task Data_Logger
-*
-* @brief Data Logger initialization
-*/
-void Task_Data_Logger_Init(void)
-{
-	logEnable=false;
-
-    lineSize=15;          //size for "Timestamp [ms];"
-    for(int i=0;i<configFile.sensorCount;i++)
-    {
-        if(strlen(sensorBuffer[i].name_log)<10)                 //if name is shorter than 10
-            lineSize+=11;                                 // add max length of 32 bit variable in decimal + 1 for the ;
-        else                                                //else
-            lineSize+=(1+strlen(sensorBuffer[i].name_log));   // add string length of name + 1 for the ;
-    }
-
-    
-}
 
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -72,23 +53,39 @@ void Task_Data_Logger_Init(void)
 */
 void Data_Logger() 
 {
-	if(logEnable)
+	if(logEnable)       //if logging is enabled
     {
         //create line of csv file
-        uint8_t str[lineSize];
-        sprintf(str,"%d;",timestamp);
-        for(int i=0;i<configFile.sensorCount;i++)
-        {
-            sprintf(str,"%s%d;",str,sensorBuffer[i].value);
-        }
-        strcat(str,"\n");
-        
-        //write in file
-        //fs_write(&logFile,str,sizeof(str));
+        char str[lineSize];
+        sprintf(str,"%d;",timestamp);                       //timestamp at first column
 
-        timestamp+=(int)(1000/configFile.LogFrameRate);
-    }
+        k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
+
+        for(int i=0;i<configFile.sensorCount;i++)           //sensor values
+        {
+            sprintf(str,"%s%u;",str,sensorBuffer[i].value);
+        }
+
+        k_mutex_unlock(&sensorBufferMutex);		//unlock sensor buffer mutex
+
+        k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+
+        sprintf(str,"%s%s;",str,gpsBuffer.coord);                   //add gps data
+        sprintf(str,"%s%s;",str,gpsBuffer.speed);
+        sprintf(str,"%s%s;",str,gpsBuffer.fix ? "true" : "false");
         
+        k_mutex_unlock(&gpsBufferMutex);		//unlock gps buffer mutex
+
+        sprintf(str,"%s\n",str);                            // \n at end of line
+        
+        //write line in file
+        if(fs_write(&logFile,str,strlen(str))<0)
+            k_work_submit(&stopLog);                //stop log in case of error
+
+        fs_sync(&logFile);   //flush
+
+        timestamp+=(int)(1000/configFile.LogFrameRate);     //increment timestamp
+    }     
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -125,40 +122,78 @@ void data_log_start()
 	if (res != FR_OK) 		// return if mount failed
         return;
 
-    //init file object
-    fs_file_t_init(&logFile);
+    //----------------------------------------------generate first line of csv file
+    char str[lineSize];
 
-    //create file on SD card
-    res = fs_open(&logFile,"/SD:/log.txt",FS_O_CREATE);
-    if (res != 0) 		     // return if file creation failed
-        return;
-    fs_close(&logFile);
+    sprintf(str,"Timestamp [ms];");     //timestamp at first column
 
-    //open file on SD card
-    res = fs_open(&logFile,"/SD:/log.txt",FS_O_WRITE);
-    if (res != 0) 		     // return if file creation failed
-        return;
-    
-    //create first line of csv file
-    uint8_t str[lineSize];
+    k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
 
-    sprintf(str,"Timestamp [ms];");
-
-    for(int i=0;i<configFile.sensorCount;i++)
+    for(int i=0;i<configFile.sensorCount;i++)       //every sensors
     {
         sprintf(str,"%s%s;",str,sensorBuffer[i].name_log);
     }
 
-    strcat(str,"\n");
+    k_mutex_unlock(&sensorBufferMutex);		//unlock sensor buffer mutex
+
+    k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+
+    sprintf(str,"%s%s;",str,gpsBuffer.NameLogCoord);        //add gps names
+    sprintf(str,"%s%s;",str,gpsBuffer.NameLogSpeed);
+    sprintf(str,"%s%s;",str,gpsBuffer.NameLogFix);
+    
+    k_mutex_unlock(&gpsBufferMutex);		//unlock gps buffer mutex
+
+    sprintf(str,"%s\n",str);                // \n at end of line
+
+    //---------------------------------------------------- find first filename available
+    
+    struct fs_dir_t dirp;               //directory
+	static struct fs_dirent entry;      //files 
+    char fileName[9];                   //file name
+    int n = 0;                          //file number
+
+	fs_dir_t_init(&dirp);		            //initialize directory
+
+	// Verify fs_opendir() 			
+	res = fs_opendir(&dirp, "/SD:");		//open SD card base directory
+	if (res) 								//return error if open failed
+		return;
+
+	for (;;) 			//loop to find first LOG_XX available
+	{
+		res = fs_readdir(&dirp, &entry);			//read directory
+        sprintf(fileName,"LOG_%04d",n);             //generate file name
+
+		if (entry.type == FS_DIR_ENTRY_FILE)		//file found
+		{
+			if(strstr(entry.name, fileName) != NULL)	 //check if file exists
+                n++;                //increment file number
+            else
+                break;              //file name is new
+		} 
+	}
+	fs_closedir(&dirp);	//close directory
+
+    //---------------------------------------------------- Create file and write first line
+
+    //init file object
+    fs_file_t_init(&logFile);
+    char path[18];
+    sprintf(path,"/SD:/%s.csv",fileName);       //generate file path
+    //create and open file on SD card
+    res = fs_open(&logFile,path,FS_O_CREATE | FS_O_WRITE);
+    if (res != 0) 		     // return if file creation failed
+        return;
 
     //write in file
-    res = fs_write(&logFile,str,sizeof(str));
+    res = fs_write(&logFile,str,strlen(str));
     if (res < 0) 		     // return if write failed
         return;
-    
 
     //set log enable to true
     logEnable=true;
+    //set timestamp
     timestamp=0;
 }
 
@@ -174,4 +209,46 @@ void data_log_stop()
 
     //unmount disk
     fs_unmount(&mp);
+}
+
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! Task_Data_Logger_Init initializes the task Data_Logger
+*
+* @brief Data Logger initialization
+*/
+void Task_Data_Logger_Init(void)
+{
+	logEnable=false;
+
+    lineSize=15;          //size for "Timestamp [ms];"
+    for(int i=0;i<configFile.sensorCount;i++)
+    {
+        if(strlen(sensorBuffer[i].name_log)<10)                 //if name is shorter than 10
+            lineSize+=11;                                       // add max length of 32 bit variable in decimal + 1 for the ;
+        else                                                    //else
+            lineSize+=(1+strlen(sensorBuffer[i].name_log));     // add string length of name + 1 for the ;
+    }
+
+
+    //add size of gps coordinates
+    if(strlen(gpsBuffer.NameLiveCoord)<25)                  //if name is shorter than 25
+        lineSize+=26;                                       // add max length of gps coordinates + 1 for the ;
+    else                                                    //else
+        lineSize+=(1+strlen(gpsBuffer.NameLiveCoord));      // add string length of name + 1 for the ;
+
+    //add size of gps speed
+    if(strlen(gpsBuffer.NameLiveSpeed)<7)                   //if name is shorter than 7
+        lineSize+=8;                                        // add max length of gps speed + 1 for the ;
+    else                                                    //else
+        lineSize+=(1+strlen(gpsBuffer.NameLiveSpeed));      // add string length of name + 1 for the ;
+
+    //add size of gps fix
+    if(strlen(gpsBuffer.NameLiveFix)<5)                     //if name is shorter than 5
+        lineSize+=6;                                        //  add max length of gps speed + 1 for the ;
+    else                                                    //else
+        lineSize+=(1+strlen(gpsBuffer.NameLiveFix));        // add string length of name + 1 for the ;
+    
+
+    k_timer_start(&dataLoggerTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LogFrameRate)));
 }

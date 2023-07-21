@@ -1,0 +1,25 @@
+CXX = mingw32-g++
+BM_LIB = -L"C:\Program Files (x86)\BUSMASTER_v3.2.2\SimulatedSystems\OBJ" -lWrapper_CAN
+
+BM_INCLUDES = -I"C:\Program Files (x86)\BUSMASTER_v3.2.2\SimulatedSystems\Include"
+
+CXXFLAGS = -Wall -c
+#$(BM_INCLUDE)
+
+dll = suspension.dll
+
+DBOBJFILE = 
+
+DBINCLUDES = 
+
+
+all: $(dll)
+
+$(dll): suspension.o
+	$(CXX) -shared -Wl,--dll  suspension.o $(DBOBJFILE) $(BM_LIB) -o $@
+
+suspension.o: C:/Users/sylve/OneDrive/Bureau/TELEMT~1/Software/BUSMAS~1/SUSPEN~1.CPP
+	$(CXX) $(DBINCLUDES) $(CXXFLAGS) $(BM_INCLUDES) $< -o $@
+
+clean: 
+	del /f suspension.o

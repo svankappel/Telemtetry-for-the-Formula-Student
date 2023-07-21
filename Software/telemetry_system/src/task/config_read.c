@@ -8,6 +8,7 @@
 #include <ff.h>
 
 #include "config_read.h"
+#include "memory_management.h"
 
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(config);
@@ -47,11 +48,27 @@ static const struct json_obj_descr server_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sServer, port, JSON_TOK_NUMBER)
 };
 
+//struct for GPS data description
+static const struct json_obj_descr gpsdata_descr[] = {
+	JSON_OBJ_DESCR_PRIM(struct sGPSData, NameLive, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sGPSData, NameLog, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sGPSData, LiveEnable, JSON_TOK_TRUE),
+};
+
+//struct for GPS description
+static const struct json_obj_descr gps_descr[] = {
+  JSON_OBJ_DESCR_OBJECT(struct sGPS, Coordinates, gpsdata_descr),
+  JSON_OBJ_DESCR_OBJECT(struct sGPS, Speed, gpsdata_descr),
+  JSON_OBJ_DESCR_OBJECT(struct sGPS, Fix, gpsdata_descr)
+};
+
 //struct for sensors description
 static const struct json_obj_descr sensors_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sSensors, NameLive, JSON_TOK_STRING),
 	JSON_OBJ_DESCR_PRIM(struct sSensors, NameLog, JSON_TOK_STRING),
-	JSON_OBJ_DESCR_PRIM(struct sSensors, LiveEnable, JSON_TOK_TRUE)
+	JSON_OBJ_DESCR_PRIM(struct sSensors, LiveEnable, JSON_TOK_TRUE),
+	JSON_OBJ_DESCR_PRIM(struct sSensors, CanID, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sSensors, CanFrame, JSON_TOK_STRING),
 };
 
 //main config struct description
@@ -61,6 +78,7 @@ static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Server, MAX_SERVERS, serverCount, server_descr,ARRAY_SIZE(server_descr)),
   JSON_OBJ_DESCR_PRIM(struct config, LiveFrameRate, JSON_TOK_NUMBER),
   JSON_OBJ_DESCR_PRIM(struct config, LogFrameRate, JSON_TOK_NUMBER),
+  JSON_OBJ_DESCR_OBJECT(struct config, GPS, gps_descr),
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorCount, sensors_descr,ARRAY_SIZE(sensors_descr))
 };
 
@@ -166,13 +184,83 @@ int read_config(void)
 	{		
 		LOG_INF("Config file OK");				//print message		
 		configOK=true;
+		
+		//initialize sensor buffer
 		for(int i=0; i<configFile.sensorCount;i++)	 //for all sensors
 		{
 			//configure sensor buffer
 			sensorBuffer[i].name_wifi=configFile.Sensors[i].NameLive;	
 			sensorBuffer[i].name_log=configFile.Sensors[i].NameLog;
 			sensorBuffer[i].wifi_enable=configFile.Sensors[i].LiveEnable;
+			sensorBuffer[i].value=0;
+			sensorBuffer[i].canID=(uint32_t)strtol(configFile.Sensors[i].CanID, NULL, 0);
+			
+			sensorBuffer[i].B1=-1;
+			sensorBuffer[i].B2=-1;
+			sensorBuffer[i].B3=-1;
+			sensorBuffer[i].B4=-1;
+
+			char * saveptr=NULL;									//strtok save pointer
+			char * str = configFile.Sensors[i].CanFrame;			//string of frame
+			char * token = strtok_r(str,":",&saveptr);				// get first token
+
+			int idx = 0;		//loop index
+
+			//loop for all token of NMEA frame
+			while (token!=NULL) 
+			{
+				if(strcmp(token,"X")==0)
+				{
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else if(strcmp(token,"B1")==0)
+				{
+					sensorBuffer[i].B1=idx;
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else if(strcmp(token,"B2")==0)
+				{
+					sensorBuffer[i].B2=idx;
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else if(strcmp(token,"B3")==0)
+				{
+					sensorBuffer[i].B3=idx;
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else if(strcmp(token,"B4")==0)
+				{
+					sensorBuffer[i].B4=idx;
+					sensorBuffer[i].conditions[idx]=-1;
+				}
+				else
+				{
+					sensorBuffer[i].conditions[idx]=(int)strtol(token, NULL, 0);
+				}
+
+				
+				token = strtok_r(NULL,":",&saveptr);				// get next token
+				idx++;
+			}
+			sensorBuffer[i].dlc=idx;
+
 		}
+
+		//initialize gps buffer
+		gpsBuffer.fix=false;
+		strcpy(gpsBuffer.speed,"0.0");
+		strcpy(gpsBuffer.coord,"0.0 0.0");
+		gpsBuffer.LiveCoordEnable=configFile.GPS.Coordinates.LiveEnable;
+		gpsBuffer.LiveSpeedEnable=configFile.GPS.Speed.LiveEnable;
+		gpsBuffer.LiveFixEnable=configFile.GPS.Fix.LiveEnable;
+		gpsBuffer.NameLiveCoord=configFile.GPS.Coordinates.NameLive;
+		gpsBuffer.NameLogCoord=configFile.GPS.Coordinates.NameLog;
+		gpsBuffer.NameLiveSpeed=configFile.GPS.Speed.NameLive;
+		gpsBuffer.NameLogSpeed=configFile.GPS.Speed.NameLog;
+		gpsBuffer.NameLiveFix=configFile.GPS.Fix.NameLive;
+		gpsBuffer.NameLogFix=configFile.GPS.Fix.NameLog;
+
+
 		return 0;
 	}
 	

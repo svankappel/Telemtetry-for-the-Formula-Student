@@ -14,7 +14,7 @@ public class UIServerUdp {
 
         try {
 
-            DatagramSocket socket = new DatagramSocket(1502);   //create the socket
+            DatagramSocket socket = new DatagramSocket(7070);   //create the socket
 
             while(true)
             {

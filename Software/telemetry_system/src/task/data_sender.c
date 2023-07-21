@@ -5,13 +5,15 @@ LOG_MODULE_REGISTER(sender);
 #include <errno.h>
 #include <stdio.h>
 #include <zephyr/data/json.h>
-#include <zephyr/random/rand32.h>
 
 #include "data_sender.h"
 #include "memory_management.h"
 #include "deviceInformation.h"
 #include "config_read.h"
+#include "data_logger.h"
 
+
+K_TIMER_DEFINE(dataSenderTimer, data_Sender_timer_handler,NULL);
 
 K_WORK_DEFINE(dataSendWork, Data_Sender);		//dataSendWork -> called by timer to send data
 
@@ -35,12 +37,6 @@ void data_Sender_timer_handler()
 */
 void Data_Sender() 
 {
-	//put some random datas in sensor buffer
-	for(int i=0; i<configFile.sensorCount;i++)
-	{
-		sensorBuffer[i].value=sys_rand32_get()%100;
-	}
-
 	//send data only if the system is connected and an IP address is assigned
 	if(context.ip_assigned)
 	{
@@ -50,25 +46,46 @@ void Data_Sender()
 		{
 			sprintf(memPtr,"{");	// open json section
 
-			bool first = true;		
+			k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
+
 			for(int i=0; i<configFile.sensorCount;i++)	//loop for every sensor
 			{
 				if(sensorBuffer[i].wifi_enable)
 				{
 					//print name and value in json string
-					if(first)
-						sprintf(memPtr,"%s\"%s\":%d",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);		
+					if(i==0)
+						sprintf(memPtr,"%s\"%s\":%u",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);		
 					else
-						sprintf(memPtr,"%s,\"%s\":%d",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);
-					first=false;
+						sprintf(memPtr,"%s,\"%s\":%u",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);
 				}
 			}
-			sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter
+
+			k_mutex_unlock(&sensorBufferMutex);				//unlock sensor buffer mutex
+
+			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
 			
-			if(true)
+			if(gpsBuffer.LiveCoordEnable)
+				sprintf(memPtr,"%s,\"%s\":\"%s\"",memPtr,gpsBuffer.NameLiveCoord,gpsBuffer.coord);
+			
+			if(gpsBuffer.LiveSpeedEnable)
+				sprintf(memPtr,"%s,\"%s\":%s",memPtr,gpsBuffer.NameLiveSpeed,gpsBuffer.speed);
+
+			if(gpsBuffer.LiveFixEnable && gpsBuffer.fix)
+				sprintf(memPtr,"%s,\"%s\":true",memPtr,gpsBuffer.NameLiveFix);
+
+			if(gpsBuffer.LiveFixEnable && !gpsBuffer.fix)
+				sprintf(memPtr,"%s,\"%s\":false",memPtr,gpsBuffer.NameLiveFix);
+
+			k_mutex_unlock(&gpsBufferMutex);				//unlock gps buffer mutex
+
+
+
+			sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter in json
+			
+			if(logEnable)													//print log recording variable in json
 				sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr);
 			else
-				(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	//print log recording variable
+				sprintf(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	
 
 			strcat(memPtr,"}");		//close json section
 			
@@ -93,14 +110,26 @@ void Data_Sender()
 void Task_Data_Sender_Init( void )
 {
 	keepAliveCounter = 0;		//initialize keep alive
-
 	udpQueueMesLength = 0;				//initialize message length
 
-	//calculate length of json message
+	//calculate max length of json message for memory allocation
 	for(int i=0; i<configFile.sensorCount;i++)		//loop for every sensor
 	{
 		if(sensorBuffer[i].wifi_enable)			//if sensor is used in live telemetry
 			udpQueueMesLength+=(strlen(sensorBuffer[i].name_wifi)+4+10);	//name length + 4 bytes for ,:"" + 10 bytes for number (32bits in decimal)
 	}
+
+	if(gpsBuffer.LiveCoordEnable)			//if gps coord is used in live telemetry
+			udpQueueMesLength+=(strlen(gpsBuffer.NameLiveCoord)+6+25);	//name length + 6 bytes for ,:"""" + 25 bytes for data
+	
+	if(gpsBuffer.LiveSpeedEnable)			//if gps coord is used in live telemetry
+			udpQueueMesLength+=(strlen(gpsBuffer.NameLiveSpeed)+4+7);	//name length + 4 bytes for ,:"" + 7 bytes for data
+
+	if(gpsBuffer.LiveFixEnable)			//if gps coord is used in live telemetry
+			udpQueueMesLength+=(strlen(gpsBuffer.NameLiveFix)+4+5);	//name length + 4 bytes for ,:"" + 5 bytes for data
+
 	udpQueueMesLength+=50;		// space for {} , logRecording and keepalive
+
+	
+	k_timer_start(&dataSenderTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LiveFrameRate)));
 }

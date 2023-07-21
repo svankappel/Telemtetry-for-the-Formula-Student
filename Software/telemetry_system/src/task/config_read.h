@@ -32,11 +32,27 @@ struct sServer{
     int port;
 };
     
-//struct for sensors
+//struct for gps data
+struct sGPSData{
+    const char* NameLive;
+    const char* NameLog;
+    bool LiveEnable;
+};
+
+//struct for GPS
+struct sGPS{
+    struct sGPSData Coordinates;
+    struct sGPSData Speed;
+    struct sGPSData Fix;
+};
+
+//struct for Can sensors
 struct sSensors{
     const char* NameLive;
     const char* NameLog;
     bool LiveEnable;
+    const char * CanID;
+    const char * CanFrame;
 };
 
 //main config struct containing all the previous ones
@@ -47,6 +63,7 @@ struct config {
 	int serverCount;
     int LiveFrameRate;
     int LogFrameRate;
+    struct sGPS GPS;
     struct sSensors Sensors[MAX_SENSORS];
     int sensorCount;
 };
