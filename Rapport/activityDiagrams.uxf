@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.3.0">
-  <zoom_level>6</zoom_level>
+  <zoom_level>9</zoom_level>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>774</x>
-      <y>60</y>
-      <w>60</w>
-      <h>24</h>
+      <x>117</x>
+      <y>90</y>
+      <w>90</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>button
 pressed
@@ -17,10 +17,10 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>798</x>
-      <y>108</y>
-      <w>24</w>
-      <h>24</h>
+      <x>153</x>
+      <y>162</y>
+      <w>36</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>type=decision
 </panel_attributes>
@@ -29,10 +29,10 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>804</x>
-      <y>78</y>
-      <w>18</w>
-      <h>42</h>
+      <x>162</x>
+      <y>117</y>
+      <w>27</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -40,10 +40,10 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>744</x>
-      <y>114</y>
-      <w>72</w>
-      <h>48</h>
+      <x>72</x>
+      <y>171</y>
+      <w>108</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 [not recording]</panel_attributes>
@@ -52,10 +52,10 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>816</x>
-      <y>114</y>
-      <w>102</w>
-      <h>48</h>
+      <x>180</x>
+      <y>171</y>
+      <w>153</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 [recording]</panel_attributes>
@@ -64,10 +64,10 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>714</x>
-      <y>150</y>
-      <w>72</w>
-      <h>24</h>
+      <x>27</x>
+      <y>225</y>
+      <w>108</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>mount SD card</panel_attributes>
     <additional_attributes/>
@@ -75,10 +75,10 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>714</x>
-      <y>192</y>
-      <w>72</w>
-      <h>24</h>
+      <x>27</x>
+      <y>288</y>
+      <w>108</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>create and open
 CSV file</panel_attributes>
@@ -87,10 +87,10 @@ CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>744</x>
-      <y>168</y>
-      <w>18</w>
-      <h>36</h>
+      <x>72</x>
+      <y>252</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -98,10 +98,10 @@ CSV file</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>714</x>
-      <y>234</y>
-      <w>72</w>
-      <h>24</h>
+      <x>27</x>
+      <y>351</y>
+      <w>108</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>write first line</panel_attributes>
     <additional_attributes/>
@@ -109,10 +109,10 @@ CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>744</x>
-      <y>210</y>
-      <w>18</w>
-      <h>36</h>
+      <x>72</x>
+      <y>315</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -120,10 +120,10 @@ CSV file</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>714</x>
-      <y>276</y>
-      <w>72</w>
-      <h>24</h>
+      <x>27</x>
+      <y>414</y>
+      <w>108</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>set state 
 to "recording"</panel_attributes>
@@ -132,10 +132,10 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>744</x>
-      <y>252</y>
-      <w>18</w>
-      <h>36</h>
+      <x>72</x>
+      <y>378</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -143,10 +143,10 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>834</x>
-      <y>150</y>
-      <w>72</w>
-      <h>24</h>
+      <x>207</x>
+      <y>225</y>
+      <w>108</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>set state to
 "not recording"</panel_attributes>
@@ -155,10 +155,10 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>834</x>
-      <y>192</y>
-      <w>72</w>
-      <h>24</h>
+      <x>207</x>
+      <y>288</y>
+      <w>108</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>close CSV file</panel_attributes>
     <additional_attributes/>
@@ -166,10 +166,10 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>834</x>
-      <y>234</y>
-      <w>72</w>
-      <h>24</h>
+      <x>207</x>
+      <y>351</y>
+      <w>108</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>unmount SD card</panel_attributes>
     <additional_attributes/>
@@ -177,10 +177,10 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>168</y>
-      <w>18</w>
-      <h>36</h>
+      <x>252</x>
+      <y>252</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -188,10 +188,10 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>210</y>
-      <w>18</w>
-      <h>36</h>
+      <x>252</x>
+      <y>315</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -199,10 +199,10 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>804</x>
-      <y>324</y>
-      <w>12</w>
-      <h>12</h>
+      <x>162</x>
+      <y>486</y>
+      <w>18</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>type=final</panel_attributes>
     <additional_attributes/>
@@ -210,10 +210,10 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>744</x>
-      <y>294</y>
-      <w>72</w>
-      <h>48</h>
+      <x>72</x>
+      <y>441</y>
+      <w>108</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>100.0;60.0;10.0;60.0;10.0;10.0</additional_attributes>
@@ -221,10 +221,10 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>252</y>
-      <w>72</w>
-      <h>90</h>
+      <x>171</x>
+      <y>378</y>
+      <w>108</w>
+      <h>135</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;130.0;100.0;130.0;100.0;10.0</additional_attributes>
@@ -232,10 +232,10 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1008</x>
-      <y>60</y>
-      <w>60</w>
-      <h>24</h>
+      <x>468</x>
+      <y>90</y>
+      <w>90</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>timer tick
 type=receiver</panel_attributes>
@@ -244,10 +244,10 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1032</x>
-      <y>108</y>
-      <w>24</w>
-      <h>24</h>
+      <x>504</x>
+      <y>162</y>
+      <w>36</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>type=decision
 </panel_attributes>
@@ -256,10 +256,10 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1038</x>
-      <y>78</y>
-      <w>18</w>
-      <h>42</h>
+      <x>513</x>
+      <y>117</y>
+      <w>27</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -267,10 +267,10 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1044</x>
-      <y>114</y>
-      <w>90</w>
-      <h>276</h>
+      <x>522</x>
+      <y>171</y>
+      <w>135</w>
+      <h>414</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[not recording]</panel_attributes>
@@ -279,10 +279,10 @@ m2=[not recording]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1038</x>
-      <y>372</y>
-      <w>12</w>
-      <h>12</h>
+      <x>513</x>
+      <y>558</y>
+      <w>18</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>type=final</panel_attributes>
     <additional_attributes/>
@@ -290,22 +290,22 @@ m2=[not recording]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1038</x>
-      <y>126</y>
-      <w>54</w>
-      <h>48</h>
+      <x>513</x>
+      <y>189</y>
+      <w>81</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-[recording]</panel_attributes>
+m2=[recording]</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>990</x>
-      <y>162</y>
-      <w>114</w>
-      <h>24</h>
+      <x>441</x>
+      <y>243</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>increment timestamp</panel_attributes>
     <additional_attributes/>
@@ -313,10 +313,10 @@ m2=[not recording]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>990</x>
-      <y>330</y>
-      <w>114</w>
-      <h>24</h>
+      <x>441</x>
+      <y>495</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>write log line 
 in CSV file</panel_attributes>
@@ -325,10 +325,10 @@ in CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1038</x>
-      <y>222</y>
-      <w>18</w>
-      <h>36</h>
+      <x>513</x>
+      <y>333</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -336,10 +336,10 @@ in CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1038</x>
-      <y>306</y>
-      <w>18</w>
-      <h>36</h>
+      <x>513</x>
+      <y>459</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -347,10 +347,10 @@ in CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1038</x>
-      <y>348</y>
-      <w>18</w>
-      <h>36</h>
+      <x>513</x>
+      <y>522</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -358,10 +358,10 @@ in CSV file</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>696</x>
+      <x>0</x>
       <y>0</y>
-      <w>474</w>
-      <h>432</h>
+      <w>711</w>
+      <h>648</h>
     </coordinates>
     <panel_attributes>Data Logger</panel_attributes>
     <additional_attributes/>
@@ -369,10 +369,10 @@ in CSV file</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1386</x>
-      <y>54</y>
-      <w>60</w>
-      <h>24</h>
+      <x>1035</x>
+      <y>81</y>
+      <w>90</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>timer tick
 type=receiver</panel_attributes>
@@ -381,10 +381,10 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1410</x>
-      <y>102</y>
-      <w>24</w>
-      <h>24</h>
+      <x>1071</x>
+      <y>153</y>
+      <w>36</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>type=decision
 </panel_attributes>
@@ -393,10 +393,10 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1416</x>
-      <y>72</y>
-      <w>18</w>
-      <h>42</h>
+      <x>1080</x>
+      <y>108</y>
+      <w>27</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -404,10 +404,10 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1422</x>
-      <y>108</y>
-      <w>132</w>
-      <h>282</h>
+      <x>1089</x>
+      <y>162</y>
+      <w>198</w>
+      <h>423</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[wifi disconnectd]</panel_attributes>
@@ -416,10 +416,10 @@ m2=[wifi disconnectd]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1368</x>
-      <y>240</y>
-      <w>114</w>
-      <h>24</h>
+      <x>1008</x>
+      <y>360</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>generate json message
 with sensor buffer values</panel_attributes>
@@ -428,10 +428,10 @@ with sensor buffer values</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1416</x>
-      <y>372</y>
-      <w>12</w>
-      <h>12</h>
+      <x>1080</x>
+      <y>558</y>
+      <w>18</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>type=final</panel_attributes>
     <additional_attributes/>
@@ -439,22 +439,22 @@ with sensor buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1416</x>
-      <y>120</y>
-      <w>72</w>
-      <h>48</h>
+      <x>1080</x>
+      <y>180</y>
+      <w>108</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-[wifi connected]</panel_attributes>
+m2=[wifi connected]</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1416</x>
-      <y>300</y>
-      <w>18</w>
-      <h>36</h>
+      <x>1080</x>
+      <y>450</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -462,10 +462,10 @@ with sensor buffer values</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1194</x>
+      <x>747</x>
       <y>0</y>
-      <w>474</w>
-      <h>432</h>
+      <w>711</w>
+      <h>648</h>
     </coordinates>
     <panel_attributes>Data Sender</panel_attributes>
     <additional_attributes/>
@@ -473,10 +473,10 @@ with sensor buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1368</x>
-      <y>156</y>
-      <w>114</w>
-      <h>24</h>
+      <x>1008</x>
+      <y>234</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>increment keepAlive counter</panel_attributes>
     <additional_attributes/>
@@ -484,10 +484,10 @@ with sensor buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1368</x>
-      <y>198</y>
-      <w>114</w>
-      <h>24</h>
+      <x>1008</x>
+      <y>297</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lock sensor buffer mutex</panel_attributes>
     <additional_attributes/>
@@ -495,10 +495,10 @@ with sensor buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1368</x>
-      <y>282</y>
-      <w>114</w>
-      <h>24</h>
+      <x>1008</x>
+      <y>423</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>release sensor buffer mutex</panel_attributes>
     <additional_attributes/>
@@ -506,10 +506,10 @@ with sensor buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1374</x>
-      <y>324</y>
-      <w>96</w>
-      <h>24</h>
+      <x>1017</x>
+      <y>486</y>
+      <w>144</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>Send JSON to 
 UDP Client queue
@@ -519,10 +519,10 @@ type=sender</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1416</x>
-      <y>342</y>
-      <w>18</w>
-      <h>42</h>
+      <x>1080</x>
+      <y>513</y>
+      <w>27</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -530,10 +530,10 @@ type=sender</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1416</x>
-      <y>258</y>
-      <w>18</w>
-      <h>36</h>
+      <x>1080</x>
+      <y>387</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -541,10 +541,10 @@ type=sender</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1416</x>
-      <y>216</y>
-      <w>18</w>
-      <h>36</h>
+      <x>1080</x>
+      <y>324</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -552,10 +552,10 @@ type=sender</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1416</x>
-      <y>174</y>
-      <w>18</w>
-      <h>36</h>
+      <x>1080</x>
+      <y>261</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -563,10 +563,10 @@ type=sender</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>990</x>
-      <y>204</y>
-      <w>114</w>
-      <h>24</h>
+      <x>441</x>
+      <y>306</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lock sensor buffer mutex</panel_attributes>
     <additional_attributes/>
@@ -574,10 +574,10 @@ type=sender</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>990</x>
-      <y>288</y>
-      <w>114</w>
-      <h>24</h>
+      <x>441</x>
+      <y>432</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>release sensor buffer mutex</panel_attributes>
     <additional_attributes/>
@@ -585,10 +585,10 @@ type=sender</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>990</x>
-      <y>246</y>
-      <w>114</w>
-      <h>24</h>
+      <x>441</x>
+      <y>369</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>generate log line with
 sensur buffer values</panel_attributes>
@@ -597,10 +597,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1038</x>
-      <y>180</y>
-      <w>18</w>
-      <h>36</h>
+      <x>513</x>
+      <y>270</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -608,10 +608,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1038</x>
-      <y>264</y>
-      <w>18</w>
-      <h>36</h>
+      <x>513</x>
+      <y>396</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -619,10 +619,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>960</x>
-      <y>486</y>
-      <w>12</w>
-      <h>12</h>
+      <x>396</x>
+      <y>729</y>
+      <w>18</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>type=initial</panel_attributes>
     <additional_attributes/>
@@ -630,10 +630,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>492</y>
-      <w>18</w>
-      <h>54</h>
+      <x>396</x>
+      <y>738</y>
+      <w>27</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -641,10 +641,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>912</x>
-      <y>534</y>
-      <w>114</w>
-      <h>24</h>
+      <x>324</x>
+      <y>801</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>wait for wifi connection</panel_attributes>
     <additional_attributes/>
@@ -652,10 +652,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>552</y>
-      <w>18</w>
-      <h>42</h>
+      <x>396</x>
+      <y>828</y>
+      <w>27</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -663,10 +663,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>912</x>
-      <y>582</y>
-      <w>114</w>
-      <h>24</h>
+      <x>324</x>
+      <y>873</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>connect UPD socket(s)</panel_attributes>
     <additional_attributes/>
@@ -674,10 +674,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>954</x>
-      <y>654</y>
-      <w>24</w>
-      <h>24</h>
+      <x>387</x>
+      <y>981</y>
+      <w>36</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -685,10 +685,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>600</y>
-      <w>18</w>
-      <h>66</h>
+      <x>396</x>
+      <y>900</y>
+      <w>27</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
@@ -696,34 +696,34 @@ sensur buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>804</x>
-      <y>660</y>
-      <w>162</w>
-      <h>60</h>
+      <x>162</x>
+      <y>990</y>
+      <w>243</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-[wifi connected]</panel_attributes>
+m2=[wifi connected]</panel_attributes>
     <additional_attributes>10.0;80.0;10.0;10.0;250.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>672</y>
-      <w>84</w>
-      <h>48</h>
+      <x>396</x>
+      <y>1008</y>
+      <w>126</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-[wifi disconnected]</panel_attributes>
+m2=[wifi disconnected]</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>912</x>
-      <y>708</y>
-      <w>114</w>
-      <h>24</h>
+      <x>324</x>
+      <y>1062</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>close UPD socket(s)</panel_attributes>
     <additional_attributes/>
@@ -731,10 +731,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>912</x>
-      <y>804</y>
-      <w>114</w>
-      <h>24</h>
+      <x>324</x>
+      <y>1206</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>connect UPD socket(s)</panel_attributes>
     <additional_attributes/>
@@ -742,10 +742,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>774</y>
-      <w>18</w>
-      <h>42</h>
+      <x>396</x>
+      <y>1161</y>
+      <w>27</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -753,10 +753,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>912</x>
-      <y>756</y>
-      <w>114</w>
-      <h>24</h>
+      <x>324</x>
+      <y>1134</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>wait for wifi connection</panel_attributes>
     <additional_attributes/>
@@ -764,10 +764,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>726</y>
-      <w>18</w>
-      <h>42</h>
+      <x>396</x>
+      <y>1089</y>
+      <w>27</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -775,10 +775,10 @@ sensur buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>768</x>
-      <y>708</y>
-      <w>84</w>
-      <h>24</h>
+      <x>108</x>
+      <y>1062</y>
+      <w>126</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>get message
 from queue
@@ -788,10 +788,10 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>750</x>
-      <y>756</y>
-      <w>114</w>
-      <h>24</h>
+      <x>81</x>
+      <y>1134</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>send message to
 UPD socket(s)</panel_attributes>
@@ -800,10 +800,10 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>804</x>
-      <y>726</y>
-      <w>18</w>
-      <h>42</h>
+      <x>162</x>
+      <y>1089</y>
+      <w>27</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -811,10 +811,10 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>804</x>
-      <y>624</y>
-      <w>276</w>
-      <h>264</h>
+      <x>162</x>
+      <y>936</y>
+      <w>414</w>
+      <h>396</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>270.0;10.0;440.0;10.0;440.0;420.0;10.0;420.0;10.0;260.0</additional_attributes>
@@ -822,10 +822,10 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>822</y>
-      <w>18</w>
-      <h>66</h>
+      <x>396</x>
+      <y>1233</y>
+      <w>27</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
@@ -833,10 +833,10 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>696</x>
-      <y>450</y>
-      <w>474</w>
-      <h>462</h>
+      <x>0</x>
+      <y>675</y>
+      <w>711</w>
+      <h>693</h>
     </coordinates>
     <panel_attributes>UDP Client</panel_attributes>
     <additional_attributes/>
@@ -844,10 +844,10 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1044</x>
-      <y>1020</y>
-      <w>12</w>
-      <h>12</h>
+      <x>522</x>
+      <y>1530</y>
+      <w>18</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>type=initial</panel_attributes>
     <additional_attributes/>
@@ -855,10 +855,10 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1044</x>
-      <y>1080</y>
-      <w>18</w>
-      <h>54</h>
+      <x>522</x>
+      <y>1620</y>
+      <w>27</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -866,21 +866,21 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>996</x>
-      <y>1122</y>
-      <w>114</w>
-      <h>24</h>
+      <x>450</x>
+      <y>1683</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
-    <panel_attributes>connect to Wifi Router</panel_attributes>
+    <panel_attributes>try to connect to Wifi Router</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1038</x>
-      <y>1194</y>
-      <w>24</w>
-      <h>24</h>
+      <x>513</x>
+      <y>1791</y>
+      <w>36</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -888,10 +888,10 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>930</x>
-      <y>1200</y>
-      <w>120</w>
-      <h>24</h>
+      <x>351</x>
+      <y>1800</y>
+      <w>180</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[connection succeed]</panel_attributes>
@@ -900,22 +900,22 @@ m2=[connection succeed]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1044</x>
-      <y>1212</y>
-      <w>84</w>
-      <h>60</h>
+      <x>522</x>
+      <y>1818</y>
+      <w>126</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-[connection failed]</panel_attributes>
+m2=[connection failed]</panel_attributes>
     <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>696</x>
-      <y>966</y>
-      <w>474</w>
-      <h>510</h>
+      <x>0</x>
+      <y>1449</y>
+      <w>711</w>
+      <h>765</h>
     </coordinates>
     <panel_attributes>WiFi Stationning</panel_attributes>
     <additional_attributes/>
@@ -923,10 +923,10 @@ m2=[connection succeed]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1044</x>
-      <y>1140</y>
-      <w>18</w>
-      <h>30</h>
+      <x>522</x>
+      <y>1710</y>
+      <w>27</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
@@ -934,21 +934,22 @@ m2=[connection succeed]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>996</x>
-      <y>1158</y>
-      <w>114</w>
-      <h>24</h>
+      <x>450</x>
+      <y>1737</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
-    <panel_attributes>wait until connection timeout</panel_attributes>
+    <panel_attributes>wait until connection 
+or timeout</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1044</x>
-      <y>1026</y>
-      <w>18</w>
-      <h>48</h>
+      <x>522</x>
+      <y>1539</y>
+      <w>27</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -956,10 +957,10 @@ m2=[connection succeed]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>996</x>
-      <y>1062</y>
-      <w>114</w>
-      <h>24</h>
+      <x>450</x>
+      <y>1593</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>init connection 
 events callbacks</panel_attributes>
@@ -968,10 +969,10 @@ events callbacks</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1044</x>
-      <y>1176</y>
-      <w>18</w>
-      <h>30</h>
+      <x>522</x>
+      <y>1764</y>
+      <w>27</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
@@ -979,10 +980,10 @@ events callbacks</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>840</x>
-      <y>1194</y>
-      <w>96</w>
-      <h>24</h>
+      <x>216</x>
+      <y>1791</y>
+      <w>144</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>strave thread
 until disconnection</panel_attributes>
@@ -991,22 +992,22 @@ until disconnection</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>996</x>
-      <y>1314</y>
-      <w>114</w>
-      <h>24</h>
+      <x>450</x>
+      <y>1971</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
-    <panel_attributes>connect to redundancy
-Wifi Router</panel_attributes>
+    <panel_attributes>try to connect to 
+redundancy Wifi Router</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1038</x>
-      <y>1392</y>
-      <w>24</w>
-      <h>24</h>
+      <x>513</x>
+      <y>2088</y>
+      <w>36</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -1014,10 +1015,10 @@ Wifi Router</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>930</x>
-      <y>1398</y>
-      <w>120</w>
-      <h>24</h>
+      <x>351</x>
+      <y>2097</y>
+      <w>180</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[connection succeed]</panel_attributes>
@@ -1026,10 +1027,10 @@ m2=[connection succeed]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>774</x>
-      <y>1098</y>
-      <w>354</w>
-      <h>366</h>
+      <x>117</x>
+      <y>1647</y>
+      <w>531</w>
+      <h>549</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[connection failed]</panel_attributes>
@@ -1038,10 +1039,10 @@ m2=[connection failed]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1044</x>
-      <y>1332</y>
-      <w>18</w>
-      <h>30</h>
+      <x>522</x>
+      <y>1998</y>
+      <w>27</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
@@ -1049,21 +1050,22 @@ m2=[connection failed]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>996</x>
-      <y>1350</y>
-      <w>114</w>
-      <h>24</h>
+      <x>450</x>
+      <y>2025</y>
+      <w>171</w>
+      <h>36</h>
     </coordinates>
-    <panel_attributes>wait until connection timeout</panel_attributes>
+    <panel_attributes>wait until connection 
+or timeout</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1044</x>
-      <y>1368</y>
-      <w>18</w>
-      <h>36</h>
+      <x>522</x>
+      <y>2052</y>
+      <w>27</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -1071,10 +1073,10 @@ m2=[connection failed]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>840</x>
-      <y>1392</y>
-      <w>96</w>
-      <h>24</h>
+      <x>216</x>
+      <y>2088</y>
+      <w>144</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>strave thread
 until disconnection</panel_attributes>
@@ -1083,10 +1085,10 @@ until disconnection</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1038</x>
-      <y>1260</y>
-      <w>24</w>
-      <h>24</h>
+      <x>513</x>
+      <y>1890</y>
+      <w>36</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -1094,10 +1096,10 @@ until disconnection</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>774</x>
-      <y>1266</y>
-      <w>276</w>
-      <h>24</h>
+      <x>117</x>
+      <y>1899</y>
+      <w>414</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[redundancy disabled]</panel_attributes>
@@ -1106,22 +1108,22 @@ m2=[redundancy disabled]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1044</x>
-      <y>1278</y>
-      <w>96</w>
-      <h>48</h>
+      <x>522</x>
+      <y>1917</y>
+      <w>144</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-[redundancy enabled]</panel_attributes>
+m2=[redundancy enabled]</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>774</x>
-      <y>1200</y>
-      <w>78</w>
-      <h>18</h>
+      <x>117</x>
+      <y>1800</y>
+      <w>117</w>
+      <h>27</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
@@ -1129,12 +1131,593 @@ m2=[redundancy disabled]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>774</x>
-      <y>1398</y>
-      <w>78</w>
-      <h>18</h>
+      <x>117</x>
+      <y>2097</y>
+      <w>117</w>
+      <h>27</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>855</x>
+      <y>999</y>
+      <w>90</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>uart frame
+received
+type=receiver</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>891</x>
+      <y>1089</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>type=decision
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>1026</y>
+      <w>27</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>738</x>
+      <y>693</y>
+      <w>765</w>
+      <h>891</h>
+    </coordinates>
+    <panel_attributes>GPS Controller</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>819</x>
+      <y>1188</y>
+      <w>180</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>read char from uart buffer
+and append it to message</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>1116</y>
+      <w>153</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[uart buffer not empty]</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>891</x>
+      <y>1260</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>type=decision
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>1215</y>
+      <w>27</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>1287</y>
+      <w>126</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[end of uart frame]</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>873</x>
+      <y>1341</y>
+      <w>99</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>put message
+in queue
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>1053</y>
+      <w>162</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;10.0;160.0;380.0;10.0;380.0;10.0;360.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>918</x>
+      <y>1269</y>
+      <w>144</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[else]</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>756</x>
+      <y>1098</y>
+      <w>171</w>
+      <h>405</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[uart buffer empty]</panel_attributes>
+    <additional_attributes>170.0;430.0;170.0;370.0;10.0;370.0;10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>900</x>
+      <y>1485</y>
+      <w>18</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>type=final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1134</x>
+      <y>747</y>
+      <w>18</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>type=initial</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>756</y>
+      <w>27</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1080</x>
+      <y>810</y>
+      <w>126</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>initialize uart device</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>837</y>
+      <w>27</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1080</x>
+      <y>864</y>
+      <w>126</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>initialize uart callback</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>891</y>
+      <w>27</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1071</x>
+      <y>945</y>
+      <w>117</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>get message
+from queue
+type=receiver</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>972</y>
+      <w>27</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1125</x>
+      <y>1017</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>type=decision
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1152</x>
+      <y>1026</y>
+      <w>153</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[GSA message]</panel_attributes>
+    <additional_attributes>150.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1287</x>
+      <y>1017</y>
+      <w>117</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>set gpsFix status</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>1044</y>
+      <w>54</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[else]</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1125</x>
+      <y>1098</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>1125</y>
+      <w>81</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[GPS Fix]</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1152</x>
+      <y>1107</y>
+      <w>315</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[no GPS Fix]</panel_attributes>
+    <additional_attributes>330.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1125</x>
+      <y>1188</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>909</y>
+      <w>333</w>
+      <h>621</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[else]</panel_attributes>
+    <additional_attributes>10.0;10.0;350.0;10.0;350.0;670.0;10.0;670.0;10.0;620.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1296</x>
+      <y>1188</y>
+      <w>117</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>set position in 
+GPS Buffer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1152</x>
+      <y>1197</y>
+      <w>162</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[GLL message]</panel_attributes>
+    <additional_attributes>160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>1215</y>
+      <w>54</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[else]</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1125</x>
+      <y>1269</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1296</x>
+      <y>1269</y>
+      <w>117</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>set position in 
+GPS Buffer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1152</x>
+      <y>1278</y>
+      <w>162</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[RMC message]</panel_attributes>
+    <additional_attributes>160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>1296</y>
+      <w>54</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[else]</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1125</x>
+      <y>1350</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1296</x>
+      <y>1350</y>
+      <w>117</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>set position in 
+GPS Buffer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1152</x>
+      <y>1359</y>
+      <w>162</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[GGA message]</panel_attributes>
+    <additional_attributes>160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>1377</y>
+      <w>54</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[else]</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1395</x>
+      <y>1026</y>
+      <w>72</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>1197</y>
+      <w>63</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>1278</y>
+      <w>63</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>1359</y>
+      <w>63</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1125</x>
+      <y>1431</y>
+      <w>36</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1296</x>
+      <y>1431</y>
+      <w>117</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>set speed in 
+GPS Buffer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1152</x>
+      <y>1440</y>
+      <w>162</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[VTG message]</panel_attributes>
+    <additional_attributes>160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1404</x>
+      <y>1440</y>
+      <w>63</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
