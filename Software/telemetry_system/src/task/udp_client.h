@@ -1,5 +1,6 @@
 #ifndef __UDP_CLIENT_H
 #define __UDP_CLIENT_H
+#include <zephyr/net/socket.h>
 
 /*! UDP_Client implements the UDP Client task.
 * @brief UDP_Client uses BSD sockets to send messages to one or multiple UDP

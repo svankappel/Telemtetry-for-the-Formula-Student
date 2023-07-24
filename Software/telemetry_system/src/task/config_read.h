@@ -16,26 +16,26 @@ int read_config(void);
 //struct for Wifi router data
 struct sWiFiRouter{
     const char* SSID;
-    const char* Password;
+    char* Password;
 };
 
 //struct for redundancy Wifi router data
 struct sWiFiRouterRedundancy{
     const char* SSID;
-    const char* Password;
+    char* Password;
     bool Enabled;
 };
 
 //struct for udp servers
 struct sServer{
-    const char* address;
+    char* address;
     int port;
 };
     
 //struct for gps data
 struct sGPSData{
-    const char* NameLive;
-    const char* NameLog;
+    char* NameLive;
+    char* NameLog;
     bool LiveEnable;
 };
 
@@ -48,11 +48,11 @@ struct sGPS{
 
 //struct for Can sensors
 struct sSensors{
-    const char* NameLive;
-    const char* NameLog;
+    char* NameLive;
+    char* NameLog;
     bool LiveEnable;
-    const char * CanID;
-    const char * CanFrame;
+    char * CanID;
+    char * CanFrame;
 };
 
 //main config struct containing all the previous ones

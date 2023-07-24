@@ -6,7 +6,7 @@ LOG_MODULE_REGISTER(button);
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/device.h>
 #include <zephyr/sys/util.h>
-#include <zephyr/toolchain.h>
+#include <zephyr/sys/reboot.h>
 
 #include "button_manager.h"
 #include "data_logger.h"

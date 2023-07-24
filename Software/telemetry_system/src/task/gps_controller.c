@@ -6,6 +6,9 @@ LOG_MODULE_REGISTER(gps);
 #include <zephyr/device.h>
 #include <zephyr/sys/util.h>
 #include <zephyr/drivers/uart.h>
+#include <stdlib.h>
+#include <zephyr/toolchain.h>
+#include <string.h>
 
 #include "gps_controller.h"
 #include "memory_management.h"
@@ -105,14 +108,14 @@ void GPS_Controller(void)
 				
 				char * saveptr=NULL;			//strtok save pointer
 				char * str = rx_buf;			//string of frame
-				char * token = strtok_r(str,",",&saveptr);	// get first token
+				char * token = (char*)strtok_r(str,",",&saveptr);	// get first token
 
 				int i = 0;		//loop index
 
 				//loop for all token of NMEA frame
 				while (token!=NULL) 
 				{  
-					token = strtok_r(NULL,",",&saveptr);	//get next token
+					token = (char*)strtok_r(NULL,",",&saveptr);	//get next token
 					switch(i)
 					{
 						case 0: strncpy(latDeg,token,2);				// latitude degree angle
@@ -168,14 +171,14 @@ void GPS_Controller(void)
 				
 				char * saveptr=NULL;			//strtok save pointer
 				char * str = rx_buf;			//string of frame
-				char * token = strtok_r(str,",",&saveptr);	// get first token
+				char * token = (char*)strtok_r(str,",",&saveptr);	// get first token
 
 				int i = 0;		//loop index
 
 				//loop for all token of NMEA frame
 				while (token!=NULL) 
 				{  
-					token = strtok_r(NULL,",",&saveptr);	//get next token
+					token = (char*)strtok_r(NULL,",",&saveptr);	//get next token
 					switch(i)
 					{
 						case 1: frameValid = (*token=='A');				//NMEA RMC valid 
@@ -234,14 +237,14 @@ void GPS_Controller(void)
 				
 				char * saveptr=NULL;			//strtok save pointer
 				char * str = rx_buf;			//string of frame
-				char * token = strtok_r(str,",",&saveptr);	// get first token
+				char * token = (char*)strtok_r(str,",",&saveptr);	// get first token
 
 				int i = 0;		//loop index
 
 				//loop for all token of NMEA frame
 				while (token!=NULL) 
 				{  
-					token = strtok_r(NULL,",",&saveptr);	//get next token
+					token = (char*)strtok_r(NULL,",",&saveptr);	//get next token
 					switch(i)
 					{
 						case 1: strncpy(latDeg,token,2);				// latitude degree angle
@@ -291,12 +294,12 @@ void GPS_Controller(void)
 				char * token;			//token of data frame
 				char lastToken[12];		//variable to stock last token
 
-				token = strtok_r(str,",",&saveptr);			//get first token
+				token = (char*)strtok_r(str,",",&saveptr);			//get first token
 
 				while (token != NULL) 		//loop for all tokens
 				{
 					strcpy(lastToken, token);				//save token for next cycle
-					token = strtok_r(NULL, ",",&saveptr);	//get next token
+					token = (char*)strtok_r(NULL, ",",&saveptr);	//get next token
 					if(token[0]=='K')		//if current token is 'K'				
 						break;				//speed is last token -> break
 				}

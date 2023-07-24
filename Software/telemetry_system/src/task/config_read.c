@@ -6,6 +6,9 @@
 #include <zephyr/data/json.h>
 #include <zephyr/fs/fs.h>
 #include <ff.h>
+#include <stdlib.h>
+#include <zephyr/toolchain.h>
+#include <string.h>
 
 #include "config_read.h"
 #include "memory_management.h"
@@ -202,7 +205,7 @@ int read_config(void)
 
 			char * saveptr=NULL;									//strtok save pointer
 			char * str = configFile.Sensors[i].CanFrame;			//string of frame
-			char * token = strtok_r(str,":",&saveptr);				// get first token
+			char * token = (char*)strtok_r(str,":",&saveptr);				// get first token
 
 			int idx = 0;		//loop index
 
@@ -239,7 +242,7 @@ int read_config(void)
 				}
 
 				
-				token = strtok_r(NULL,":",&saveptr);				// get next token
+				token = (char*)strtok_r(NULL,":",&saveptr);				// get next token
 				idx++;
 			}
 			sensorBuffer[i].dlc=idx;

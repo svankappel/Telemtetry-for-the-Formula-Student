@@ -24,10 +24,6 @@ LOG_MODULE_REGISTER(udp);
 #define UDP_CLIENT_WAIT_TO_SEND_MS 500
 
 
-//! UDP client connection check interval in miliseconds
-#define UDP_CLIENT_SLEEP_TIME_MS 100
-
-
 //! UDP Client stack definition
 K_THREAD_STACK_DEFINE(UDP_CLIENT_STACK, UDP_CLIENT_STACK_SIZE);
 //! Variable to identify the UDP Client thread
@@ -82,8 +78,12 @@ void UDP_Client()
 
 
 	// Starve the thread until a DHCP IP is assigned to the board 
-	while(!context.ip_assigned){
-		k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
+	while(!context.ip_assigned)
+	{
+		//delete messages coming from queue while ip is not assigned
+		char * memPtr;										//message to get from queue
+		memPtr = k_queue_get(&udpQueue,K_FOREVER);			//wait for message in queue
+		k_heap_free(&messageHeap,memPtr);		//free memory allocation made in data sender
 	}
 
 	for(int i=0;i<socketCount;i++)		//loop for all sockets
@@ -111,8 +111,12 @@ void UDP_Client()
 				close(udpClientSocket[i]);		
 
 			// Starve the thread until a DHCP IP is assigned to the board 
-			while( !context.ip_assigned ){
-				k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
+			while( !context.ip_assigned )
+			{
+				//delete messages coming from queue while ip is not assigned
+				char * memPtr;										//message to get from queue
+				memPtr = k_queue_get(&udpQueue,K_FOREVER);			//wait for message in queue
+				k_heap_free(&messageHeap,memPtr);		//free memory allocation made in data sender
 			}
 			
 			// reconnect all sockets
