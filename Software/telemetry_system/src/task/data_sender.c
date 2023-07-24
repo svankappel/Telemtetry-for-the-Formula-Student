@@ -10,6 +10,7 @@ LOG_MODULE_REGISTER(sender);
 #include "memory_management.h"
 #include "config_read.h"
 #include "data_logger.h"
+#include "deviceInformation.h"
 
 
 K_TIMER_DEFINE(dataSenderTimer, data_Sender_timer_handler,NULL);
@@ -36,60 +37,63 @@ void data_Sender_timer_handler()
 */
 void Data_Sender() 
 {
-	char * memPtr = k_heap_alloc(&messageHeap,udpQueueMesLength,K_NO_WAIT);		//memory allocation for message string
-
-	if(memPtr != NULL)			//memory alloc success
+	if(context.ip_assigned)
 	{
-		sprintf(memPtr,"{");	// open json section
+		char * memPtr = k_heap_alloc(&messageHeap,udpQueueMesLength,K_NO_WAIT);		//memory allocation for message string
 
-		k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
-
-		for(int i=0; i<configFile.sensorCount;i++)	//loop for every sensor
+		if(memPtr != NULL)			//memory alloc success
 		{
-			if(sensorBuffer[i].wifi_enable)
+			sprintf(memPtr,"{");	// open json section
+
+			k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
+
+			for(int i=0; i<configFile.sensorCount;i++)	//loop for every sensor
 			{
-				//print name and value in json string
-				if(i==0)
-					sprintf(memPtr,"%s\"%s\":%u",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);		
-				else
-					sprintf(memPtr,"%s,\"%s\":%u",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);
+				if(sensorBuffer[i].wifi_enable)
+				{
+					//print name and value in json string
+					if(i==0)
+						sprintf(memPtr,"%s\"%s\":%u",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);		
+					else
+						sprintf(memPtr,"%s,\"%s\":%u",memPtr,sensorBuffer[i].name_wifi,sensorBuffer[i].value);
+				}
 			}
+
+			k_mutex_unlock(&sensorBufferMutex);				//unlock sensor buffer mutex
+
+			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+			
+			if(gpsBuffer.LiveCoordEnable)
+				sprintf(memPtr,"%s,\"%s\":\"%s\"",memPtr,gpsBuffer.NameLiveCoord,gpsBuffer.coord);
+			
+			if(gpsBuffer.LiveSpeedEnable)
+				sprintf(memPtr,"%s,\"%s\":%s",memPtr,gpsBuffer.NameLiveSpeed,gpsBuffer.speed);
+
+			if(gpsBuffer.LiveFixEnable && gpsBuffer.fix)
+				sprintf(memPtr,"%s,\"%s\":true",memPtr,gpsBuffer.NameLiveFix);
+
+			if(gpsBuffer.LiveFixEnable && !gpsBuffer.fix)
+				sprintf(memPtr,"%s,\"%s\":false",memPtr,gpsBuffer.NameLiveFix);
+
+			k_mutex_unlock(&gpsBufferMutex);				//unlock gps buffer mutex
+
+
+			sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter in json
+			
+			if(logEnable)													//print log recording variable in json
+				sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr);
+			else
+				sprintf(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	
+
+			strcat(memPtr,"}");		//close json section
+			
+			k_queue_append(&udpQueue,memPtr);		//add message to the queue
 		}
-
-		k_mutex_unlock(&sensorBufferMutex);				//unlock sensor buffer mutex
-
-		k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
-		
-		if(gpsBuffer.LiveCoordEnable)
-			sprintf(memPtr,"%s,\"%s\":\"%s\"",memPtr,gpsBuffer.NameLiveCoord,gpsBuffer.coord);
-		
-		if(gpsBuffer.LiveSpeedEnable)
-			sprintf(memPtr,"%s,\"%s\":%s",memPtr,gpsBuffer.NameLiveSpeed,gpsBuffer.speed);
-
-		if(gpsBuffer.LiveFixEnable && gpsBuffer.fix)
-			sprintf(memPtr,"%s,\"%s\":true",memPtr,gpsBuffer.NameLiveFix);
-
-		if(gpsBuffer.LiveFixEnable && !gpsBuffer.fix)
-			sprintf(memPtr,"%s,\"%s\":false",memPtr,gpsBuffer.NameLiveFix);
-
-		k_mutex_unlock(&gpsBufferMutex);				//unlock gps buffer mutex
-
-
-		sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter in json
-		
-		if(logEnable)													//print log recording variable in json
-			sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr);
-		else
-			sprintf(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	
-
-		strcat(memPtr,"}");		//close json section
-		
-		k_queue_append(&udpQueue,memPtr);		//add message to the queue
+		else					 //memory alloc fail
+		{
+			LOG_ERR("data sender memory allocation failed");	//print error
+		}	
 	}
-	else					 //memory alloc fail
-	{
-		LOG_ERR("data sender memory allocation failed");	//print error
-	}	
 	
 
 	keepAliveCounter = keepAliveCounter<99 ? keepAliveCounter+1 : 0 ;		//increment keepalive
