@@ -18,10 +18,12 @@ K_QUEUE_DEFINE(udpQueue);
 
 int main(void)
 {
-	Task_Led_Init();		//start led controller Thread
-	Task_Button_Manager_Init();		//start button manager thread
-	int ret = read_config();
-	if(ret == 0)			//read configuration file ok
+	Task_Led_Init();				//start led controller Thread
+	Task_Button_Manager_Init();		//start button manager
+
+	int ret = read_config();		//read configuration file
+
+	if(ret == 0)			//configuration file ok
 	{
 		Task_Wifi_Sta_Init();			//start wifi stationning Thread
 		
@@ -34,7 +36,6 @@ int main(void)
 		Task_Data_Logger_Init();		//start data logger
 
 		Task_CAN_Controller_Init();		//start can controller thread
-		
 	}
 
 	k_sleep( K_FOREVER );

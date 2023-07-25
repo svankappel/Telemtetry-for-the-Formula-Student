@@ -31,7 +31,7 @@ static K_WORK_DELAYABLE_DEFINE(debounceBtn_work, debouncedBtn);
 //button pressed interrupt callback
 void button_pressed(const struct device *dev, struct gpio_callback *cb,uint32_t pins)
 {
-	k_work_reschedule(&debounceBtn_work, K_MSEC(15));	//call debounced callback with a small delay, delay restarted after every bounces
+	k_work_reschedule(&debounceBtn_work, K_MSEC(15));	//call debouncedBtn after a small timeout, timeout restarted after every bounces
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
