@@ -26,7 +26,13 @@
 			"log.h": "c",
 			"fs.h": "c",
 			"disk_access.h": "c",
-			"json.h": "c"
+			"json.h": "c",
+			"stdlib.h": "c",
+			"toolchain.h": "c",
+			"string.h": "c",
+			"stddef.h": "c",
+			"features.h": "c",
+			"cdefs.h": "c"
 		}
 	}
 }

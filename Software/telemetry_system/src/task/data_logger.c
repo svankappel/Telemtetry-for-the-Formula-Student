@@ -150,7 +150,7 @@ void data_log_start()
     
     struct fs_dir_t dirp;               //directory
 	static struct fs_dirent entry;      //files 
-    char fileName[9];                   //file name
+    char fileName[15];                   //file name
     int n = 0;                          //file number
 
 	fs_dir_t_init(&dirp);		            //initialize directory
@@ -179,7 +179,7 @@ void data_log_start()
 
     //init file object
     fs_file_t_init(&logFile);
-    char path[18];
+    char path[25];
     sprintf(path,"/SD:/%s.csv",fileName);       //generate file path
     //create and open file on SD card
     res = fs_open(&logFile,path,FS_O_CREATE | FS_O_WRITE);

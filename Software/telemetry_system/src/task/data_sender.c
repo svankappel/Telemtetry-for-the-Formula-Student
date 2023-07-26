@@ -8,9 +8,9 @@ LOG_MODULE_REGISTER(sender);
 
 #include "data_sender.h"
 #include "memory_management.h"
-#include "deviceInformation.h"
 #include "config_read.h"
 #include "data_logger.h"
+#include "deviceInformation.h"
 
 
 K_TIMER_DEFINE(dataSenderTimer, data_Sender_timer_handler,NULL);
@@ -37,7 +37,6 @@ void data_Sender_timer_handler()
 */
 void Data_Sender() 
 {
-	//send data only if the system is connected and an IP address is assigned
 	if(context.ip_assigned)
 	{
 		char * memPtr = k_heap_alloc(&messageHeap,udpQueueMesLength,K_NO_WAIT);		//memory allocation for message string
@@ -79,7 +78,6 @@ void Data_Sender()
 			k_mutex_unlock(&gpsBufferMutex);				//unlock gps buffer mutex
 
 
-
 			sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter in json
 			
 			if(logEnable)													//print log recording variable in json
@@ -96,6 +94,7 @@ void Data_Sender()
 			LOG_ERR("data sender memory allocation failed");	//print error
 		}	
 	}
+	
 
 	keepAliveCounter = keepAliveCounter<99 ? keepAliveCounter+1 : 0 ;		//increment keepalive
 }

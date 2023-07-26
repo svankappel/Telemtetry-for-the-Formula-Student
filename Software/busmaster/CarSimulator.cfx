@@ -61,7 +61,7 @@
           <AccMaskByte3_1>FF</AccMaskByte3_1>
           <AccMaskByte4_0>FF</AccMaskByte4_0>
           <AccMaskByte4_1>FF</AccMaskByte4_1>
-          <HardwareDesc>Tiny-CAN I-XL (Snr:01002740)</HardwareDesc>
+          <HardwareDesc>Simulation</HardwareDesc>
           <ItemUnderFocus>64</ItemUnderFocus>
           <BTR0BTR1>0</BTR0BTR1>
           <AccFilterMode>0</AccFilterMode>
@@ -324,9 +324,9 @@
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
         <Top>173</Top>
-        <Left>1930</Left>
+        <Left>10</Left>
         <Bottom>451</Bottom>
-        <Right>2279</Right>
+        <Right>359</Right>
       </Interpretation_Window_Position>
     </CAN_Message_Window>
     <J1939_Message_Window>
@@ -424,9 +424,9 @@
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
         <Top>173</Top>
-        <Left>1930</Left>
+        <Left>10</Left>
         <Bottom>451</Bottom>
-        <Right>2279</Right>
+        <Right>359</Right>
       </Interpretation_Window_Position>
     </J1939_Message_Window>
     <LIN_Message_Window>
@@ -509,9 +509,9 @@
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
         <Top>173</Top>
-        <Left>1930</Left>
+        <Left>10</Left>
         <Bottom>451</Bottom>
-        <Right>2279</Right>
+        <Right>359</Right>
       </Interpretation_Window_Position>
     </LIN_Message_Window>
     <CAN_Tx_Window>
