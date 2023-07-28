@@ -19,15 +19,15 @@ int suspBR;
 
 
 /* Start BUSMASTER Function Prototype  */
-GCC_EXTERN void GCC_EXPORT OnTimer_suspensionTmr_25( );
+GCC_EXTERN void GCC_EXPORT OnTimer_suspensionTmr_50( );
 /* End BUSMASTER Function Prototype  */
 
 /* Start BUSMASTER Function Wrapper Prototype  */
 /* End BUSMASTER Function Wrapper Prototype  */
 
 
-/* Start BUSMASTER generated function - OnTimer_suspensionTmr_25 */
-void OnTimer_suspensionTmr_25( )
+/* Start BUSMASTER generated function - OnTimer_suspensionTmr_50 */
+void OnTimer_suspensionTmr_50( )
 {
 /* TODO */
     
@@ -47,4 +47,4 @@ void OnTimer_suspensionTmr_25( )
     tx.data[6]=suspBR >> 8;
     tx.data[7]=suspBR;
     SendMsg(tx);
-}/* End BUSMASTER generated function - OnTimer_suspensionTmr_25 */
+}/* End BUSMASTER generated function - OnTimer_suspensionTmr_50 */
