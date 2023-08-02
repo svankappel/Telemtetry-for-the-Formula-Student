@@ -11,10 +11,24 @@ LOG_MODULE_REGISTER(logger);
 #include <zephyr/fs/fs.h>
 #include <ff.h>
 
+#include <zephyr/drivers/flash.h>
+#include <zephyr/storage/flash_map.h>
+#include <zephyr/fs/nvs.h>
+
 #include "data_logger.h"
 #include "memory_management.h"
 #include "deviceInformation.h"
 #include "config_read.h"
+
+
+static struct nvs_fs fs;
+
+#define NVS_PARTITION		storage_partition
+#define NVS_PARTITION_DEVICE	FIXED_PARTITION_DEVICE(NVS_PARTITION)
+#define NVS_PARTITION_OFFSET	FIXED_PARTITION_OFFSET(NVS_PARTITION)
+
+#define LOGNAME_ID 1
+
 
 K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 
@@ -146,34 +160,26 @@ void data_log_start()
 
     sprintf(str,"%s\n",str);                // \n at end of line
 
-    //---------------------------------------------------- find first filename available
+    //---------------------------------------------------- get log number from flash for filename
     
-    struct fs_dir_t dirp;               //directory
-	static struct fs_dirent entry;      //files 
-    char fileName[15];                   //file name
-    int n = 0;                          //file number
+    uint16_t logNumber = 0;
+    //read flash
+    int rc = nvs_read(&fs, LOGNAME_ID, &logNumber, sizeof(logNumber));
 
-	fs_dir_t_init(&dirp);		            //initialize directory
-
-	// Verify fs_opendir() 			
-	res = fs_opendir(&dirp, "/SD:");		//open SD card base directory
-	if (res) 								//return error if open failed
-		return;
-
-	for (;;) 			//loop to find first LOG_XX available
-	{
-		res = fs_readdir(&dirp, &entry);			//read directory
-        sprintf(fileName,"LOG_%04d",n);             //generate file name
-
-		if (entry.type == FS_DIR_ENTRY_FILE)		//file found
-		{
-			if(strstr(entry.name, fileName) != NULL)	 //check if file exists
-                n++;                //increment file number
-            else
-                break;              //file name is new
-		} 
+	if (rc > 0) 
+	{ // item was found, show it 
+        logNumber++;
+		printk("Id: %d, logNumber: %d\n", LOGNAME_ID, logNumber);
+	} 
+	else   
+	{// item was not found, add it 
+		printk("No address found, adding %d at id %d\n", logNumber,LOGNAME_ID);
 	}
-	fs_closedir(&dirp);	//close directory
+    (void)nvs_write(&fs, LOGNAME_ID, &logNumber, sizeof(logNumber));
+
+
+    char fileName[15];                   //file name
+    sprintf(fileName,"LOG_%04d",logNumber);
 
     //---------------------------------------------------- Create file and write first line
 
@@ -219,6 +225,37 @@ void data_log_stop()
 */
 void Task_Data_Logger_Init(void)
 {
+    int rc;
+    struct flash_pages_info info;
+
+    /* define the nvs file system by settings with:
+	 *	sector_size equal to the pagesize,
+	 *	3 sectors
+	 *	starting at NVS_PARTITION_OFFSET
+	 */
+	fs.flash_device = NVS_PARTITION_DEVICE;
+	if (!device_is_ready(fs.flash_device)) {
+		printk("Flash device %s is not ready\n", fs.flash_device->name);
+		return;
+	}
+	fs.offset = NVS_PARTITION_OFFSET;
+	rc = flash_get_page_info_by_offs(fs.flash_device, fs.offset, &info);
+	if (rc) {
+		printk("Unable to get page info\n");
+		return;
+	}
+	fs.sector_size = info.size;
+	fs.sector_count = 3U;
+
+	rc = nvs_mount(&fs);
+	if (rc) {
+		printk("Flash Init failed\n");
+		return;
+	}
+
+    
+
+
 	logEnable=false;
 
     lineSize=15;          //size for "Timestamp [ms];"
