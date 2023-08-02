@@ -1,3 +1,26 @@
+/*! --------------------------------------------------------------------
+ *	Telemetry System	-	@file datalogger.c
+ *----------------------------------------------------------------------
+ * HES-SO Valais Wallis 
+ * Systems Engineering
+ * Infotronics
+ * ---------------------------------------------------------------------
+ * @author Sylvestre van Kappel
+ * @date 02.08.2023
+ * ---------------------------------------------------------------------
+ * @brief Data logger task. This task reads periodically the sensor 
+ *        buffer and puts the data in the CSV file
+ * ---------------------------------------------------------------------
+ * Telemetry system for the Valais Wallis Racing Team.
+ * This file contains code for the onboard device of the telemetry
+ * system. The system receives the data from the sensors on the CAN bus 
+ * and the data from the GPS on a UART port. An SD Card contains a 
+ * configuration file with all the system parameters. The measurements 
+ * are sent via Wi-Fi to a computer on the base station. The measurements 
+ * are also saved in a CSV file on the SD card. 
+ *--------------------------------------------------------------------*/
+
+//includes
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(logger);
 
@@ -10,19 +33,18 @@ LOG_MODULE_REGISTER(logger);
 #include <zephyr/data/json.h>
 #include <zephyr/fs/fs.h>
 #include <ff.h>
-
 #include <zephyr/drivers/flash.h>
 #include <zephyr/storage/flash_map.h>
 #include <zephyr/fs/nvs.h>
 
+//includes of project files
 #include "data_logger.h"
 #include "memory_management.h"
 #include "deviceInformation.h"
 #include "config_read.h"
 
-
+// Non Volatile Strorage (NVS) defines
 static struct nvs_fs fs;
-
 #define NVS_PARTITION		storage_partition
 #define NVS_PARTITION_DEVICE	FIXED_PARTITION_DEVICE(NVS_PARTITION)
 #define NVS_PARTITION_OFFSET	FIXED_PARTITION_OFFSET(NVS_PARTITION)
@@ -30,12 +52,13 @@ static struct nvs_fs fs;
 #define LOGNAME_ID 1
 
 
+//periodic timer that reads measurements
 K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 
+//works for process triggerd by interruption
 K_WORK_DEFINE(dataLogWork, Data_Logger);		//dataLogWork -> called by timer to log data
-K_WORK_DEFINE(startLog, data_log_start);		    //dataLogWork -> called by button
-K_WORK_DEFINE(stopLog, data_log_stop);		    //dataLogWork -> called by button
-
+K_WORK_DEFINE(startLog, data_log_start);		//start log -> called by button
+K_WORK_DEFINE(stopLog, data_log_stop);		    //stop log -> called by button
 
 //file system
 static FATFS fat_fs;
@@ -52,13 +75,10 @@ static const char *disk_mount_pt = "/SD:";
 //log file
 struct fs_file_t logFile;
 
-
-
+// global variables
 bool logEnable;             //log is recording variable
 uint32_t timestamp;         //timestamp of the current data
 int lineSize;               //line size in the csv file
-
-
 
 //-----------------------------------------------------------------------------------------------------------------------
 /*! Data_Logger implements the Data_Logger task
@@ -69,36 +89,41 @@ void Data_Logger()
 {
 	if(logEnable)       //if logging is enabled
     {
-        //create line of csv file
+        //------------------------------------------------------------  create line of csv file
+
         char str[lineSize];
-        sprintf(str,"%d;",timestamp);                       //timestamp at first column
+        sprintf(str,"%d;",timestamp);                       //print timestamp at first column of CSV file
 
-        k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
+        k_mutex_lock(&sensorBufferMutex,K_FOREVER);		    //lock sensor buffer mutex
 
-        for(int i=0;i<configFile.sensorCount;i++)           //sensor values
+        for(int i=0;i<configFile.sensorCount;i++)           //print sensor values in CSV file
         {
             sprintf(str,"%s%u;",str,sensorBuffer[i].value);
         }
 
-        k_mutex_unlock(&sensorBufferMutex);		//unlock sensor buffer mutex
+        k_mutex_unlock(&sensorBufferMutex);		            //unlock sensor buffer mutex
 
-        k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+        k_mutex_lock(&gpsBufferMutex,K_FOREVER);		    //lock gps buffer mutex
 
-        sprintf(str,"%s%s;",str,gpsBuffer.coord);                   //add gps data
+        sprintf(str,"%s%s;",str,gpsBuffer.coord);           //print gps data in CSV file
         sprintf(str,"%s%s;",str,gpsBuffer.speed);
         sprintf(str,"%s%s;",str,gpsBuffer.fix ? "true" : "false");
         
-        k_mutex_unlock(&gpsBufferMutex);		//unlock gps buffer mutex
+        k_mutex_unlock(&gpsBufferMutex);		            //unlock gps buffer mutex
 
-        sprintf(str,"%s\n",str);                            // \n at end of line
+        sprintf(str,"%s\n",str);                            //append \n at end of line of the CSV file
         
-        //write line in file
-        if(fs_write(&logFile,str,strlen(str))<0)
-            k_work_submit(&stopLog);                //stop log in case of error
 
-        fs_sync(&logFile);   //flush
+        //--------------------------------------------------------------  write line in file
 
-        timestamp+=(int)(1000/configFile.LogFrameRate);     //increment timestamp
+        if(fs_write(&logFile,str,strlen(str))<0)            //write string in file
+            k_work_submit(&stopLog);                        //stop log in case of error
+
+        fs_sync(&logFile);                                  //flush
+
+        //-------------------------------------------------------------- increment timestamp
+
+        timestamp+=(int)(1000/configFile.LogFrameRate);     
     }     
 }
 
@@ -117,10 +142,10 @@ void data_Logger_timer_handler()
 */
 void data_Logger_button_handler()
 {
-    if(logEnable)
-        k_work_submit(&stopLog);
+    if(logEnable)                   //if system is currently recording logs
+        k_work_submit(&stopLog);        //stop
     else
-        k_work_submit(&startLog);
+        k_work_submit(&startLog);       //start
 }
 
 
@@ -128,68 +153,67 @@ void data_Logger_button_handler()
 //  start log function -> called by button handler
 void data_log_start()
 {
-    //mount sd card
+    //---------------------------------------------- mount sd card
     mp.mnt_point = disk_mount_pt;
 
 	int res = fs_mount(&mp);	//mount sd card
 
-	if (res != FR_OK) 		// return if mount failed
+	if (res != FR_OK) 		    // return if mount failed
         return;
 
-    //----------------------------------------------generate first line of csv file
+    //---------------------------------------------- generate first line of csv file
     char str[lineSize];
 
-    sprintf(str,"Timestamp [ms];");     //timestamp at first column
+    sprintf(str,"Timestamp [ms];");                 //timestamp at first column
 
     k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
 
-    for(int i=0;i<configFile.sensorCount;i++)       //every sensors
+    for(int i=0;i<configFile.sensorCount;i++)       //print name of all sensors
     {
         sprintf(str,"%s%s;",str,sensorBuffer[i].name_log);
     }
 
-    k_mutex_unlock(&sensorBufferMutex);		//unlock sensor buffer mutex
+    k_mutex_unlock(&sensorBufferMutex);		        //unlock sensor buffer mutex
 
     k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
 
-    sprintf(str,"%s%s;",str,gpsBuffer.NameLogCoord);        //add gps names
+    sprintf(str,"%s%s;",str,gpsBuffer.NameLogCoord);        //print gps names
     sprintf(str,"%s%s;",str,gpsBuffer.NameLogSpeed);
     sprintf(str,"%s%s;",str,gpsBuffer.NameLogFix);
     
-    k_mutex_unlock(&gpsBufferMutex);		//unlock gps buffer mutex
+    k_mutex_unlock(&gpsBufferMutex);		        //unlock gps buffer mutex
 
-    sprintf(str,"%s\n",str);                // \n at end of line
+    sprintf(str,"%s\n",str);                        //append \n at end of line
 
-    //---------------------------------------------------- get log number from flash for filename
+    //---------------------------------------------------- generate filename
     
     uint16_t logNumber = 0;
+    
     //read flash
     int rc = nvs_read(&fs, LOGNAME_ID, &logNumber, sizeof(logNumber));
 
-	if (rc > 0) 
-	{ // item was found, show it 
-        logNumber++;
-		printk("Id: %d, logNumber: %d\n", LOGNAME_ID, logNumber);
-	} 
-	else   
-	{// item was not found, add it 
-		printk("No address found, adding %d at id %d\n", logNumber,LOGNAME_ID);
-	}
+	if (rc > 0)                      
+        logNumber++;             // if item was found increment number 
+	
+
+    //add new log Number in the flash memory
     (void)nvs_write(&fs, LOGNAME_ID, &logNumber, sizeof(logNumber));
 
 
     char fileName[15];                   //file name
-    sprintf(fileName,"LOG_%04d",logNumber);
+
+    sprintf(fileName,"LOG_%04d",logNumber);    //generate file name with file number
 
     //---------------------------------------------------- Create file and write first line
 
-    //init file object
-    fs_file_t_init(&logFile);
+    fs_file_t_init(&logFile);                   //init file object
+
     char path[25];
     sprintf(path,"/SD:/%s.csv",fileName);       //generate file path
+
     //create and open file on SD card
     res = fs_open(&logFile,path,FS_O_CREATE | FS_O_WRITE);
-    if (res != 0) 		     // return if file creation failed
+    if (res != 0) 		                // return if file creation failed
         return;
 
     //write in file
@@ -199,6 +223,7 @@ void data_log_start()
 
     //set log enable to true
     logEnable=true;
+
     //set timestamp
     timestamp=0;
 }
@@ -225,27 +250,25 @@ void data_log_stop()
 */
 void Task_Data_Logger_Init(void)
 {
-    int rc;
-    struct flash_pages_info info;
-
     /* define the nvs file system by settings with:
 	 *	sector_size equal to the pagesize,
-	 *	3 sectors
+	 *	1 sectors
 	 *	starting at NVS_PARTITION_OFFSET
 	 */
+    struct flash_pages_info info;
 	fs.flash_device = NVS_PARTITION_DEVICE;
 	if (!device_is_ready(fs.flash_device)) {
-		printk("Flash device %s is not ready\n", fs.flash_device->name);
+		LOG_ERR("Flash device %s is not ready\n", fs.flash_device->name);
 		return;
 	}
 	fs.offset = NVS_PARTITION_OFFSET;
-	rc = flash_get_page_info_by_offs(fs.flash_device, fs.offset, &info);
+	int rc = flash_get_page_info_by_offs(fs.flash_device, fs.offset, &info);
 	if (rc) {
-		printk("Unable to get page info\n");
+		LOG_ERR("Unable to get page info\n");
 		return;
 	}
 	fs.sector_size = info.size;
-	fs.sector_count = 3U;
+	fs.sector_count = 1U;
 
 	rc = nvs_mount(&fs);
 	if (rc) {
@@ -253,11 +276,10 @@ void Task_Data_Logger_Init(void)
 		return;
 	}
 
-    
-
-
+    //set log recording variable to false
 	logEnable=false;
 
+    //calculate line size
     lineSize=15;          //size for "Timestamp [ms];"
     for(int i=0;i<configFile.sensorCount;i++)
     {
@@ -287,5 +309,6 @@ void Task_Data_Logger_Init(void)
         lineSize+=(1+strlen(gpsBuffer.NameLiveFix));        // add string length of name + 1 for the ;
     
 
+    //start timer
     k_timer_start(&dataLoggerTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LogFrameRate)));
 }
