@@ -252,7 +252,6 @@ void Task_Data_Logger_Init(void)
 {
     /* define the nvs file system by settings with:
 	 *	sector_size equal to the pagesize,
-	 *	1 sectors
 	 *	starting at NVS_PARTITION_OFFSET
 	 */
     struct flash_pages_info info;
@@ -268,7 +267,7 @@ void Task_Data_Logger_Init(void)
 		return;
 	}
 	fs.sector_size = info.size;
-	fs.sector_count = 1U;
+	fs.sector_count = 3U;
 
 	rc = nvs_mount(&fs);
 	if (rc) {
