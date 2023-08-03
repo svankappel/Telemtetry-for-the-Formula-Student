@@ -31,7 +31,20 @@ static struct k_thread gpsControllerThread;
 
 #define MSG_SIZE 85
 
-//gps data buffer
+/*! @brief gps buffer struct
+    @param speed current gps speed
+    @param coord current gps coords
+    @param fix current gps fix status
+    @param NameLiveCoord name of the coord field in the live transmission
+    @param NameLogCoord name of the coord field in the logs
+    @param LiveCoordEnable coords enabled in the live transmission
+    @param NameLiveSpeed name of the speed field in the live transmission
+    @param NameLogSpeed name of the speed field in the logs
+    @param LiveSpeedEnable speed enabled in the live transmission
+    @param NameLiveFix name of the fix status field in the live transmission
+    @param NameLogFix name of the fix status field in the logs
+    @param LiveFixEnable fix status enabled in the live transmission
+*/
 tGps gpsBuffer;
 K_MUTEX_DEFINE(gpsBufferMutex);
 

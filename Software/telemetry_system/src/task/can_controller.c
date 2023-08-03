@@ -29,6 +29,20 @@ static struct k_thread canControllerThread;
 
 
 //sensor buffer and mutex to protect it
+
+/*! @brief sensor buffer struct
+    @param name_wifi name of the sensor in the live transmission
+    @param name_log name of the sensor in the logs
+    @param value current value of the sensor
+    @param wifi_enabled sensor value transmitted in the live
+    @param canID CAN id of the message containing the value
+    @param B1 position of 1st byte (LSB) in the CAN message
+    @param B2 position of 2nd byte in the CAN message
+    @param B3 position of 3rd byte in the CAN message
+    @param B4 position of 4th byte (MSB) in the CAN message
+    @param dlc length of the CAN message
+    @param conditions conditions of the can message
+*/
 tSensor sensorBuffer[MAX_SENSORS];
 K_MUTEX_DEFINE(sensorBufferMutex);
 
