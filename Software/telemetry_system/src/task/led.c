@@ -1,26 +1,52 @@
+/*! --------------------------------------------------------------------
+ *	Telemetry System	-	@file led.c
+ *----------------------------------------------------------------------
+ * HES-SO Valais Wallis 
+ * Systems Engineering
+ * Infotronics
+ * ---------------------------------------------------------------------
+ * @author Sylvestre van Kappel
+ * @date 02.08.2023
+ * ---------------------------------------------------------------------
+ * @brief Led task controlls leds. The led1 blinks if the wifi is 
+ *        connected and led2 blinks if logs are currently recording. 
+ *        if an error occured during the configuration file read, the 
+ *        led2 stays on.
+ * ---------------------------------------------------------------------
+ * Telemetry system for the Valais Wallis Racing Team.
+ * This file contains code for the onboard device of the telemetry
+ * system. The system receives the data from the sensors on the CAN bus 
+ * and the data from the GPS on a UART port. An SD Card contains a 
+ * configuration file with all the system parameters. The measurements 
+ * are sent via Wi-Fi to a computer on the base station. The measurements 
+ * are also saved in a CSV file on the SD card. 
+ *--------------------------------------------------------------------*/
+
+//includes
 #include <nrfx_clock.h>
 #include <zephyr/kernel.h>
 #include <zephyr/init.h>
 #include <zephyr/drivers/gpio.h>
 #include "led.h"
 
+//project files includes
 #include "deviceinformation.h"
 #include "data_logger.h"
 #include "config_read.h"
 
 
-//! Wifi thread priority level
+//! LED thread priority level
 #define LED_STACK_SIZE 1024
-//! Wifi thread priority level
+//! LED thread priority level
 #define LED_PRIORITY 7
 
-//! WiFi stack definition
+//! LED stack definition
 K_THREAD_STACK_DEFINE(LED_STACK, LED_STACK_SIZE);
-//! Variable to identify the Wifi thread
+//! Variable to identify the LED thread
 static struct k_thread ledThread;
 
 
-/* 1000 msec = 1 sec */
+//blink time
 #define LED_SLEEP_TIME_MS   100
 
 /* The devicetree node identifier for the "led0" alias. */
@@ -58,7 +84,7 @@ void Led(void)
 		return;
 
 
-	while (true) //---------------------------------------------------thread infinite loop
+	while (true) //--------------------------------------------------- thread infinite loop
 	{
 		//blink led 1 if wifi is connected
 		if (context.connected) 	
@@ -71,13 +97,9 @@ void Led(void)
 		if(configOK)
 		{
 			if (logEnable) 
-			{
 				gpio_pin_toggle_dt(&led2);
-			}
 			else 
-			{
 				gpio_pin_set_dt(&led2, 0);
-			}
 		}
 		else	//set led on if config file is not ok
 		{
@@ -85,7 +107,7 @@ void Led(void)
 		}
 
 		k_msleep(LED_SLEEP_TIME_MS);
-	}		//----------------------------------------------------------- end of thread infinite loop
+	}	//----------------------------------------------------------- end of thread infinite loop
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -108,6 +130,3 @@ void Task_Led_Init( void )
 	 k_thread_name_set(&ledThread, "ledBlinking");
 	 k_thread_start(&ledThread);
 }
-
-
-
