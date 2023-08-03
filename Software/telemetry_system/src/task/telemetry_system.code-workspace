@@ -37,7 +37,8 @@
 			"kernel.h": "c",
 			"socket.h": "c",
 			"net_private.h": "c",
-			"wifi_sta.h": "c"
+			"wifi_sta.h": "c",
+			"gps_controller.h": "c"
 		}
 	}
 }

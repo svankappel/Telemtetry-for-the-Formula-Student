@@ -1,3 +1,26 @@
+/*! --------------------------------------------------------------------
+ *	Telemetry System	-	@file gps_controller.c
+ *----------------------------------------------------------------------
+ * HES-SO Valais Wallis 
+ * Systems Engineering
+ * Infotronics
+ * ---------------------------------------------------------------------
+ * @author Sylvestre van Kappel
+ * @date 02.08.2023
+ * ---------------------------------------------------------------------
+ * @brief GPS Controller task receives data from the GPS module on the
+ * 		  uart port and fill the GPS buffer with the received data
+ * ---------------------------------------------------------------------
+ * Telemetry system for the Valais Wallis Racing Team.
+ * This file contains code for the onboard device of the telemetry
+ * system. The system receives the data from the sensors on the CAN bus 
+ * and the data from the GPS on a UART port. An SD Card contains a 
+ * configuration file with all the system parameters. The measurements 
+ * are sent via Wi-Fi to a computer on the base station. The measurements 
+ * are also saved in a CSV file on the SD card. 
+ *--------------------------------------------------------------------*/
+
+//includes
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(gps);
 #include <zephyr/kernel.h>
@@ -10,6 +33,7 @@ LOG_MODULE_REGISTER(gps);
 #include <zephyr/toolchain.h>
 #include <string.h>
 
+//project file includes
 #include "gps_controller.h"
 #include "memory_management.h"
 #include "config_read.h"
@@ -20,7 +44,6 @@ LOG_MODULE_REGISTER(gps);
 //! GPS thread priority level
 #define GPS_CONTROLLER_PRIORITY 2
 
-
 //! GPS stack definition
 K_THREAD_STACK_DEFINE(GPS_CONTROLLER_STACK, GPS_CONTROLLER_STACK_SIZE);
 //! Variable to identify the GPS thread
@@ -29,6 +52,7 @@ static struct k_thread gpsControllerThread;
 // change this to any other UART peripheral if desired 
 #define UART_DEVICE_NODE DT_CHOSEN(zephyr_shell_uart)
 
+//max size of NMEA message
 #define MSG_SIZE 85
 
 /*! @brief gps buffer struct
@@ -51,6 +75,7 @@ K_MUTEX_DEFINE(gpsBufferMutex);
 // queue to store up to 10 messages (aligned to 4-byte boundary) 
 K_MSGQ_DEFINE(uart_msgq, MSG_SIZE, 10, 4);
 
+//uart device declaration
 static const struct device *const uart_dev = DEVICE_DT_GET(UART_DEVICE_NODE);
 
 // receive buffer used in UART ISR callback 
@@ -58,6 +83,10 @@ static char rx_buf[MSG_SIZE];
 static int rx_buf_pos;
 
 //serial callback function prototype
+/*!
+ * @brief Read characters from UART until line end is detected. Afterwards push the
+ * 		  data to the message queue.
+ */
 void serial_cb(const struct device *dev, void *user_data);
 
 
@@ -74,6 +103,7 @@ void GPS_Controller(void)
 	//rx buffer
 	char rx_buf[MSG_SIZE];
 
+	//check if uart device is ready
 	if (!device_is_ready(uart_dev)) 
 	{
 		LOG_INF("UART device not found!");
@@ -353,9 +383,9 @@ void Task_GPS_Controller_Init( void )
 
 
 //-----------------------------------------------------------------------------------------------------------------------
-/*
- * Read characters from UART until line end is detected. Afterwards push the
- * data to the message queue.
+/*!
+ * @brief Read characters from UART until line end is detected. Afterwards push the
+ * 		  data to the message queue.
  */
 void serial_cb(const struct device *dev, void *user_data)
 {
