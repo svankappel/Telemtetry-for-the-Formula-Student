@@ -33,7 +33,8 @@
 			"stddef.h": "c",
 			"features.h": "c",
 			"cdefs.h": "c",
-			"nvs.h": "c"
+			"nvs.h": "c",
+			"kernel.h": "c"
 		}
 	}
 }

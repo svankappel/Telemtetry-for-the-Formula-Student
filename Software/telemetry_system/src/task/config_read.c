@@ -1,3 +1,27 @@
+/*! --------------------------------------------------------------------
+ *	Telemetry System	-	@file config_read.c
+ *----------------------------------------------------------------------
+ * HES-SO Valais Wallis 
+ * Systems Engineering
+ * Infotronics
+ * ---------------------------------------------------------------------
+ * @author Sylvestre van Kappel
+ * @date 02.08.2023
+ * ---------------------------------------------------------------------
+ * @brief reads the configuration file on the SD card
+ * ---------------------------------------------------------------------
+ * Telemetry system for the Valais Wallis Racing Team.
+ * This file contains code for the onboard device of the telemetry
+ * system. The system receives the data from the sensors on the CAN bus 
+ * and the data from the GPS on a UART port. An SD Card contains a 
+ * configuration file with all the system parameters. The measurements 
+ * are sent via Wi-Fi to a computer on the base station. The measurements 
+ * are also saved in a CSV file on the SD card. 
+ *--------------------------------------------------------------------*/
+
+//includes
+#include <zephyr/logging/log.h>
+LOG_MODULE_REGISTER(config);
 #include <zephyr/kernel.h>
 #include <errno.h>
 #include <stdio.h>
@@ -10,11 +34,9 @@
 #include <zephyr/toolchain.h>
 #include <string.h>
 
+//include project files
 #include "config_read.h"
 #include "memory_management.h"
-
-#include <zephyr/logging/log.h>
-LOG_MODULE_REGISTER(config);
 
 //file system
 static FATFS fat_fs;
@@ -88,9 +110,11 @@ static const struct json_obj_descr config_descr[] = {
 
 
 //-----------------------------------------------------------------------------------------------------------------------
-/*! read_config function
-* @brief read_config reads the config file and put the datas in a struct	
-* return 0 when config file is ok, 1 in case of json error, 2 in case of sd card error, 3 if config file is not found
+/*! @brief read_config reads the config file and put the datas in a config struct	
+* @retval 0 on success
+* @retval 1 on json error
+* @retval 2 on disk error
+* @retval 3 on file error
 */
 int read_config(void)
 {
@@ -116,7 +140,7 @@ int read_config(void)
 	struct fs_dir_t dirp;
 	static struct fs_dirent entry;
 
-	fs_dir_t_init(&dirp);		//initialize directory
+	fs_dir_t_init(&dirp);					//initialize directory
 
 	// Verify fs_opendir() 			
 	res = fs_opendir(&dirp, "/SD:");		//open SD card base directory
@@ -126,17 +150,17 @@ int read_config(void)
 		return 2;
 	}
 
-	for (;;) 			//loop to find config file
+	for (;;) 								//loop to find config file
 	{
-		res = fs_readdir(&dirp, &entry);			//read directory
+		res = fs_readdir(&dirp, &entry);	//read directory
 
 		if (res || entry.name[0] == 0) 		//no more files
 			return 3;						//return error code
 
-		if (entry.type == FS_DIR_ENTRY_FILE)		//file found
+		if (entry.type == FS_DIR_ENTRY_FILE)				//file found
 		{
 			LOG_INF("[FILE] %s (size = %zu)\n",entry.name, entry.size);
-			if(strstr(entry.name, "CONF") != NULL)				//check if file is config file
+			if(strstr(entry.name, "CONF") != NULL)			//check if file is config file
 				break;										//exit loop
 		} 
 	}
@@ -168,36 +192,41 @@ int read_config(void)
 	fs_read(&fs_configFile,readBuf,entry.size);		//read file
 
 
-	fs_close(&fs_configFile);							//close file
+	fs_close(&fs_configFile);					//close file
 
 	fs_unmount(&mp);							//unmount sd disk
 
 
 	//--------------------------------------- parse json string
 
+	//parse json
 	int ret = json_obj_parse(readBuf,entry.size,config_descr,ARRAY_SIZE(config_descr),&configFile);
 	
-	if(ret<0)		//json parse fail
+	if(ret<0)				//if json parse fail
 	{
 		LOG_ERR("Error reading config file");	//print error
 		configOK=false;
 		return 1;
 	}
-	else			//json parse success
+	else					//json parse success
 	{		
 		LOG_INF("Config file OK");				//print message		
-		configOK=true;
+		configOK=true;				
 		
-		//initialize sensor buffer
+		//----------------------------------------------------------------------------------initialize sensor buffer
+
 		for(int i=0; i<configFile.sensorCount;i++)	 //for all sensors
 		{
 			//configure sensor buffer
-			sensorBuffer[i].name_wifi=configFile.Sensors[i].NameLive;	
-			sensorBuffer[i].name_log=configFile.Sensors[i].NameLog;
-			sensorBuffer[i].wifi_enable=configFile.Sensors[i].LiveEnable;
-			sensorBuffer[i].value=0;
-			sensorBuffer[i].canID=(uint32_t)strtol(configFile.Sensors[i].CanID, NULL, 0);
+			sensorBuffer[i].name_wifi=configFile.Sensors[i].NameLive;			//set name on live
+			sensorBuffer[i].name_log=configFile.Sensors[i].NameLog;				//set name on logs
+			sensorBuffer[i].wifi_enable=configFile.Sensors[i].LiveEnable;		//sensor active on live
+			sensorBuffer[i].value=0;											//initialize sensor value
+			sensorBuffer[i].canID=(uint32_t)strtol(configFile.Sensors[i].CanID, NULL, 0);	//set can ID
 			
+			//initialize position of bytes in CAN frame from config file 
+			// config file form : "CanFrame":"X:X:B2:B1:X:X:X:X"
+
 			sensorBuffer[i].B1=-1;
 			sensorBuffer[i].B2=-1;
 			sensorBuffer[i].B3=-1;
@@ -205,38 +234,38 @@ int read_config(void)
 
 			char * saveptr=NULL;									//strtok save pointer
 			char * str = configFile.Sensors[i].CanFrame;			//string of frame
-			char * token = (char*)strtok_r(str,":",&saveptr);				// get first token
+			char * token = (char*)strtok_r(str,":",&saveptr);		//get first token
 
 			int idx = 0;		//loop index
 
-			//loop for all token of NMEA frame
+			//loop for all token of config frame
 			while (token!=NULL) 
 			{
-				if(strcmp(token,"X")==0)
+				if(strcmp(token,"X")==0)						// X -> no conditions
 				{
 					sensorBuffer[i].conditions[idx]=-1;
 				}
-				else if(strcmp(token,"B1")==0)
+				else if(strcmp(token,"B1")==0)					// B1 -> set B1 with current position
 				{
 					sensorBuffer[i].B1=idx;
 					sensorBuffer[i].conditions[idx]=-1;
 				}
-				else if(strcmp(token,"B2")==0)
+				else if(strcmp(token,"B2")==0)					// B2 -> set B2 with current position
 				{
 					sensorBuffer[i].B2=idx;
 					sensorBuffer[i].conditions[idx]=-1;
 				}
-				else if(strcmp(token,"B3")==0)
+				else if(strcmp(token,"B3")==0)					// B3 -> set B3 with current position
 				{
 					sensorBuffer[i].B3=idx;
 					sensorBuffer[i].conditions[idx]=-1;
 				}
-				else if(strcmp(token,"B4")==0)
+				else if(strcmp(token,"B4")==0)					// B4 -> set B4 with current position
 				{
 					sensorBuffer[i].B4=idx;
 					sensorBuffer[i].conditions[idx]=-1;
 				}
-				else
+				else											// else -> number -> set condition array
 				{
 					sensorBuffer[i].conditions[idx]=(int)strtol(token, NULL, 0);
 				}
@@ -249,10 +278,14 @@ int read_config(void)
 
 		}
 
-		//initialize gps buffer
+		//------------------------------------------------------------------------------------  initialize gps buffer
+
+		//initialize gps buffer values
 		gpsBuffer.fix=false;
 		strcpy(gpsBuffer.speed,"0.0");
 		strcpy(gpsBuffer.coord,"0.0 0.0");
+		
+		//initialize gpsbuffer parames with config file values
 		gpsBuffer.LiveCoordEnable=configFile.GPS.Coordinates.LiveEnable;
 		gpsBuffer.LiveSpeedEnable=configFile.GPS.Speed.LiveEnable;
 		gpsBuffer.LiveFixEnable=configFile.GPS.Fix.LiveEnable;
@@ -262,8 +295,6 @@ int read_config(void)
 		gpsBuffer.NameLogSpeed=configFile.GPS.Speed.NameLog;
 		gpsBuffer.NameLiveFix=configFile.GPS.Fix.NameLive;
 		gpsBuffer.NameLogFix=configFile.GPS.Fix.NameLog;
-
-
 		return 0;
 	}
 	
