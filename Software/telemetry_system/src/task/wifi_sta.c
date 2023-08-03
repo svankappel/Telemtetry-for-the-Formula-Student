@@ -1,6 +1,29 @@
+/*! --------------------------------------------------------------------
+ *	Telemetry System	-	@file wifi_sta.c
+ *----------------------------------------------------------------------
+ * HES-SO Valais Wallis 
+ * Systems Engineering
+ * Infotronics
+ * ---------------------------------------------------------------------
+ * @author Sylvestre van Kappel
+ * @date 02.08.2023
+ * ---------------------------------------------------------------------
+ * @brief Wifi sta task connects the system to the configured WiFi
+ * 		  Router and Redundancy WiFi Router. Connection status is
+ * 		  saved in the deviceInformation.h file
+ * ---------------------------------------------------------------------
+ * Telemetry system for the Valais Wallis Racing Team.
+ * This file contains code for the onboard device of the telemetry
+ * system. The system receives the data from the sensors on the CAN bus 
+ * and the data from the GPS on a UART port. An SD Card contains a 
+ * configuration file with all the system parameters. The measurements 
+ * are sent via Wi-Fi to a computer on the base station. The measurements 
+ * are also saved in a CSV file on the SD card. 
+ *--------------------------------------------------------------------*/
+
+//includes
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(wifi);
-
 #include <nrfx_clock.h>
 #include <zephyr/kernel.h>
 #include <stdio.h>
@@ -8,23 +31,16 @@ LOG_MODULE_REGISTER(wifi);
 #include <zephyr/shell/shell.h>
 #include <zephyr/sys/printk.h>
 #include <zephyr/init.h>
-
 #include <zephyr/net/net_if.h>
 #include <zephyr/net/wifi_mgmt.h>
 #include <zephyr/net/net_event.h>
 #include <qspi_if.h>
-
 #include "net_private.h"
+
+//project file includes
 #include "deviceinformation.h"
 #include "wifi_sta.h"
 #include "config_read.h"
-
-#define SSID1 "VRT-Telemetry"
-#define SSID2 "motog8"
-#define PASSWORD1 "TJJC2233"
-#define PASSWORD2 "TJJC2233"
-#define REDUNDANCY true
-
 
 //! Wifi thread priority level
 #define WIFI_STACK_SIZE 4096
@@ -36,25 +52,30 @@ K_THREAD_STACK_DEFINE(WIFI_STACK, WIFI_STACK_SIZE);
 //! Variable to identify the Wifi thread
 static struct k_thread wifiThread;
 
-#define WIFI_SHELL_MODULE "wifi"
-
 #define WIFI_SHELL_MGMT_EVENTS (NET_EVENT_WIFI_CONNECT_RESULT | NET_EVENT_WIFI_DISCONNECT_RESULT)
 
-#define MAX_SSID_LEN        32
-#define DHCP_TIMEOUT        70
+//timeout values
 #define CONNECTION_TIMEOUT_RED_ENABLED  30
 #define CONNECTION_TIMEOUT_RED_DISABLED  50000
 #define STATUS_POLLING_MS   300
 
-
 //static functions prototypes
+
+/*!	@brief	wifi connect function -> sends a connect request to wifi driver*/
 static int wifi_connect(const char* ssid, char* pass);
+/*! @brief wifi args to params function -> set wifi param struct with ssid and password		*/
 static int __wifi_args_to_params(struct wifi_connect_req_params *params, const char* ssid, char* pass);
+/*! @brief net event callback (dhcp) */
 static void net_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface);
+/*! @brief print dhcp information function */
 static void print_dhcp_ip(struct net_mgmt_event_callback *cb);
+/*! @brief wifi events callback (connect and disconnect)  */
 static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface);
+/*! @brief wifi connect event function */
 static void handle_wifi_connect_result(struct net_mgmt_event_callback *cb);
+/*! @brief wifi disconnect event function */
 static void handle_wifi_disconnect_result(struct net_mgmt_event_callback *cb);
+/*! @brief wifi log informations function */
 static int cmd_wifi_status(void);
 
 
@@ -66,28 +87,6 @@ static struct net_mgmt_event_callback net_shell_mgmt_cb;
 //context struct from deviceInformation.h
 tContext context;
 int connectionTimeout;
-
-//-----------------------------------------------------------------------------------------------------------------------
-/*! Task_Wifi_Stationing_Init initializes the task Wifi Stationing.
-*
-* @brief 
-*/
-void Task_Wifi_Sta_Init( void ){
-    
-	k_thread_create	(&wifiThread,
-					WIFI_STACK,										        
-					WIFI_STACK_SIZE,
-					(k_thread_entry_t)Wifi_Sta,
-					NULL,
-					NULL,
-					NULL,
-					WIFI_PRIORITY,
-					0,
-					K_NO_WAIT);	
-
-	 k_thread_name_set(&wifiThread, "wifiStationing");
-	 k_thread_start(&wifiThread);
-}
 
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -128,8 +127,7 @@ void Wifi_Sta( void )
 
 
 //------------------------------------------------------------------------------------------------
-//		wifi connect function -> sends a connect request to wifi driver
-
+/*!	@brief	wifi connect function -> sends a connect request to wifi driver*/
 static int wifi_connect(const char* ssid, char* pass)
 {
 	//wifi params
@@ -157,8 +155,9 @@ static int wifi_connect(const char* ssid, char* pass)
 }
 
 //------------------------------------------------------------------------------------------------
-//		Connection handler (called after wifi_connect)
-
+/*! @brief connection handler must be called after the wifi_connect request.
+ *         It handles the connection callbacks.
+*/
 void connection_handler(void)
 {
 	for (int i = 0; i < connectionTimeout; i++) 		//wait some time 
@@ -183,8 +182,7 @@ void connection_handler(void)
 
 
 //------------------------------------------------------------------------------------------------
-//		wifi events callback (connect and disconnect)
-
+/*! @brief wifi events callback (connect and disconnect)  */		
 static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface)
 {
 	switch (mgmt_event) 
@@ -200,7 +198,7 @@ static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t
 	}
 }
 //------------------------------------------------------------------------------------------------
-//		wifi connect event function
+/*! @brief wifi connect event function */
 
 static void handle_wifi_connect_result(struct net_mgmt_event_callback *cb)
 {
@@ -223,7 +221,7 @@ static void handle_wifi_connect_result(struct net_mgmt_event_callback *cb)
 	context.connect_result = true;
 }
 //------------------------------------------------------------------------------------------------
-//		wifi disconnect event function
+/*! @brief wifi disconnect event function */
 
 static void handle_wifi_disconnect_result(struct net_mgmt_event_callback *cb)
 {
@@ -250,7 +248,7 @@ static void handle_wifi_disconnect_result(struct net_mgmt_event_callback *cb)
 
 
 //------------------------------------------------------------------------------------------------
-//		net event callback (dhcp)
+/*! @brief net event callback (dhcp) */
 
 static void net_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t mgmt_event, struct net_if *iface)
 {
@@ -265,7 +263,7 @@ static void net_mgmt_event_handler(struct net_mgmt_event_callback *cb, uint32_t 
 	}
 }
 //------------------------------------------------------------------------------------------------
-//		print dhcp information function
+/*! @brief print dhcp information function */
 
 static void print_dhcp_ip(struct net_mgmt_event_callback *cb)
 {
@@ -282,7 +280,7 @@ static void print_dhcp_ip(struct net_mgmt_event_callback *cb)
 
 
 //------------------------------------------------------------------------------------------------
-//		wifi args to params function -> set wifi param struct with ssid and password
+/*! @brief wifi args to params function -> set wifi param struct with ssid and password		*/
 
 static int __wifi_args_to_params(struct wifi_connect_req_params *params, const char* ssid, char* pass)
 {
@@ -320,7 +318,7 @@ static int __wifi_args_to_params(struct wifi_connect_req_params *params, const c
 }
 
 //------------------------------------------------------------------------------------------------
-//		wifi log informations function
+/*! @brief wifi log informations function */
 
 static int cmd_wifi_status(void)
 {
@@ -356,4 +354,24 @@ static int cmd_wifi_status(void)
 		LOG_INF("RSSI: %d", status.rssi);
 	}
 	return 0;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! @brief Task_Wifi_Stationing_Init initializes the task Wifi Stationing.
+*/
+void Task_Wifi_Sta_Init( void ){
+    
+	k_thread_create	(&wifiThread,
+					WIFI_STACK,										        
+					WIFI_STACK_SIZE,
+					(k_thread_entry_t)Wifi_Sta,
+					NULL,
+					NULL,
+					NULL,
+					WIFI_PRIORITY,
+					0,
+					K_NO_WAIT);	
+
+	 k_thread_name_set(&wifiThread, "wifiStationing");
+	 k_thread_start(&wifiThread);
 }

@@ -8,8 +8,8 @@
  * @author Sylvestre van Kappel
  * @date 02.08.2023
  * ---------------------------------------------------------------------
- * @brief Data logger task. This task reads periodically the sensor 
- *        buffer and puts the data in the CSV file
+ * @brief UDP Client task reads the messages in the udp Queue and send
+ *        them to the server(s)
  * ---------------------------------------------------------------------
  * Telemetry system for the Valais Wallis Racing Team.
  * This file contains code for the onboard device of the telemetry

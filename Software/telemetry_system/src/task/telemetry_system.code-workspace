@@ -34,7 +34,10 @@
 			"features.h": "c",
 			"cdefs.h": "c",
 			"nvs.h": "c",
-			"kernel.h": "c"
+			"kernel.h": "c",
+			"socket.h": "c",
+			"net_private.h": "c",
+			"wifi_sta.h": "c"
 		}
 	}
 }
