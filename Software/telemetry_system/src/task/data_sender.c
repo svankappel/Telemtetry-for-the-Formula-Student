@@ -1,20 +1,44 @@
+/*! --------------------------------------------------------------------
+ *	Telemetry System	-	@file data_sender.c
+ *----------------------------------------------------------------------
+ * HES-SO Valais Wallis 
+ * Systems Engineering
+ * Infotronics
+ * ---------------------------------------------------------------------
+ * @author Sylvestre van Kappel
+ * @date 02.08.2023
+ * ---------------------------------------------------------------------
+ * @brief Data sender task. This task periodically sends the data from
+ * 		  the sensor buffer and gps buffer to the udp client task
+ * ---------------------------------------------------------------------
+ * Telemetry system for the Valais Wallis Racing Team.
+ * This file contains code for the onboard device of the telemetry
+ * system. The system receives the data from the sensors on the CAN bus 
+ * and the data from the GPS on a UART port. An SD Card contains a 
+ * configuration file with all the system parameters. The measurements 
+ * are sent via Wi-Fi to a computer on the base station. The measurements 
+ * are also saved in a CSV file on the SD card. 
+ *--------------------------------------------------------------------*/
+
+//includes
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(sender);
-
 #include <zephyr/kernel.h>
 #include <errno.h>
 #include <stdio.h>
 #include <zephyr/data/json.h>
 
+//project file includes
 #include "data_sender.h"
 #include "memory_management.h"
 #include "config_read.h"
 #include "data_logger.h"
 #include "deviceInformation.h"
 
-
+//periodic timer that reads the measurements 
 K_TIMER_DEFINE(dataSenderTimer, data_Sender_timer_handler,NULL);
 
+//work for process triggerd by timer interruption
 K_WORK_DEFINE(dataSendWork, Data_Sender);		//dataSendWork -> called by timer to send data
 
 int udpQueueMesLength;		//max length of the json string

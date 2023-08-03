@@ -1,5 +1,5 @@
 /*! --------------------------------------------------------------------
- *	Telemetry System	-	@file datalogger.h
+ *	Telemetry System	-	@file data_logger.h
  *----------------------------------------------------------------------
  * HES-SO Valais Wallis 
  * Systems Engineering

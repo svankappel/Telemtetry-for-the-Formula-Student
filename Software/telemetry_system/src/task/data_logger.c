@@ -1,5 +1,5 @@
 /*! --------------------------------------------------------------------
- *	Telemetry System	-	@file datalogger.c
+ *	Telemetry System	-	@file data_logger.c
  *----------------------------------------------------------------------
  * HES-SO Valais Wallis 
  * Systems Engineering
@@ -55,7 +55,7 @@ static struct nvs_fs fs;
 //periodic timer that reads measurements
 K_TIMER_DEFINE(dataLoggerTimer, data_Logger_timer_handler,NULL);
 
-//works for process triggerd by interruption
+//works for processes triggerd by interruptions
 K_WORK_DEFINE(dataLogWork, Data_Logger);		//dataLogWork -> called by timer to log data
 K_WORK_DEFINE(startLog, data_log_start);		//start log -> called by button
 K_WORK_DEFINE(stopLog, data_log_stop);		    //stop log -> called by button
