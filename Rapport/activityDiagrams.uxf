@@ -4,7 +4,7 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>530</x>
+      <x>130</x>
       <y>100</y>
       <w>100</w>
       <h>40</h>
@@ -17,7 +17,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>570</x>
+      <x>170</x>
       <y>180</y>
       <w>40</w>
       <h>40</h>
@@ -29,7 +29,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>580</x>
+      <x>180</x>
       <y>130</y>
       <w>30</w>
       <h>70</h>
@@ -40,7 +40,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>80</x>
       <y>190</y>
       <w>120</w>
       <h>80</h>
@@ -52,7 +52,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
+      <x>200</x>
       <y>190</y>
       <w>170</w>
       <h>80</h>
@@ -64,7 +64,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>430</x>
+      <x>30</x>
       <y>250</y>
       <w>120</w>
       <h>40</h>
@@ -75,7 +75,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>430</x>
+      <x>30</x>
       <y>320</y>
       <w>120</w>
       <h>40</h>
@@ -87,7 +87,7 @@ CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>80</x>
       <y>280</y>
       <w>30</w>
       <h>60</h>
@@ -98,7 +98,7 @@ CSV file</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>430</x>
+      <x>30</x>
       <y>390</y>
       <w>120</w>
       <h>40</h>
@@ -109,7 +109,7 @@ CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>80</x>
       <y>350</y>
       <w>30</w>
       <h>60</h>
@@ -120,7 +120,7 @@ CSV file</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>430</x>
+      <x>30</x>
       <y>460</y>
       <w>120</w>
       <h>40</h>
@@ -132,7 +132,7 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>80</x>
       <y>420</y>
       <w>30</w>
       <h>60</h>
@@ -143,7 +143,7 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>630</x>
+      <x>230</x>
       <y>250</y>
       <w>120</w>
       <h>40</h>
@@ -155,7 +155,7 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>630</x>
+      <x>230</x>
       <y>320</y>
       <w>120</w>
       <h>40</h>
@@ -166,7 +166,7 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>630</x>
+      <x>230</x>
       <y>390</y>
       <w>120</w>
       <h>40</h>
@@ -177,7 +177,7 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>680</x>
+      <x>280</x>
       <y>280</y>
       <w>30</w>
       <h>60</h>
@@ -188,7 +188,7 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>680</x>
+      <x>280</x>
       <y>350</y>
       <w>30</w>
       <h>60</h>
@@ -199,7 +199,7 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>580</x>
+      <x>180</x>
       <y>540</y>
       <w>20</w>
       <h>20</h>
@@ -210,7 +210,7 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>80</x>
       <y>490</y>
       <w>120</w>
       <h>80</h>
@@ -221,7 +221,7 @@ to "recording"</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>590</x>
+      <x>190</x>
       <y>420</y>
       <w>120</w>
       <h>150</h>
@@ -232,7 +232,7 @@ to "recording"</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>920</x>
+      <x>520</x>
       <y>100</y>
       <w>100</w>
       <h>40</h>
@@ -244,7 +244,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>960</x>
+      <x>560</x>
       <y>180</y>
       <w>40</w>
       <h>40</h>
@@ -256,7 +256,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>130</y>
       <w>30</w>
       <h>70</h>
@@ -267,7 +267,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>190</y>
       <w>150</w>
       <h>460</h>
@@ -279,7 +279,7 @@ m2=[not recording]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>620</y>
       <w>20</w>
       <h>20</h>
@@ -290,7 +290,7 @@ m2=[not recording]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>210</y>
       <w>90</w>
       <h>80</h>
@@ -302,7 +302,7 @@ m2=[recording]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>270</y>
       <w>200</w>
       <h>40</h>
@@ -313,7 +313,7 @@ m2=[recording]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>550</y>
       <w>200</w>
       <h>40</h>
@@ -325,7 +325,7 @@ in CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>370</y>
       <w>30</w>
       <h>60</h>
@@ -336,7 +336,7 @@ in CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>510</y>
       <w>30</w>
       <h>60</h>
@@ -347,7 +347,7 @@ in CSV file</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>580</y>
       <w>30</w>
       <h>60</h>
@@ -358,7 +358,7 @@ in CSV file</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>400</x>
+      <x>0</x>
       <y>0</y>
       <w>790</w>
       <h>720</h>
@@ -369,7 +369,7 @@ in CSV file</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1680</x>
+      <x>1280</x>
       <y>90</y>
       <w>100</w>
       <h>40</h>
@@ -381,7 +381,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1720</x>
+      <x>1320</x>
       <y>170</y>
       <w>40</w>
       <h>40</h>
@@ -393,7 +393,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1730</x>
+      <x>1330</x>
       <y>120</y>
       <w>30</w>
       <h>70</h>
@@ -404,7 +404,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1730</x>
+      <x>1330</x>
       <y>180</y>
       <w>230</w>
       <h>380</h>
@@ -416,7 +416,7 @@ m2=[wifi disconnectd]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1640</x>
+      <x>1240</x>
       <y>330</y>
       <w>200</w>
       <h>40</h>
@@ -428,7 +428,7 @@ sensor and gps buffers values</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1730</x>
+      <x>1330</x>
       <y>650</y>
       <w>20</w>
       <h>20</h>
@@ -439,7 +439,7 @@ sensor and gps buffers values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1730</x>
+      <x>1330</x>
       <y>200</y>
       <w>120</w>
       <h>80</h>
@@ -451,7 +451,7 @@ m2=[wifi connected]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1730</x>
+      <x>1330</x>
       <y>430</y>
       <w>30</w>
       <h>60</h>
@@ -462,7 +462,7 @@ m2=[wifi connected]</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1230</x>
+      <x>830</x>
       <y>0</y>
       <w>790</w>
       <h>720</h>
@@ -473,7 +473,7 @@ m2=[wifi connected]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1640</x>
+      <x>1240</x>
       <y>570</y>
       <w>200</w>
       <h>40</h>
@@ -484,7 +484,7 @@ m2=[wifi connected]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1640</x>
+      <x>1240</x>
       <y>260</y>
       <w>200</w>
       <h>40</h>
@@ -496,7 +496,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1640</x>
+      <x>1240</x>
       <y>400</y>
       <w>200</w>
       <h>40</h>
@@ -508,7 +508,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>470</y>
       <w>160</w>
       <h>40</h>
@@ -521,7 +521,7 @@ type=sender</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1730</x>
+      <x>1330</x>
       <y>500</y>
       <w>30</w>
       <h>90</h>
@@ -532,7 +532,7 @@ type=sender</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1730</x>
+      <x>1330</x>
       <y>360</y>
       <w>30</w>
       <h>60</h>
@@ -543,7 +543,7 @@ type=sender</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1730</x>
+      <x>1330</x>
       <y>290</y>
       <w>30</w>
       <h>60</h>
@@ -554,7 +554,7 @@ type=sender</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>410</y>
       <w>200</w>
       <h>40</h>
@@ -566,7 +566,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>300</y>
       <w>30</w>
       <h>60</h>
@@ -577,7 +577,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>440</y>
       <w>30</w>
       <h>60</h>
@@ -588,7 +588,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>840</x>
+      <x>440</x>
       <y>810</y>
       <w>20</w>
       <h>20</h>
@@ -599,7 +599,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
+      <x>440</x>
       <y>820</y>
       <w>30</w>
       <h>90</h>
@@ -610,7 +610,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>760</x>
+      <x>360</x>
       <y>890</y>
       <w>190</w>
       <h>40</h>
@@ -621,7 +621,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
+      <x>440</x>
       <y>920</y>
       <w>30</w>
       <h>70</h>
@@ -632,7 +632,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>760</x>
+      <x>360</x>
       <y>970</y>
       <w>190</w>
       <h>40</h>
@@ -643,7 +643,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>830</x>
+      <x>430</x>
       <y>1090</y>
       <w>40</w>
       <h>40</h>
@@ -654,7 +654,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
+      <x>440</x>
       <y>1000</y>
       <w>30</w>
       <h>110</h>
@@ -665,7 +665,7 @@ buffer and gps buffer values</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>580</x>
+      <x>180</x>
       <y>1100</y>
       <w>270</w>
       <h>100</h>
@@ -677,7 +677,7 @@ m2=[wifi connected]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
+      <x>440</x>
       <y>1120</y>
       <w>140</w>
       <h>80</h>
@@ -689,7 +689,7 @@ m2=[wifi disconnected]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>760</x>
+      <x>360</x>
       <y>1180</y>
       <w>190</w>
       <h>40</h>
@@ -700,7 +700,7 @@ m2=[wifi disconnected]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>760</x>
+      <x>360</x>
       <y>1340</y>
       <w>190</w>
       <h>40</h>
@@ -711,7 +711,7 @@ m2=[wifi disconnected]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
+      <x>440</x>
       <y>1210</y>
       <w>30</w>
       <h>70</h>
@@ -722,7 +722,7 @@ m2=[wifi disconnected]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>520</x>
+      <x>120</x>
       <y>1180</y>
       <w>140</w>
       <h>40</h>
@@ -735,7 +735,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>490</x>
+      <x>90</x>
       <y>1260</y>
       <w>190</w>
       <h>40</h>
@@ -747,7 +747,7 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>580</x>
+      <x>180</x>
       <y>1210</y>
       <w>30</w>
       <h>70</h>
@@ -758,7 +758,7 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>580</x>
+      <x>180</x>
       <y>1040</y>
       <w>460</w>
       <h>440</h>
@@ -769,7 +769,7 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
+      <x>440</x>
       <y>1370</y>
       <w>30</w>
       <h>110</h>
@@ -780,7 +780,7 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>400</x>
+      <x>0</x>
       <y>750</y>
       <w>790</w>
       <h>770</h>
@@ -791,7 +791,7 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>1700</y>
       <w>20</w>
       <h>20</h>
@@ -802,7 +802,7 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>1800</y>
       <w>30</w>
       <h>90</h>
@@ -813,7 +813,7 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>900</x>
+      <x>500</x>
       <y>1870</y>
       <w>190</w>
       <h>40</h>
@@ -824,7 +824,7 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>1990</y>
       <w>40</w>
       <h>40</h>
@@ -835,7 +835,7 @@ UPD socket(s)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>790</x>
+      <x>390</x>
       <y>2000</y>
       <w>200</w>
       <h>40</h>
@@ -847,7 +847,7 @@ m2=[connection succeed]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>2020</y>
       <w>140</w>
       <h>100</h>
@@ -859,7 +859,7 @@ m2=[connection failed]</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>400</x>
+      <x>0</x>
       <y>1610</y>
       <w>790</w>
       <h>850</h>
@@ -870,7 +870,7 @@ m2=[connection failed]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>1900</y>
       <w>30</w>
       <h>50</h>
@@ -881,7 +881,7 @@ m2=[connection failed]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>900</x>
+      <x>500</x>
       <y>1930</y>
       <w>190</w>
       <h>40</h>
@@ -893,7 +893,7 @@ or timeout</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>1710</y>
       <w>30</w>
       <h>80</h>
@@ -904,7 +904,7 @@ or timeout</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>900</x>
+      <x>500</x>
       <y>1770</y>
       <w>190</w>
       <h>40</h>
@@ -916,7 +916,7 @@ events callbacks</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>1960</y>
       <w>30</w>
       <h>50</h>
@@ -927,7 +927,7 @@ events callbacks</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>640</x>
+      <x>240</x>
       <y>1990</y>
       <w>160</w>
       <h>40</h>
@@ -939,7 +939,7 @@ disconnection</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>900</x>
+      <x>500</x>
       <y>2190</y>
       <w>190</w>
       <h>40</h>
@@ -951,7 +951,7 @@ redundancy Wifi Router</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>2320</y>
       <w>40</w>
       <h>40</h>
@@ -962,7 +962,7 @@ redundancy Wifi Router</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>790</x>
+      <x>390</x>
       <y>2330</y>
       <w>200</w>
       <h>40</h>
@@ -974,7 +974,7 @@ m2=[connection succeed]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
+      <x>130</x>
       <y>1830</y>
       <w>590</w>
       <h>610</h>
@@ -986,7 +986,7 @@ m2=[connection failed]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>2220</y>
       <w>30</w>
       <h>50</h>
@@ -997,7 +997,7 @@ m2=[connection failed]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>900</x>
+      <x>500</x>
       <y>2250</y>
       <w>190</w>
       <h>40</h>
@@ -1009,7 +1009,7 @@ or timeout</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>2280</y>
       <w>30</w>
       <h>60</h>
@@ -1020,7 +1020,7 @@ or timeout</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>640</x>
+      <x>240</x>
       <y>2320</y>
       <w>160</w>
       <h>40</h>
@@ -1032,7 +1032,7 @@ disconnection</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>970</x>
+      <x>570</x>
       <y>2100</y>
       <w>40</w>
       <h>40</h>
@@ -1043,7 +1043,7 @@ disconnection</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
+      <x>130</x>
       <y>2110</y>
       <w>460</w>
       <h>40</h>
@@ -1055,7 +1055,7 @@ m2=[redundancy disabled]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>580</x>
       <y>2130</y>
       <w>160</w>
       <h>80</h>
@@ -1067,7 +1067,7 @@ m2=[redundancy enabled]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
+      <x>130</x>
       <y>2000</y>
       <w>130</w>
       <h>30</h>
@@ -1078,7 +1078,7 @@ m2=[redundancy enabled]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
+      <x>130</x>
       <y>2330</y>
       <w>130</w>
       <h>30</h>
@@ -1089,7 +1089,7 @@ m2=[redundancy enabled]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1350</x>
+      <x>950</x>
       <y>1110</y>
       <w>100</w>
       <h>40</h>
@@ -1102,7 +1102,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1390</x>
+      <x>990</x>
       <y>1210</y>
       <w>40</w>
       <h>40</h>
@@ -1115,7 +1115,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1400</x>
+      <x>1000</x>
       <y>1140</y>
       <w>30</w>
       <h>90</h>
@@ -1126,7 +1126,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1220</x>
+      <x>820</x>
       <y>770</y>
       <w>850</w>
       <h>990</h>
@@ -1137,7 +1137,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1310</x>
+      <x>910</x>
       <y>1320</y>
       <w>200</w>
       <h>40</h>
@@ -1149,7 +1149,7 @@ and append it to message</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1400</x>
+      <x>1000</x>
       <y>1240</y>
       <w>170</w>
       <h>100</h>
@@ -1161,7 +1161,7 @@ m2=[uart buffer not empty]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1390</x>
+      <x>990</x>
       <y>1400</y>
       <w>40</w>
       <h>40</h>
@@ -1173,7 +1173,7 @@ m2=[uart buffer not empty]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1400</x>
+      <x>1000</x>
       <y>1350</y>
       <w>30</w>
       <h>70</h>
@@ -1184,7 +1184,7 @@ m2=[uart buffer not empty]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1400</x>
+      <x>1000</x>
       <y>1430</y>
       <w>140</w>
       <h>80</h>
@@ -1196,7 +1196,7 @@ m2=[end of uart frame]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1370</x>
+      <x>970</x>
       <y>1490</y>
       <w>110</w>
       <h>40</h>
@@ -1209,7 +1209,7 @@ type=sender</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1400</x>
+      <x>1000</x>
       <y>1170</y>
       <w>180</w>
       <h>400</h>
@@ -1220,7 +1220,7 @@ type=sender</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1420</x>
+      <x>1020</x>
       <y>1410</y>
       <w>160</w>
       <h>40</h>
@@ -1232,7 +1232,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1240</x>
+      <x>840</x>
       <y>1220</y>
       <w>190</w>
       <h>450</h>
@@ -1244,7 +1244,7 @@ m2=[uart buffer empty]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1400</x>
+      <x>1000</x>
       <y>1650</y>
       <w>20</w>
       <h>20</h>
@@ -1255,7 +1255,7 @@ m2=[uart buffer empty]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>830</y>
       <w>20</w>
       <h>20</h>
@@ -1266,7 +1266,7 @@ m2=[uart buffer empty]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>840</y>
       <w>30</w>
       <h>80</h>
@@ -1277,7 +1277,7 @@ m2=[uart buffer empty]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1600</x>
+      <x>1200</x>
       <y>900</y>
       <w>140</w>
       <h>40</h>
@@ -1288,7 +1288,7 @@ m2=[uart buffer empty]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>930</y>
       <w>30</w>
       <h>50</h>
@@ -1299,7 +1299,7 @@ m2=[uart buffer empty]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1600</x>
+      <x>1200</x>
       <y>960</y>
       <w>140</w>
       <h>40</h>
@@ -1310,7 +1310,7 @@ m2=[uart buffer empty]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>990</y>
       <w>30</w>
       <h>80</h>
@@ -1321,7 +1321,7 @@ m2=[uart buffer empty]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1590</x>
+      <x>1190</x>
       <y>1050</y>
       <w>130</w>
       <h>40</h>
@@ -1334,7 +1334,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>1080</y>
       <w>30</w>
       <h>70</h>
@@ -1345,7 +1345,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1650</x>
+      <x>1250</x>
       <y>1130</y>
       <w>40</w>
       <h>40</h>
@@ -1357,7 +1357,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1680</x>
+      <x>1280</x>
       <y>1140</y>
       <w>170</w>
       <h>40</h>
@@ -1369,7 +1369,7 @@ m2=[GSA message]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1830</x>
+      <x>1430</x>
       <y>1130</y>
       <w>130</w>
       <h>40</h>
@@ -1380,7 +1380,7 @@ m2=[GSA message]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>1160</y>
       <w>60</w>
       <h>80</h>
@@ -1392,7 +1392,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1650</x>
+      <x>1250</x>
       <y>1220</y>
       <w>40</w>
       <h>40</h>
@@ -1403,7 +1403,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>1250</y>
       <w>90</w>
       <h>90</h>
@@ -1415,7 +1415,7 @@ m2=[GPS Fix]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1680</x>
+      <x>1280</x>
       <y>1230</y>
       <w>350</w>
       <h>40</h>
@@ -1427,7 +1427,7 @@ m2=[no GPS Fix]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1650</x>
+      <x>1250</x>
       <y>1320</y>
       <w>40</w>
       <h>40</h>
@@ -1438,7 +1438,7 @@ m2=[no GPS Fix]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>1010</y>
       <w>370</w>
       <h>690</h>
@@ -1450,7 +1450,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1840</x>
+      <x>1440</x>
       <y>1320</y>
       <w>130</w>
       <h>40</h>
@@ -1462,7 +1462,7 @@ GPS Buffer</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1680</x>
+      <x>1280</x>
       <y>1330</y>
       <w>180</w>
       <h>40</h>
@@ -1474,7 +1474,7 @@ m2=[GLL message]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>1350</y>
       <w>60</w>
       <h>80</h>
@@ -1486,7 +1486,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1650</x>
+      <x>1250</x>
       <y>1410</y>
       <w>40</w>
       <h>40</h>
@@ -1497,7 +1497,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1840</x>
+      <x>1440</x>
       <y>1410</y>
       <w>130</w>
       <h>40</h>
@@ -1509,7 +1509,7 @@ GPS Buffer</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1680</x>
+      <x>1280</x>
       <y>1420</y>
       <w>180</w>
       <h>40</h>
@@ -1521,7 +1521,7 @@ m2=[RMC message]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>1440</y>
       <w>60</w>
       <h>80</h>
@@ -1533,7 +1533,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1650</x>
+      <x>1250</x>
       <y>1500</y>
       <w>40</w>
       <h>40</h>
@@ -1544,7 +1544,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1840</x>
+      <x>1440</x>
       <y>1500</y>
       <w>130</w>
       <h>40</h>
@@ -1556,7 +1556,7 @@ GPS Buffer</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1680</x>
+      <x>1280</x>
       <y>1510</y>
       <w>180</w>
       <h>40</h>
@@ -1568,7 +1568,7 @@ m2=[GGA message]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1660</x>
+      <x>1260</x>
       <y>1530</y>
       <w>60</w>
       <h>80</h>
@@ -1580,7 +1580,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1950</x>
+      <x>1550</x>
       <y>1140</y>
       <w>80</w>
       <h>30</h>
@@ -1591,7 +1591,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1960</x>
+      <x>1560</x>
       <y>1330</y>
       <w>70</w>
       <h>30</h>
@@ -1602,7 +1602,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1960</x>
+      <x>1560</x>
       <y>1420</y>
       <w>70</w>
       <h>30</h>
@@ -1613,7 +1613,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1960</x>
+      <x>1560</x>
       <y>1510</y>
       <w>70</w>
       <h>30</h>
@@ -1624,7 +1624,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1650</x>
+      <x>1250</x>
       <y>1590</y>
       <w>40</w>
       <h>40</h>
@@ -1635,7 +1635,7 @@ m2=[else]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1840</x>
+      <x>1440</x>
       <y>1590</y>
       <w>130</w>
       <h>40</h>
@@ -1647,7 +1647,7 @@ GPS Buffer</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1680</x>
+      <x>1280</x>
       <y>1600</y>
       <w>180</w>
       <h>40</h>
@@ -1659,7 +1659,7 @@ m2=[VTG message]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1960</x>
+      <x>1560</x>
       <y>1600</y>
       <w>70</w>
       <h>30</h>
@@ -1670,7 +1670,7 @@ m2=[VTG message]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
+      <x>440</x>
       <y>1290</y>
       <w>30</w>
       <h>70</h>
@@ -1681,7 +1681,7 @@ m2=[VTG message]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>760</x>
+      <x>360</x>
       <y>1260</y>
       <w>190</w>
       <h>40</h>
@@ -1692,7 +1692,7 @@ m2=[VTG message]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1420</x>
+      <x>1020</x>
       <y>210</y>
       <w>20</w>
       <h>20</h>
@@ -1703,7 +1703,7 @@ m2=[VTG message]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1340</x>
+      <x>940</x>
       <y>280</y>
       <w>180</w>
       <h>40</h>
@@ -1715,7 +1715,7 @@ of JSON message</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1420</x>
+      <x>1020</x>
       <y>220</y>
       <w>30</w>
       <h>80</h>
@@ -1726,7 +1726,7 @@ of JSON message</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1420</x>
+      <x>1020</x>
       <y>310</y>
       <w>30</w>
       <h>90</h>
@@ -1737,7 +1737,7 @@ of JSON message</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1340</x>
+      <x>940</x>
       <y>380</y>
       <w>180</w>
       <h>40</h>
@@ -1748,7 +1748,7 @@ of JSON message</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>340</y>
       <w>200</w>
       <h>40</h>
@@ -1760,7 +1760,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>480</y>
       <w>200</w>
       <h>40</h>
@@ -1772,7 +1772,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1730</x>
+      <x>1330</x>
       <y>600</y>
       <w>30</w>
       <h>70</h>
@@ -1783,7 +1783,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1560</x>
+      <x>1160</x>
       <y>1880</y>
       <w>20</w>
       <h>20</h>
@@ -1794,7 +1794,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1560</x>
+      <x>1160</x>
       <y>1890</y>
       <w>30</w>
       <h>70</h>
@@ -1805,7 +1805,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1480</x>
+      <x>1080</x>
       <y>1940</y>
       <w>190</w>
       <h>40</h>
@@ -1816,7 +1816,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1560</x>
+      <x>1160</x>
       <y>1970</y>
       <w>30</w>
       <h>90</h>
@@ -1827,7 +1827,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1550</x>
+      <x>1150</x>
       <y>2210</y>
       <w>40</w>
       <h>40</h>
@@ -1838,7 +1838,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1560</x>
+      <x>1160</x>
       <y>2070</y>
       <w>30</w>
       <h>90</h>
@@ -1849,7 +1849,7 @@ and gps buffer mutex</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1560</x>
+      <x>1160</x>
       <y>2240</y>
       <w>120</w>
       <h>80</h>
@@ -1861,7 +1861,7 @@ m2=[sensor found]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1560</x>
+      <x>1160</x>
       <y>2000</y>
       <w>200</w>
       <h>260</h>
@@ -1873,7 +1873,7 @@ m2=[no more sensors]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1480</x>
+      <x>1080</x>
       <y>2140</y>
       <w>190</w>
       <h>40</h>
@@ -1885,7 +1885,7 @@ same CAN ID in the buffer</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1560</x>
+      <x>1160</x>
       <y>2170</y>
       <w>30</w>
       <h>60</h>
@@ -1896,7 +1896,7 @@ same CAN ID in the buffer</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1480</x>
+      <x>1080</x>
       <y>2040</y>
       <w>180</w>
       <h>40</h>
@@ -1909,7 +1909,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1220</x>
+      <x>820</x>
       <y>1790</y>
       <w>710</w>
       <h>680</h>
@@ -1920,7 +1920,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1480</x>
+      <x>1080</x>
       <y>2300</y>
       <w>190</w>
       <h>40</h>
@@ -1931,7 +1931,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1410</x>
+      <x>1010</x>
       <y>2100</y>
       <w>180</w>
       <h>300</h>
@@ -1942,7 +1942,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>570</x>
+      <x>170</x>
       <y>2710</y>
       <w>20</w>
       <h>20</h>
@@ -1953,7 +1953,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>570</x>
+      <x>170</x>
       <y>2720</y>
       <w>30</w>
       <h>70</h>
@@ -1964,7 +1964,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>490</x>
+      <x>90</x>
       <y>2770</y>
       <w>190</w>
       <h>40</h>
@@ -1975,7 +1975,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>410</x>
+      <x>10</x>
       <y>2550</y>
       <w>710</w>
       <h>680</h>
@@ -1986,7 +1986,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>570</x>
+      <x>170</x>
       <y>2850</y>
       <w>20</w>
       <h>20</h>
@@ -1997,7 +1997,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>570</x>
+      <x>170</x>
       <y>2800</y>
       <w>30</w>
       <h>70</h>
@@ -2008,7 +2008,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>810</x>
+      <x>410</x>
       <y>2700</y>
       <w>160</w>
       <h>40</h>
@@ -2021,7 +2021,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>2730</y>
       <w>30</w>
       <h>70</h>
@@ -2032,7 +2032,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>810</x>
+      <x>410</x>
       <y>2780</y>
       <w>160</w>
       <h>40</h>
@@ -2045,7 +2045,7 @@ type=sender</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>810</x>
+      <x>410</x>
       <y>2860</y>
       <w>170</w>
       <h>40</h>
@@ -2057,7 +2057,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>2890</y>
       <w>30</w>
       <h>70</h>
@@ -2068,7 +2068,7 @@ type=receiver</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>870</x>
+      <x>470</x>
       <y>2940</y>
       <w>40</w>
       <h>40</h>
@@ -2079,7 +2079,7 @@ type=receiver</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
+      <x>310</x>
       <y>2950</y>
       <w>190</w>
       <h>240</h>
@@ -2091,7 +2091,7 @@ m2=[button state is low]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>2970</y>
       <w>150</w>
       <h>120</h>
@@ -2103,7 +2103,7 @@ m2=[button state is high]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>800</x>
+      <x>400</x>
       <y>3070</y>
       <w>190</w>
       <h>40</h>
@@ -2115,7 +2115,7 @@ button handler</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>3160</y>
       <w>20</w>
       <h>20</h>
@@ -2126,12 +2126,304 @@ button handler</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>880</x>
+      <x>480</x>
       <y>3100</y>
       <w>30</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1180</x>
+      <y>2650</y>
+      <w>20</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>type=initial</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1180</x>
+      <y>2660</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1100</x>
+      <y>2710</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>configure GPIO</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1180</x>
+      <y>2740</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1170</x>
+      <y>2810</y>
+      <w>40</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>760</x>
+      <y>2560</y>
+      <w>920</w>
+      <h>720</h>
+    </coordinates>
+    <panel_attributes>Led Controller</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>2820</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[WiFi not connected]</panel_attributes>
+    <additional_attributes>160.0;50.0;160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1010</x>
+      <y>2820</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[WiFi connected]</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>930</x>
+      <y>2870</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>toggle LED1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1270</x>
+      <y>2870</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>set LED1 OFF</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1010</x>
+      <y>2900</y>
+      <w>200</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>180.0;60.0;180.0;30.0;10.0;30.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1180</x>
+      <y>2900</y>
+      <w>200</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;30.0;180.0;30.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1170</x>
+      <y>2960</y>
+      <w>40</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>2970</y>
+      <w>230</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[Config not OK]</panel_attributes>
+    <additional_attributes>210.0;70.0;210.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1010</x>
+      <y>2970</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[Config OK]</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1320</x>
+      <y>3040</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>set LED2 ON</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>860</x>
+      <y>3110</y>
+      <w>350</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>330.0;80.0;330.0;50.0;10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1180</x>
+      <y>3070</y>
+      <w>250</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;90.0;230.0;90.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1000</x>
+      <y>3020</y>
+      <w>40</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1030</x>
+      <y>3030</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[Logs not Recording]</panel_attributes>
+    <additional_attributes>160.0;50.0;160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>860</x>
+      <y>3030</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m2=[Logs Recording]</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0;140.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>780</x>
+      <y>3080</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>toggle LED2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1100</x>
+      <y>3080</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>set LED2 off</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1180</x>
+      <y>3110</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1100</x>
+      <y>3190</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>wait for blink delay</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1180</x>
+      <y>2770</y>
+      <w>430</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;410.0;10.0;410.0;490.0;10.0;490.0;10.0;460.0</additional_attributes>
   </element>
 </diagram>
