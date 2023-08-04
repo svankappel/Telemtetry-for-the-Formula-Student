@@ -18,15 +18,15 @@ int carSpeed;
 
 
 /* Start BUSMASTER Function Prototype  */
-GCC_EXTERN void GCC_EXPORT OnTimer_motorTmr_50( );
+GCC_EXTERN void GCC_EXPORT OnTimer_motorTmr_100( );
 /* End BUSMASTER Function Prototype  */
 
 /* Start BUSMASTER Function Wrapper Prototype  */
 /* End BUSMASTER Function Wrapper Prototype  */
 
 
-/* Start BUSMASTER generated function - OnTimer_motorTmr_50 */
-void OnTimer_motorTmr_50( )
+/* Start BUSMASTER generated function - OnTimer_motorTmr_100 */
+void OnTimer_motorTmr_100( )
 {
 /* TODO */
     power= rand()%5000 + 55000;
@@ -43,4 +43,4 @@ void OnTimer_motorTmr_50( )
     tx.data[6]=0;
     tx.data[7]=0;
     SendMsg(tx);
-}/* End BUSMASTER generated function - OnTimer_motorTmr_50 */
+}/* End BUSMASTER generated function - OnTimer_motorTmr_100 */
