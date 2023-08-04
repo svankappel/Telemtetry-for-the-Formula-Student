@@ -32,10 +32,10 @@
       <ControllerMode>Unknown</ControllerMode>
       <ControllerSettings>
         <Channel>
-          <BaudRate>0.5</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -82,10 +82,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -132,10 +132,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -182,10 +182,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -232,10 +232,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -282,10 +282,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -332,10 +332,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -382,10 +382,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -432,10 +432,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -482,10 +482,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -532,10 +532,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -582,10 +582,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -632,10 +632,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -682,10 +682,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -732,10 +732,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -782,10 +782,10 @@
           <CANFD_TxSecondarySamplePoint>0</CANFD_TxSecondarySamplePoint>
         </Channel>
         <Channel>
-          <BaudRate>0</BaudRate>
-          <CNF1/>
-          <CNF2/>
-          <CNF3/>
+          <BaudRate>500</BaudRate>
+          <CNF1>7</CNF1>
+          <CNF2>B8</CNF2>
+          <CNF3>5</CNF3>
           <BTR0/>
           <BTR1/>
           <Clock/>
@@ -935,10 +935,10 @@
       <Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>170</Top>
-        <Left>868</Left>
-        <Bottom>710</Bottom>
-        <Right>1291</Right>
+        <Top>5</Top>
+        <Left>529</Left>
+        <Bottom>545</Bottom>
+        <Right>952</Right>
       </Window_Position>
       <Node>
         <Name>BMS</Name>
