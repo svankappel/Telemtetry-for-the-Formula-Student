@@ -942,51 +942,57 @@
       </Window_Position>
       <Node>
         <Name>BMS</Name>
-        <Is_Enabled>TRUE</Is_Enabled>
+        <Is_Enabled>FALSE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
         <File_Path>bms.cpp</File_Path>
       </Node>
       <Node>
         <Name>Inverter</Name>
-        <Is_Enabled>TRUE</Is_Enabled>
+        <Is_Enabled>FALSE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
         <File_Path>inverter.cpp</File_Path>
       </Node>
       <Node>
         <Name>Tire</Name>
-        <Is_Enabled>TRUE</Is_Enabled>
+        <Is_Enabled>FALSE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
         <File_Path>tire.cpp</File_Path>
       </Node>
       <Node>
         <Name>LVS</Name>
-        <Is_Enabled>TRUE</Is_Enabled>
+        <Is_Enabled>FALSE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
         <File_Path>lvs.cpp</File_Path>
       </Node>
       <Node>
         <Name>Motor</Name>
-        <Is_Enabled>TRUE</Is_Enabled>
+        <Is_Enabled>FALSE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
         <File_Path>motor.cpp</File_Path>
       </Node>
       <Node>
         <Name>Suspension</Name>
-        <Is_Enabled>TRUE</Is_Enabled>
+        <Is_Enabled>FALSE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
         <File_Path>suspension.cpp</File_Path>
       </Node>
       <Node>
         <Name>Tork</Name>
-        <Is_Enabled>TRUE</Is_Enabled>
+        <Is_Enabled>FALSE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
         <File_Path>tork.cpp</File_Path>
       </Node>
       <Node>
         <Name>Misc</Name>
-        <Is_Enabled>TRUE</Is_Enabled>
+        <Is_Enabled>FALSE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
         <File_Path>misc.cpp</File_Path>
+      </Node>
+      <Node>
+        <Name>speedtest</Name>
+        <Is_Enabled>TRUE</Is_Enabled>
+        <File_Type>C_CPP_FILE</File_Type>
+        <File_Path>speedtest.cpp</File_Path>
       </Node>
     </CAN_Simulated_Systems>
     <J1939_Simulated_Systems>
@@ -1065,17 +1071,17 @@
       <Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>SETMINPOSITION</WindowPlacement>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Bottom>583</Bottom>
-        <Right>1614</Right>
+        <Top>-5</Top>
+        <Left>-67</Left>
+        <Bottom>575</Bottom>
+        <Right>1547</Right>
       </Window_Position>
       <Interpretation_Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>179</Top>
+        <Top>173</Top>
         <Left>10</Left>
-        <Bottom>457</Bottom>
+        <Bottom>451</Bottom>
         <Right>359</Right>
       </Interpretation_Window_Position>
     </CAN_Message_Window>
@@ -1173,9 +1179,9 @@
       <Interpretation_Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>179</Top>
+        <Top>173</Top>
         <Left>10</Left>
-        <Bottom>457</Bottom>
+        <Bottom>451</Bottom>
         <Right>359</Right>
       </Interpretation_Window_Position>
     </J1939_Message_Window>
@@ -1258,9 +1264,9 @@
       <Interpretation_Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>179</Top>
+        <Top>173</Top>
         <Left>10</Left>
-        <Bottom>457</Bottom>
+        <Bottom>451</Bottom>
         <Right>359</Right>
       </Interpretation_Window_Position>
     </LIN_Message_Window>
