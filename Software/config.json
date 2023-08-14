@@ -20,7 +20,7 @@
 
     "LiveFrameRate":2,
 
-    "LogFrameRate":40,
+    "LogFrameRate":20,
     
     "GPS":
     {
