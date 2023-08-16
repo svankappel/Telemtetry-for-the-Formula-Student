@@ -1,9 +1,0 @@
-Added Component: Designator=Mec2(Screw Hex Socket M3X5 Unconnected)
-Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
-Added Pin To Net: NetName=GND Pin=B1-P24.19
-Added Pin To Net: NetName=GND Pin=B1-P24.20
-Added Pin To Net: NetName=NetR1_1 Pin=T1-5
-Added Member To Class: ClassName=nRF7002-DK Member=Component Mec2
-Added Room: Name=CanController
-Added Room: Name=GPS-SD
-Added Room: Name=nRF7002-DK
