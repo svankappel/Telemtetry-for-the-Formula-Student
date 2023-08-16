@@ -1,0 +1,48 @@
+Removed Pin From Net: NetName=GND Pin=C13-1
+Removed Pin From Net: NetName=+3.3-GPS Pin=C13-2
+Change Component Footprint: Designator=L2 Old Footprint=INDUCTOR 4532 REFLOW New Footprint=TCK141
+Added Component: Designator=SB7(Solder Bridge 1mm Unconnected)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=SB8(Solder Bridge 1mm Unconnected)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U8(MAXM10S00B)
+Add component (AddParameter): Name = "Value"; Value = "MAX-M10S-00B"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=+3.3-GPS Pin=C13-1
+Added Pin To Net: NetName=GND Pin=C13-2
+Added Pin To Net: NetName=GND Pin=SB7-1
+Added Pin To Net: NetName=GND Pin=SB8-2
+Added Pin To Net: NetName=NetR2_2 Pin=T1-5
+Added Pin To Net: NetName=GND Pin=U8-1
+Added Pin To Net: NetName=+3.3-GPS Pin=U8-7
+Added Pin To Net: NetName=+3.3-GPS Pin=U8-8
+Added Pin To Net: NetName=GND Pin=U8-10
+Added Pin To Net: NetName=GND Pin=U8-12
+Added Pin To Net: NetName=NetR2_1 Pin=U8-14
+Change Net Color : Old Net Color=RGB(158, 161, 117) New Net Color=Default
+Added Pin To Net: NetName=NetC14_2 Pin=C14-2
+Added Pin To Net: NetName=NetC14_2 Pin=U8-11
+Added Net: Name=NetC14_2
+Added Pin To Net: NetName=NetJP2_2 Pin=JP2-2
+Added Pin To Net: NetName=NetJP2_2 Pin=U8-3
+Added Net: Name=NetJP2_2
+Added Pin To Net: NetName=NetJP3_2 Pin=JP3-2
+Added Pin To Net: NetName=NetJP3_2 Pin=U8-2
+Added Net: Name=NetJP3_2
+Added Pin To Net: NetName=NetSB7_2 Pin=SB7-2
+Added Pin To Net: NetName=NetSB7_2 Pin=U8-9
+Added Net: Name=NetSB7_2
+Added Pin To Net: NetName=NetSB8_1 Pin=SB8-1
+Added Pin To Net: NetName=NetSB8_1 Pin=U8-18
+Added Net: Name=NetSB8_1
+Added Pin To Net: NetName=NetT1_2 Pin=T1-2
+Added Pin To Net: NetName=NetT1_2 Pin=U8-13
+Added Net: Name=NetT1_2
+Added Pin To Net: NetName=NetU6_6 Pin=U6-6
+Added Pin To Net: NetName=NetU6_6 Pin=U8-5
+Added Net: Name=NetU6_6
+Added Member To Class: ClassName=GPS-SD Member=Component SB7 *
+Added Member To Class: ClassName=GPS-SD Member=Component SB8 *
+Added Member To Class: ClassName=GPS-SD Member=Component U8 MAX-M10S-00B
+Added Room: Name=CanController
+Added Room: Name=GPS-SD
+Added Room: Name=nRF7002-DK

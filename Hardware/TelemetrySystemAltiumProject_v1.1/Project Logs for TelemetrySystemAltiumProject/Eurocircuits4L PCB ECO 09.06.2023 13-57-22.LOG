@@ -1,0 +1,17 @@
+Change Component Designator: OldDesignator=Mec? NewDesignator=Mec1
+Change Component Designator: OldDesignator=Mec? NewDesignator=Mec2
+Change Component Designator: OldDesignator=Mec? NewDesignator=Mec3
+Change Component Designator: OldDesignator=Mec? NewDesignator=Mec4
+Change Component Designator: OldDesignator=Mec? NewDesignator=Mec5
+Change Component Designator: OldDesignator=Mec? NewDesignator=Mec6
+Change Component Designator: OldDesignator=Mec? NewDesignator=Mec7
+Added Pin To Net: NetName=NetR1_1 Pin=T1-5
+Added Member To Class: ClassName=nRF7002-DK Member=Component Mec1
+Added Member To Class: ClassName=nRF7002-DK Member=Component Mec3
+Added Member To Class: ClassName=nRF7002-DK Member=Component Mec4
+Added Member To Class: ClassName=nRF7002-DK Member=Component Mec5
+Added Member To Class: ClassName=nRF7002-DK Member=Component Mec6
+Added Member To Class: ClassName=nRF7002-DK Member=Component Mec7
+Added Room: Name=CanController
+Added Room: Name=GPS-SD
+Added Room: Name=nRF7002-DK

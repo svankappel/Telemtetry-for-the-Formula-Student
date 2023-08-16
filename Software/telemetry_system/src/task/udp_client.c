@@ -1,15 +1,37 @@
+/*! --------------------------------------------------------------------
+ *	Telemetry System	-	@file udp_client.c
+ *----------------------------------------------------------------------
+ * HES-SO Valais Wallis 
+ * Systems Engineering
+ * Infotronics
+ * ---------------------------------------------------------------------
+ * @author Sylvestre van Kappel
+ * @date 02.08.2023
+ * ---------------------------------------------------------------------
+ * @brief UDP Client task reads the messages in the udp Queue and send
+ *        them to the server(s)
+ * ---------------------------------------------------------------------
+ * Telemetry system for the Valais Wallis Racing Team.
+ * This file contains code for the onboard device of the telemetry
+ * system. The system receives the data from the sensors on the CAN bus 
+ * and the data from the GPS on a UART port. An SD Card contains a 
+ * configuration file with all the system parameters. The measurements 
+ * are sent via Wi-Fi to a computer on the base station. The measurements 
+ * are also saved in a CSV file on the SD card. 
+ *--------------------------------------------------------------------*/
+
+//includes
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(udp);
-
 #include <zephyr/kernel.h>
 #include <errno.h>
 #include <stdio.h>
-
 #include <zephyr/posix/sys/socket.h>
 #include <zephyr/posix/arpa/inet.h>
 #include <zephyr/net/socket.h>
 #include <unistd.h> 
 
+//project file includes
 #include "udp_client.h"
 #include "deviceinformation.h"
 #include "memory_management.h"
@@ -18,14 +40,10 @@ LOG_MODULE_REGISTER(udp);
 //! Stack size for the UDP_SERVER thread
 #define UDP_CLIENT_STACK_SIZE 2048
 //! UDP_SERVER thread priority level
-#define UDP_CLIENT_PRIORITY 5
+#define UDP_CLIENT_PRIORITY 3
 //! Time in miliseconds to wait to send the UDP message since the board 
 // gets a stable IP address
 #define UDP_CLIENT_WAIT_TO_SEND_MS 500
-
-
-//! UDP client connection check interval in miliseconds
-#define UDP_CLIENT_SLEEP_TIME_MS 100
 
 
 //! UDP Client stack definition
@@ -33,27 +51,6 @@ K_THREAD_STACK_DEFINE(UDP_CLIENT_STACK, UDP_CLIENT_STACK_SIZE);
 //! Variable to identify the UDP Client thread
 static struct k_thread udpClientThread;
 
-//-----------------------------------------------------------------------------------------------------------------------
-/*! Task_UDP_Client_Init initializes the task UDP Client
-*
-* @brief 
-*/
-void Task_UDP_Client_Init( void ){
-	k_thread_create	(														\
-					&udpClientThread,										\
-					UDP_CLIENT_STACK,										\
-					UDP_CLIENT_STACK_SIZE,									\
-					(k_thread_entry_t)UDP_Client,							\
-					NULL,													\
-					NULL,													\
-					NULL,													\
-					UDP_CLIENT_PRIORITY,									\
-					0,														\
-					K_NO_WAIT);	
-
-	 k_thread_name_set(&udpClientThread, "udpClient");
-	 k_thread_start(&udpClientThread);
-}
 
 //-----------------------------------------------------------------------------------------------------------------------
 /*! UDP_Client implements the UDP Client task.
@@ -63,6 +60,7 @@ void Task_UDP_Client_Init( void ){
 */
 void UDP_Client() 
 {
+	//get number of servers the system needs to send data
 	int socketCount = configFile.serverCount;
 
 	//addresses of the sockets
@@ -81,14 +79,18 @@ void UDP_Client()
 	int sentBytes[socketCount];						//sent bytes variable for all sockets
 
 
-	// Starve the thread until a DHCP IP is assigned to the board 
-	while(!context.ip_assigned){
-		k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
+	// stop the thread until a DHCP IP is assigned to the board 
+	while(!context.ip_assigned)
+	{
+		//delete messages coming from queue while ip is not assigned
+		char * memPtr;										//message to get from queue
+		memPtr = k_queue_get(&udpQueue,K_FOREVER);			//wait for message in queue
+		k_heap_free(&messageHeap,memPtr);					//free memory allocation made in data sender
 	}
 
 	for(int i=0;i<socketCount;i++)		//loop for all sockets
 	{
-		sentBytes[i]=0;		//set sent byte variable
+		sentBytes[i]=0;					//set sent byte variable
 
 		// Server IPV4 address configuration 
 		serverAddress[i].sin_family = AF_INET;
@@ -110,9 +112,13 @@ void UDP_Client()
 			for(int i=0;i<socketCount;i++)
 				close(udpClientSocket[i]);		
 
-			// Starve the thread until a DHCP IP is assigned to the board 
-			while( !context.ip_assigned ){
-				k_msleep( UDP_CLIENT_SLEEP_TIME_MS );
+			// stop the thread until a DHCP IP is assigned to the board 
+			while( !context.ip_assigned )
+			{
+				//delete messages coming from queue while ip is not assigned
+				char * memPtr;										//message to get from queue
+				memPtr = k_queue_get(&udpQueue,K_FOREVER);			//wait for message in queue
+				k_heap_free(&messageHeap,memPtr);					//free memory allocation made in data sender
 			}
 			
 			// reconnect all sockets
@@ -168,8 +174,10 @@ void UDP_Client()
 
 
 //------------------------------------------------------------------------------------------------
-//		UDP socket connect function
-
+/*! @brief UDP socket connect function
+ *  @param udpClientSocket UDP Client socket variable
+ *  @param serverAdress Socket Address struct
+ */
 void connectUDPSocket(int * udpClientSocket,struct sockaddr_in * serverAddress)
 {
 	// Client socket creation 
@@ -183,4 +191,26 @@ void connectUDPSocket(int * udpClientSocket,struct sockaddr_in * serverAddress)
 		k_sleep( K_FOREVER );
 	}
 	LOG_INF( "UDP Client connected correctly" );
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! Task_UDP_Client_Init initializes the task UDP Client
+*
+* @brief 
+*/
+void Task_UDP_Client_Init( void ){
+	k_thread_create	(														\
+					&udpClientThread,										\
+					UDP_CLIENT_STACK,										\
+					UDP_CLIENT_STACK_SIZE,									\
+					(k_thread_entry_t)UDP_Client,							\
+					NULL,													\
+					NULL,													\
+					NULL,													\
+					UDP_CLIENT_PRIORITY,									\
+					0,														\
+					K_NO_WAIT);	
+
+	 k_thread_name_set(&udpClientThread, "udpClient");
+	 k_thread_start(&udpClientThread);
 }
