@@ -1,5 +1,5 @@
 /*! --------------------------------------------------------------------
- *	Telemetry System	-	@file config_read.c
+ *	Telemetry System	-	@file config_read.h
  *----------------------------------------------------------------------
  * HES-SO Valais Wallis 
  * Systems Engineering
@@ -119,6 +119,7 @@ struct sSensors{
 * @param serverCount number of servers
 * @param LiveFrameRate Live send frequency (sends/second)
 * @param LogFrameRate Log record frequency (records/second)
+* @param CANFilter Can filter
 * @param GPS GPS config struct
 * @param Sensors Sensor struct array
 * @param sensorCount number of sensors
