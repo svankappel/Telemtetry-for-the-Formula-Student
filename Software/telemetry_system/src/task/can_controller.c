@@ -93,13 +93,13 @@ void CAN_Controller(void)
 		LOG_ERR("Error starting CAN controller [%d]", ret);
 		return;
 	}
-	
+
 	//set can filter (mask = 0, takes all frames std and ext)
 	const struct can_filter filter =
 	{
 		.flags=CAN_FILTER_DATA | CAN_FILTER_IDE,
-		.id = 0,
-		.mask = 0
+		.id = (uint32_t)strtol(configFile.CANFilter.id, NULL, 0),
+		.mask = (uint32_t)strtol(configFile.CANFilter.mask, NULL, 0)
 	};
 	can_add_rx_filter_msgq(can_dev, &can_msgq, &filter);
 	

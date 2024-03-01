@@ -65,6 +65,15 @@ struct sServer{
     char* address;
     int port;
 };
+
+/*! @brief struct for the can filter configuration
+* @param SSID SSID of the Wi-Fi router
+* @param Password Password of the Wi-Fi router
+*/
+struct sCANFilter{
+    char* id;
+    char* mask;
+};
     
 /*! @brief struct for the GPS datapoint
 * @param NameLive Name of the datapoint on the live data transmission
@@ -121,6 +130,7 @@ struct config {
 	int serverCount;
     int LiveFrameRate;
     int LogFrameRate;
+    struct sCANFilter CANFilter;
     struct sGPS GPS;
     struct sSensors Sensors[MAX_SENSORS];
     int sensorCount;

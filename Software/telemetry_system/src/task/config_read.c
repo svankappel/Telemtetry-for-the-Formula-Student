@@ -80,6 +80,12 @@ static const struct json_obj_descr gpsdata_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sGPSData, LiveEnable, JSON_TOK_TRUE),
 };
 
+//struct for CAN filter description
+static const struct json_obj_descr canfilter_descr[] = {
+	JSON_OBJ_DESCR_PRIM(struct sCANFilter, id, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sCANFilter, mask, JSON_TOK_STRING)
+};
+
 //struct for GPS description
 static const struct json_obj_descr gps_descr[] = {
   JSON_OBJ_DESCR_OBJECT(struct sGPS, Coordinates, gpsdata_descr),
@@ -103,6 +109,7 @@ static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Server, MAX_SERVERS, serverCount, server_descr,ARRAY_SIZE(server_descr)),
   JSON_OBJ_DESCR_PRIM(struct config, LiveFrameRate, JSON_TOK_NUMBER),
   JSON_OBJ_DESCR_PRIM(struct config, LogFrameRate, JSON_TOK_NUMBER),
+  JSON_OBJ_DESCR_OBJECT(struct config, CANFilter, canfilter_descr),
   JSON_OBJ_DESCR_OBJECT(struct config, GPS, gps_descr),
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorCount, sensors_descr,ARRAY_SIZE(sensors_descr))
 };

@@ -21,6 +21,12 @@
     "LiveFrameRate":2,
 
     "LogFrameRate":20,
+
+    "CANFilter":
+    {
+        "id":"0x100",
+        "mask":"0x100"
+    },
     
     "GPS":
     {
