@@ -18,7 +18,7 @@ all: $(dll)
 $(dll): lvs.o
 	$(CXX) -shared -Wl,--dll  lvs.o $(DBOBJFILE) $(BM_LIB) -o $@
 
-lvs.o: C:/Users/sylve/OneDrive/Bureau/TELEMT~1/Software/BUSMAS~1/lvs.cpp
+lvs.o: C:/Users/sylve/OneDrive/Bureau/TELEME~1/Software/BUSMAS~1/lvs.cpp
 	$(CXX) $(DBINCLUDES) $(CXXFLAGS) $(BM_INCLUDES) $< -o $@
 
 clean: 

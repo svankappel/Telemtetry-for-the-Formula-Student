@@ -18,7 +18,7 @@ all: $(dll)
 $(dll): suspension.o
 	$(CXX) -shared -Wl,--dll  suspension.o $(DBOBJFILE) $(BM_LIB) -o $@
 
-suspension.o: C:/Users/sylve/OneDrive/Bureau/TELEMT~1/Software/BUSMAS~1/SUSPEN~1.CPP
+suspension.o: C:/Users/sylve/OneDrive/Bureau/TELEME~1/Software/BUSMAS~1/SUSPEN~1.CPP
 	$(CXX) $(DBINCLUDES) $(CXXFLAGS) $(BM_INCLUDES) $< -o $@
 
 clean: 

@@ -18,7 +18,7 @@ all: $(dll)
 $(dll): motor.o
 	$(CXX) -shared -Wl,--dll  motor.o $(DBOBJFILE) $(BM_LIB) -o $@
 
-motor.o: C:/Users/sylve/OneDrive/Bureau/TELEMT~1/Software/BUSMAS~1/motor.cpp
+motor.o: C:/Users/sylve/OneDrive/Bureau/TELEME~1/Software/BUSMAS~1/motor.cpp
 	$(CXX) $(DBINCLUDES) $(CXXFLAGS) $(BM_INCLUDES) $< -o $@
 
 clean: 

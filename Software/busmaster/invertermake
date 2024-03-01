@@ -18,7 +18,7 @@ all: $(dll)
 $(dll): inverter.o
 	$(CXX) -shared -Wl,--dll  inverter.o $(DBOBJFILE) $(BM_LIB) -o $@
 
-inverter.o: C:/Users/sylve/OneDrive/Bureau/TELEMT~1/Software/BUSMAS~1/inverter.cpp
+inverter.o: C:/Users/sylve/OneDrive/Bureau/TELEME~1/Software/BUSMAS~1/inverter.cpp
 	$(CXX) $(DBINCLUDES) $(CXXFLAGS) $(BM_INCLUDES) $< -o $@
 
 clean: 
