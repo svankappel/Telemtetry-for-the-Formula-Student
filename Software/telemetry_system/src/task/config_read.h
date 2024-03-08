@@ -67,12 +67,23 @@ struct sServer{
 };
 
 /*! @brief struct for the can filter configuration
-* @param SSID SSID of the Wi-Fi router
-* @param Password Password of the Wi-Fi router
+* @param id id to match
+* @param mask mask
 */
 struct sCANFilter{
     char* id;
     char* mask;
+};
+
+/*! @brief struct for the can button configuration
+* @param CanID CAN ID of the message
+*/
+struct sCANButton{
+    char* CanID;
+    int index;
+    char* match;
+    char* mask;
+    int dlc;
 };
     
 /*! @brief struct for the GPS datapoint
@@ -132,6 +143,7 @@ struct config {
     int LiveFrameRate;
     int LogFrameRate;
     struct sCANFilter CANFilter;
+    struct sCANButton CANButton;
     struct sGPS GPS;
     struct sSensors Sensors[MAX_SENSORS];
     int sensorCount;

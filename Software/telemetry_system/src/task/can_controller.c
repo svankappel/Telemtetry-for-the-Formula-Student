@@ -102,7 +102,14 @@ void CAN_Controller(void)
 		.mask = (uint32_t)strtol(configFile.CANFilter.mask, NULL, 0)
 	};
 	can_add_rx_filter_msgq(can_dev, &can_msgq, &filter);
-	
+
+	//can button
+	uint32_t canButtonId = (uint32_t)strtol(configFile.CANButton.CanID, NULL, 0);
+	uint8_t canButtonMatch = (uint8_t)strtol(configFile.CANButton.match, NULL, 0);
+	uint8_t canButtonMask = (uint8_t)strtol(configFile.CANButton.mask, NULL, 0);
+	uint8_t canButtonIndex = configFile.CANButton.index;
+	uint8_t canButtonDlc = configFile.CANButton.dlc;
+
 	//variable to monitor the input buffer
 	uint32_t bufferFill=0;
 	int lastBufferFill=0;
@@ -116,6 +123,12 @@ void CAN_Controller(void)
 	while (1) 			//-------------------------------------------------- thread infinite loop
 	{
 		k_msgq_get(&can_msgq, &frame, K_FOREVER);		//get message from can message queue
+
+		if(frame.id==canButtonId && frame.dlc == canButtonDlc)	//if we receive a message from can button canid
+		{
+			if(frame.data[canButtonIndex]==canButtonMask & canButtonMatch)	//if can message at index
+				data_Logger_button_handler();		//call Data Logger button handler
+		}
 		
 		k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensorBufferMutex
 		for(int i = 0; i<configFile.sensorCount;i++)	//loop for all sensor of sensor buffer
