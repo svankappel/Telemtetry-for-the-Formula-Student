@@ -35,5 +35,17 @@ void CAN_Controller(void);
 */
 void Task_CAN_Controller_Init( void );
 
+/*! recording ON
+* @brief set recording status on the can
+*      
+*/
+void recordingON( void );
+
+/*! recording OFF
+* @brief set recording status on the can
+*      
+*/
+void recordingOFF( void );
+
 
 #endif /*__CAN_CONTROLLER_H*/

@@ -37,7 +37,7 @@ LOG_MODULE_REGISTER(can);
 #include "can_controller.h"
 #include "memory_management.h"
 #include "config_read.h"
-
+#include "data_logger.h"
 
 //! Can controller thread priority level
 #define CAN_CONTROLLER_STACK_SIZE 8192
@@ -73,6 +73,9 @@ const struct device *const can_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_canbus));
 //can receive message queue
 CAN_MSGQ_DEFINE(can_msgq, 100);
 
+//can led
+uint32_t canLedId;
+
 
 //-----------------------------------------------------------------------------------------------------------------------
 /*! CAN_Controller implements the CAN_Controller task
@@ -104,11 +107,22 @@ void CAN_Controller(void)
 	can_add_rx_filter_msgq(can_dev, &can_msgq, &filter);
 
 	//can button
-	uint32_t canButtonId = (uint32_t)strtol(configFile.CANButton.CanID, NULL, 0);
-	uint8_t canButtonMatch = (uint8_t)strtol(configFile.CANButton.match, NULL, 0);
-	uint8_t canButtonMask = (uint8_t)strtol(configFile.CANButton.mask, NULL, 0);
-	uint8_t canButtonIndex = configFile.CANButton.index;
-	uint8_t canButtonDlc = configFile.CANButton.dlc;
+	uint32_t canButtonId_start = (uint32_t)strtol(configFile.CANButton.StartLog.CanID, NULL, 0);
+	uint8_t canButtonMatch_start = (uint8_t)strtol(configFile.CANButton.StartLog.match, NULL, 0);
+	uint8_t canButtonMask_start = (uint8_t)strtol(configFile.CANButton.StartLog.mask, NULL, 0);
+	uint8_t canButtonIndex_start = configFile.CANButton.StartLog.index;
+	uint8_t canButtonDlc_start = configFile.CANButton.StartLog.dlc;
+
+	uint32_t canButtonId_stop = (uint32_t)strtol(configFile.CANButton.StopLog.CanID, NULL, 0);
+	uint8_t canButtonMatch_stop = (uint8_t)strtol(configFile.CANButton.StopLog.match, NULL, 0);
+	uint8_t canButtonMask_stop = (uint8_t)strtol(configFile.CANButton.StopLog.mask, NULL, 0);
+	uint8_t canButtonIndex_stop = configFile.CANButton.StopLog.index;
+	uint8_t canButtonDlc_stop = configFile.CANButton.StopLog.dlc;
+
+	//can led
+	canLedId = (uint32_t)strtol(configFile.CANLed.CanID, NULL, 0);
+
+	set_RecordingStatus_callbacks(&recordingON,&recordingOFF);
 
 	//variable to monitor the input buffer
 	uint32_t bufferFill=0;
@@ -122,12 +136,23 @@ void CAN_Controller(void)
 
 	while (1) 			//-------------------------------------------------- thread infinite loop
 	{
+		
 		k_msgq_get(&can_msgq, &frame, K_FOREVER);		//get message from can message queue
 
-		if(frame.id==canButtonId && frame.dlc == canButtonDlc)	//if we receive a message from can button canid
+		if((frame.id==canButtonId_start) && (frame.dlc == canButtonDlc_start))	//if we receive a message from can button canid
 		{
-			if(frame.data[canButtonIndex]==canButtonMask & canButtonMatch)	//if can message at index
-				data_Logger_button_handler();		//call Data Logger button handler
+			if(frame.data[canButtonIndex_start]==(canButtonMask_start & canButtonMatch_start))	//if can message at index
+			{
+				data_Logger_button_handler_start();		//call Data Logger button handler
+			}
+		}
+
+		if((frame.id==canButtonId_stop) && (frame.dlc == canButtonDlc_stop))	//if we receive a message from can button canid
+		{
+			if(frame.data[canButtonIndex_stop]==(canButtonMask_stop & canButtonMatch_stop))	//if can message at index
+			{
+				data_Logger_button_handler_stop();		//call Data Logger button handler
+			}
 		}
 		
 		k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensorBufferMutex
@@ -185,6 +210,49 @@ void CAN_Controller(void)
 		
 	}
 }
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! recording ON
+* @brief set recording status on the can
+*      
+*/
+void recordingON( void )
+{
+	struct can_frame frame = {
+        .flags = 0,
+        .id = canLedId,
+        .dlc = 1,
+        .data = {1}
+	};
+
+	int ret;
+
+	ret = can_send(can_dev, &frame, K_MSEC(100), NULL, NULL);
+	if (ret != 0) 
+		LOG_ERR("Sending failed [%d]", ret);
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! recording OFF
+* @brief set recording status on the can
+*      
+*/
+void recordingOFF( void )
+{
+	struct can_frame frame = {
+		.flags = 0,
+		.id = canLedId,
+		.dlc = 1,
+		.data = {0}
+	};
+
+	int ret;
+
+	ret = can_send(can_dev, &frame, K_MSEC(100), NULL, NULL);
+	if (ret != 0) 
+		LOG_ERR("Sending failed [%d]", ret);
+}
+
 
 
 //-----------------------------------------------------------------------------------------------------------------------

@@ -86,13 +86,24 @@ static const struct json_obj_descr canfilter_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sCANFilter, mask, JSON_TOK_STRING)
 };
 
+//struct for CAN button data description
+static const struct json_obj_descr canbuttondata_descr[] = {
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, CanID, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, index, JSON_TOK_NUMBER),
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, match, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, mask, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, dlc, JSON_TOK_NUMBER)
+};
+
 //struct for CAN button description
 static const struct json_obj_descr canbutton_descr[] = {
-	JSON_OBJ_DESCR_PRIM(struct sCANButton, CanID, JSON_TOK_STRING),
-	JSON_OBJ_DESCR_PRIM(struct sCANButton, index, JSON_TOK_NUMBER),
-	JSON_OBJ_DESCR_PRIM(struct sCANButton, match, JSON_TOK_STRING),
-	JSON_OBJ_DESCR_PRIM(struct sCANButton, mask, JSON_TOK_STRING),
-	JSON_OBJ_DESCR_PRIM(struct sCANButton, dlc, JSON_TOK_NUMBER)
+	JSON_OBJ_DESCR_OBJECT(struct sCANButton, StartLog, canbuttondata_descr),
+  	JSON_OBJ_DESCR_OBJECT(struct sCANButton, StopLog, canbuttondata_descr)
+};
+
+//struct for CAN Led description
+static const struct json_obj_descr canled_descr[] = {
+	JSON_OBJ_DESCR_PRIM(struct sCANLed, CanID, JSON_TOK_STRING)
 };
 
 //struct for GPS description
@@ -120,6 +131,7 @@ static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_PRIM(struct config, LogFrameRate, JSON_TOK_NUMBER),
   JSON_OBJ_DESCR_OBJECT(struct config, CANFilter, canfilter_descr),
   JSON_OBJ_DESCR_OBJECT(struct config, CANButton, canbutton_descr),
+  JSON_OBJ_DESCR_OBJECT(struct config, CANLed, canled_descr),
   JSON_OBJ_DESCR_OBJECT(struct config, GPS, gps_descr),
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorCount, sensors_descr,ARRAY_SIZE(sensors_descr))
 };
