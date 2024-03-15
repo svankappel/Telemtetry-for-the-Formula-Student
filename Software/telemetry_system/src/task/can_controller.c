@@ -116,9 +116,6 @@ void CAN_Controller(void)
 	uint8_t canButtonIndex_stop = configFile.CANButton.StopLog.index;
 	uint8_t canButtonDlc_stop = configFile.CANButton.StopLog.dlc;
 
-	
-	LOG_WRN("%x - %x", canButtonMask_stop, canButtonIndex_start);
-
 	//variable to monitor the input buffer
 	uint32_t bufferFill=0;
 	int lastBufferFill=0;
@@ -134,16 +131,20 @@ void CAN_Controller(void)
 		
 		k_msgq_get(&can_msgq, &frame, K_FOREVER);		//get message from can message queue
 
-		if(frame.id==canButtonId_start && frame.dlc == canButtonDlc_start)	//if we receive a message from can button canid
+		if((frame.id==canButtonId_start) && (frame.dlc == canButtonDlc_start))	//if we receive a message from can button canid
 		{
-			if(frame.data[canButtonIndex_start]==canButtonMask_start & canButtonMatch_start)	//if can message at index
+			if(frame.data[canButtonIndex_start]==(canButtonMask_start & canButtonMatch_start))	//if can message at index
+			{
 				data_Logger_button_handler_start();		//call Data Logger button handler
+			}
 		}
 
-		if(frame.id==canButtonId_stop && frame.dlc == canButtonDlc_stop)	//if we receive a message from can button canid
+		if((frame.id==canButtonId_stop) && (frame.dlc == canButtonDlc_stop))	//if we receive a message from can button canid
 		{
-			if(frame.data[canButtonIndex_stop]==canButtonMask_stop & canButtonMatch_stop)	//if can message at index
+			if(frame.data[canButtonIndex_stop]==(canButtonMask_stop & canButtonMatch_stop))	//if can message at index
+			{
 				data_Logger_button_handler_stop();		//call Data Logger button handler
+			}
 		}
 		
 		k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensorBufferMutex
