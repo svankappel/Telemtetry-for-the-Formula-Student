@@ -115,7 +115,9 @@ void CAN_Controller(void)
 	uint8_t canButtonMask_stop = (uint8_t)strtol(configFile.CANButton.StopLog.mask, NULL, 0);
 	uint8_t canButtonIndex_stop = configFile.CANButton.StopLog.index;
 	uint8_t canButtonDlc_stop = configFile.CANButton.StopLog.dlc;
+
 	
+	LOG_WRN("%x - %x", canButtonMask_stop, canButtonIndex_start);
 
 	//variable to monitor the input buffer
 	uint32_t bufferFill=0;
@@ -129,6 +131,7 @@ void CAN_Controller(void)
 
 	while (1) 			//-------------------------------------------------- thread infinite loop
 	{
+		
 		k_msgq_get(&can_msgq, &frame, K_FOREVER);		//get message from can message queue
 
 		if(frame.id==canButtonId_start && frame.dlc == canButtonDlc_start)	//if we receive a message from can button canid
