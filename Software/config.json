@@ -30,11 +30,22 @@
 
     "CANButton":
     {
-        "CanID":"0x010",
-        "dlc":8,
-        "index":7,
-        "match":"0x01",
-        "mask":"0x01"
+        "StartLog":
+        {
+            "CanID":"0x010",
+            "dlc":8,
+            "index":7,
+            "match":"0x01",
+            "mask":"0x01"
+        },
+        "StopLog":
+        {
+            "CanID":"0x010",
+            "dlc":8,
+            "index":7,
+            "match":"0x00",
+            "mask":"0x01"
+        }
     },
     
     "GPS":
