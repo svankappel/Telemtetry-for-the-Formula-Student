@@ -1,0 +1,4 @@
+# Ignore specific file types
+*.dll
+*.def
+*.o
