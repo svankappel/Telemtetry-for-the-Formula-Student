@@ -77,13 +77,24 @@ struct sCANFilter{
 
 /*! @brief struct for the can button configuration
 * @param CanID CAN ID of the message
+* @param index index of the byte in the message
+* @param match byte to match
+* @param mask mask on the byte
 */
-struct sCANButton{
+struct sCANButtonData{
     char* CanID;
     int index;
     char* match;
     char* mask;
     int dlc;
+};
+
+/*! @brief struct for the can button configuration
+* @param CanID CAN ID of the message
+*/
+struct sCANButton{
+    struct sCANButtonData StartLog;
+    struct sCANButtonData StopLog;
 };
     
 /*! @brief struct for the GPS datapoint

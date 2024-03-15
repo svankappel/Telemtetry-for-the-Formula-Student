@@ -148,6 +148,26 @@ void data_Logger_button_handler()
         k_work_submit(&startLog);       //start
 }
 
+//-----------------------------------------------------------------------------------------------------------------------
+/*! data_Logger_button_handler is called by the button manager
+* @brief data_Logger_button_handler submit a new work that call Data_Logger task     
+*/
+void data_Logger_button_handler_start()
+{
+    if(!logEnable)                   //if system is not currently recording logs
+        k_work_submit(&startLog);       //start
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! data_Logger_button_handler is called by the button manager
+* @brief data_Logger_button_handler submit a new work that call Data_Logger task     
+*/
+void data_Logger_button_handler_stop()
+{
+    if(logEnable)                   //if system is currently recording logs
+        k_work_submit(&stopLog);        //stop
+}
+
 
 //-----------------------------------------------------------------------------------------------------------------------
 //  start log function -> called by button handler

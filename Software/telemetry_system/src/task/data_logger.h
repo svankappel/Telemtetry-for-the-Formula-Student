@@ -45,6 +45,17 @@ void data_Logger_timer_handler();
 */
 void data_Logger_button_handler();
 
+/*! data_Logger_button_handler_start is called by the can controller
+* @brief data_Logger_button_handler submit a new work that call Data_Logger task     
+*/
+void data_Logger_button_handler_start();
+
+/*! data_Logger_button_handler_stop is called by the can controller
+* @brief data_Logger_button_handler submit a new work that call Data_Logger task     
+*/
+void data_Logger_button_handler_stop();
+
+
 
 //function prototypes
 void data_log_start();
