@@ -37,7 +37,7 @@ LOG_MODULE_REGISTER(can);
 #include "can_controller.h"
 #include "memory_management.h"
 #include "config_read.h"
-
+#include "data_logger.h"
 
 //! Can controller thread priority level
 #define CAN_CONTROLLER_STACK_SIZE 8192
@@ -72,6 +72,9 @@ const struct device *const can_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_canbus));
 
 //can receive message queue
 CAN_MSGQ_DEFINE(can_msgq, 100);
+
+//can led
+uint32_t canLedId;
 
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -115,6 +118,11 @@ void CAN_Controller(void)
 	uint8_t canButtonMask_stop = (uint8_t)strtol(configFile.CANButton.StopLog.mask, NULL, 0);
 	uint8_t canButtonIndex_stop = configFile.CANButton.StopLog.index;
 	uint8_t canButtonDlc_stop = configFile.CANButton.StopLog.dlc;
+
+	//can led
+	canLedId = (uint32_t)strtol(configFile.CANLed.CanID, NULL, 0);
+
+	set_RecordingStatus_callbacks(&recordingON,&recordingOFF);
 
 	//variable to monitor the input buffer
 	uint32_t bufferFill=0;
@@ -202,6 +210,49 @@ void CAN_Controller(void)
 		
 	}
 }
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! recording ON
+* @brief set recording status on the can
+*      
+*/
+void recordingON( void )
+{
+	struct can_frame frame = {
+        .flags = 0,
+        .id = canLedId,
+        .dlc = 1,
+        .data = {1}
+	};
+
+	int ret;
+
+	ret = can_send(can_dev, &frame, K_MSEC(100), NULL, NULL);
+	if (ret != 0) 
+		LOG_ERR("Sending failed [%d]", ret);
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! recording OFF
+* @brief set recording status on the can
+*      
+*/
+void recordingOFF( void )
+{
+	struct can_frame frame = {
+		.flags = 0,
+		.id = canLedId,
+		.dlc = 1,
+		.data = {0}
+	};
+
+	int ret;
+
+	ret = can_send(can_dev, &frame, K_MSEC(100), NULL, NULL);
+	if (ret != 0) 
+		LOG_ERR("Sending failed [%d]", ret);
+}
+
 
 
 //-----------------------------------------------------------------------------------------------------------------------

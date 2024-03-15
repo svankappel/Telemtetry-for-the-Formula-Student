@@ -90,11 +90,19 @@ struct sCANButtonData{
 };
 
 /*! @brief struct for the can button configuration
-* @param CanID CAN ID of the message
+* @param StartLog start button params
+* @param StopLog stop button params
 */
 struct sCANButton{
     struct sCANButtonData StartLog;
     struct sCANButtonData StopLog;
+};
+
+/*! @brief struct for the can led configuration
+* @param CanID CAN ID of the message
+*/
+struct sCANLed{
+    char* CanID; 
 };
     
 /*! @brief struct for the GPS datapoint
@@ -155,6 +163,7 @@ struct config {
     int LogFrameRate;
     struct sCANFilter CANFilter;
     struct sCANButton CANButton;
+    struct sCANLed CANLed;
     struct sGPS GPS;
     struct sSensors Sensors[MAX_SENSORS];
     int sensorCount;

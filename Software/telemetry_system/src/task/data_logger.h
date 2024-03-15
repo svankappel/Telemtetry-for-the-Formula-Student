@@ -55,6 +55,11 @@ void data_Logger_button_handler_start();
 */
 void data_Logger_button_handler_stop();
 
+/*! set recording status callbacks
+* @brief set recording status callbacks to inform the CAN to the status of the datalogger
+*/
+void set_RecordingStatus_callbacks(void (*recON)(), void (*recOFF)());
+
 
 
 //function prototypes

@@ -80,6 +80,10 @@ bool logEnable;             //log is recording variable
 uint32_t timestamp;         //timestamp of the current data
 int lineSize;               //line size in the csv file
 
+//recording status callback function pointers
+void (*recordON)();
+void (*recordOFF)();
+
 //-----------------------------------------------------------------------------------------------------------------------
 /*! Data_Logger implements the Data_Logger task
 * @brief Data_Logger reads the data in the sensor buffer array and
@@ -128,6 +132,16 @@ void Data_Logger()
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
+/*! set recording status callbacks
+* @brief set recording status callbacks to inform the CAN to the status of the datalogger
+*/
+void set_RecordingStatus_callbacks(void (*recON)(), void (*recOFF)())
+{
+    recordON = recON;
+    recordOFF = recOFF;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
 /*! data_Logger_timer_handler is called by the timer interrupt
 * @brief data_Logger_timer_handler submit a new work that call Data_Logger task     
 */
@@ -173,6 +187,8 @@ void data_Logger_button_handler_stop()
 //  start log function -> called by button handler
 void data_log_start()
 {
+    //---------------------------------------------- set recording status on the can
+    (*recordON)();
     //---------------------------------------------- mount sd card
     mp.mnt_point = disk_mount_pt;
 
@@ -260,6 +276,9 @@ void data_log_stop()
 
     //unmount disk
     fs_unmount(&mp);
+
+    //set recording status on the can
+    (*recordOFF)();
 }
 
 
