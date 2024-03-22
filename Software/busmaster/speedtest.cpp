@@ -18,21 +18,21 @@ int tempHVBat;
 
 
 /* Start BUSMASTER Function Prototype  */
-GCC_EXTERN void GCC_EXPORT OnTimer_speedtestTmr_10( );
+GCC_EXTERN void GCC_EXPORT OnTimer_speedtestTmr_5( );
 /* End BUSMASTER Function Prototype  */
 
 /* Start BUSMASTER Function Wrapper Prototype  */
 /* End BUSMASTER Function Wrapper Prototype  */
 
 
-/* Start BUSMASTER generated function - OnTimer_speedtestTmr_10 */
-void OnTimer_speedtestTmr_10( )
+/* Start BUSMASTER generated function - OnTimer_speedtestTmr_5 */
+void OnTimer_speedtestTmr_5( )
 {
 /* TODO */
 voltageHVS= rand()%5 + 548;
 currentHVS= rand()%5 + 80;
 tempHVBat= rand()%5 + 50;
-tx.id=0x12;
+tx.id=0x112;
 tx.dlc=8;
 tx.data[0]=voltageHVS >> 8;
 tx.data[1]=voltageHVS;
@@ -47,7 +47,7 @@ SendMsg(tx);
 voltageHVS= rand()%5 + 548;
 currentHVS= rand()%5 + 80;
 tempHVBat= rand()%5 + 50;
-tx.id=0x12;
+tx.id=0x113;
 tx.dlc=8;
 tx.data[0]=voltageHVS >> 8;
 tx.data[1]=voltageHVS;
@@ -62,7 +62,7 @@ SendMsg(tx);
 voltageHVS= rand()%5 + 548;
 currentHVS= rand()%5 + 80;
 tempHVBat= rand()%5 + 50;
-tx.id=0x12;
+tx.id=0x114;
 tx.dlc=8;
 tx.data[0]=voltageHVS >> 8;
 tx.data[1]=voltageHVS;
@@ -73,4 +73,4 @@ tx.data[5]=tempHVBat;
 tx.data[6]=0;
 tx.data[7]=0;
 SendMsg(tx);
-}/* End BUSMASTER generated function - OnTimer_speedtestTmr_10 */
+}/* End BUSMASTER generated function - OnTimer_speedtestTmr_5 */
