@@ -216,16 +216,21 @@ int read_config(void)
 		LOG_ERR("Error opening dir /SD: [%d]\n" , res);
 		return 2;
 	}
-	
+
+	entry.size*=2; //take some margin (according to some tests the size read could be too small)
+
 	uint8_t readBuf[entry.size];					//buffer for the content
+
+	for(int i = 0; i<=entry.size;i++)	//initialize buffer
+		readBuf[i]=0;
+
 	fs_read(&fs_configFile,readBuf,entry.size);		//read file
 
 
 	fs_close(&fs_configFile);					//close file
 
 	fs_unmount(&mp);							//unmount sd disk
-
-
+	
 	//--------------------------------------- parse json string
 
 	//parse json
