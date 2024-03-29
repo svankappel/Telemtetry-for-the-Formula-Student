@@ -123,7 +123,7 @@ void Data_Logger()
         if(fs_write(&logFile,str,strlen(str))<0)            //write string in file
             k_work_submit(&stopLog);                        //stop log in case of error
 
-        //fs_sync(&logFile);                                  //flush
+
 
         //-------------------------------------------------------------- increment timestamp
 
