@@ -66,6 +66,10 @@ int main(void)
 		Task_Data_Logger_Init();		//start data logger
 
 		Task_CAN_Controller_Init();		//start can controller thread
+
+		k_sleep(K_SECONDS(7));
+		if(configFile.RecordOnStart)                            //if record autostart is selected
+        	data_Logger_button_handler_start();
 	}
 
 	k_sleep( K_FOREVER );

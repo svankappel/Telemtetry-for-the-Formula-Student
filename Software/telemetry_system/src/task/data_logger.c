@@ -123,8 +123,6 @@ void Data_Logger()
         if(fs_write(&logFile,str,strlen(str))<0)            //write string in file
             k_work_submit(&stopLog);                        //stop log in case of error
 
-
-
         //-------------------------------------------------------------- increment timestamp
 
         timestamp+=(int)(1000/configFile.LogFrameRate);     
@@ -345,8 +343,9 @@ void Task_Data_Logger_Init(void)
         lineSize+=6;                                        //  add max length of gps speed + 1 for the ;
     else                                                    //else
         lineSize+=(1+strlen(gpsBuffer.NameLiveFix));        // add string length of name + 1 for the ;
-    
 
     //start timer
     k_timer_start(&dataLoggerTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LogFrameRate)));
+
+    
 }

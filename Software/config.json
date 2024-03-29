@@ -22,6 +22,8 @@
 
     "LogFrameRate":20,
 
+    "RecordOnStart":false,
+
     "CANFilter":
     {
         "id":"0x0",

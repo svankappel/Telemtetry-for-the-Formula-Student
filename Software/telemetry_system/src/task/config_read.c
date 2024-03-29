@@ -129,6 +129,7 @@ static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Server, MAX_SERVERS, serverCount, server_descr,ARRAY_SIZE(server_descr)),
   JSON_OBJ_DESCR_PRIM(struct config, LiveFrameRate, JSON_TOK_NUMBER),
   JSON_OBJ_DESCR_PRIM(struct config, LogFrameRate, JSON_TOK_NUMBER),
+  JSON_OBJ_DESCR_PRIM(struct config, RecordOnStart, JSON_TOK_TRUE),
   JSON_OBJ_DESCR_OBJECT(struct config, CANFilter, canfilter_descr),
   JSON_OBJ_DESCR_OBJECT(struct config, CANButton, canbutton_descr),
   JSON_OBJ_DESCR_OBJECT(struct config, CANLed, canled_descr),

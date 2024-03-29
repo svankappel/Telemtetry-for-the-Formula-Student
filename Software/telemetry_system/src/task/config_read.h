@@ -161,6 +161,7 @@ struct config {
 	int serverCount;
     int LiveFrameRate;
     int LogFrameRate;
+    bool RecordOnStart;
     struct sCANFilter CANFilter;
     struct sCANButton CANButton;
     struct sCANLed CANLed;
