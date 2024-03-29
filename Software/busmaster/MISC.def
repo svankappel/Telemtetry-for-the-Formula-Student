@@ -19,4 +19,4 @@ vSetGetMessageName
 vSetTimeNow
 vSetGetFirstCANdbName
 
-OnTimer_miscTmr_500
+OnTimer_miscTmr_100
