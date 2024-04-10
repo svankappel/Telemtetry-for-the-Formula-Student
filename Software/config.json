@@ -21,6 +21,39 @@
     "LiveFrameRate":2,
 
     "LogFrameRate":20,
+
+    "RecordOnStart":false,
+
+    "CANFilter":
+    {
+        "id":"0x0",
+        "mask":"0x0"
+    },
+
+    "CANButton":
+    {
+        "StartLog":
+        {
+            "CanID":"0x010",
+            "dlc":8,
+            "index":7,
+            "match":"0x01",
+            "mask":"0x01"
+        },
+        "StopLog":
+        {
+            "CanID":"0x010",
+            "dlc":8,
+            "index":7,
+            "match":"0x00",
+            "mask":"0x01"
+        }
+    },
+
+    "CANLed":
+    {
+        "CanID":"0x11"
+    },
     
     "GPS":
     {

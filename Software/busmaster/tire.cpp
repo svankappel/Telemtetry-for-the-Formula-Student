@@ -24,15 +24,15 @@ int pressBR;
 
 
 /* Start BUSMASTER Function Prototype  */
-GCC_EXTERN void GCC_EXPORT OnTimer_tireSend_500( );
+GCC_EXTERN void GCC_EXPORT OnTimer_tireSend_100( );
 /* End BUSMASTER Function Prototype  */
 
 /* Start BUSMASTER Function Wrapper Prototype  */
 /* End BUSMASTER Function Wrapper Prototype  */
 
 
-/* Start BUSMASTER generated function - OnTimer_tireSend_500 */
-void OnTimer_tireSend_500( )
+/* Start BUSMASTER generated function - OnTimer_tireSend_100 */
+void OnTimer_tireSend_100( )
 {
 /* TODO */
 tempFL= rand()%5 + 90;
@@ -78,4 +78,4 @@ SendMsg(tx);
 
 
 SendMsg(tx);
-}/* End BUSMASTER generated function - OnTimer_tireSend_500 */
+}/* End BUSMASTER generated function - OnTimer_tireSend_100 */

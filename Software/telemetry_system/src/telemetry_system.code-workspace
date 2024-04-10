@@ -21,7 +21,9 @@
 			"errno.h": "c",
 			"array": "c",
 			"string_view": "c",
-			"initializer_list": "c"
+			"initializer_list": "c",
+			"memory_management.h": "c",
+			"config_read.h": "c"
 		}
 	}
 }

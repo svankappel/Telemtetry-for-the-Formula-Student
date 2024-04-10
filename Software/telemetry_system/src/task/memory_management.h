@@ -32,6 +32,7 @@
 //memory heap for udp messages
 extern struct k_heap messageHeap;
 
+
 //queues
 extern struct k_queue udpQueue;
 extern int udpQueueMesLength;
