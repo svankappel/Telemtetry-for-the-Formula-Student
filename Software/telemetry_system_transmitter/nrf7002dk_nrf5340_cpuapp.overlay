@@ -45,9 +45,9 @@
 		osc-freq = <16000000>;
 		bus-speed = <500000>;
 		sjw = <1>;
-		prop-seg = <2>;
-		phase-seg1 = <7>;
-		phase-seg2 = <6>;
+		prop-seg = <1>;
+		phase-seg1 = <4>;
+		phase-seg2 = <2>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 	};

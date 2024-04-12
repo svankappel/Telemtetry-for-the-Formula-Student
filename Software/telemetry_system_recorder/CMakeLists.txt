@@ -1,15 +1,7 @@
-# SPDX-License-Identifier: Apache-2.0
-
 cmake_minimum_required(VERSION 3.20.0)
-
-macro(app_set_runner_args)
-  board_runner_args(dfu-util "--dfuse-modifiers=force:mass-erase")
-  board_runner_args(pyocd "--erase")
-  board_runner_args(nrfjprog "--erase")
-endmacro()
-
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(telemetry_system)
+
+project(telemetry_system_recorder)
 
 FILE(GLOB app_sources src/*.c)
 target_sources(app PRIVATE ${app_sources})
@@ -19,12 +11,8 @@ target_include_directories(app PRIVATE ${ZEPHYR_BASE}/subsys/fs/nvs)
 
 target_sources(app PRIVATE src/main.c)
 
-target_sources(app PRIVATE src/task/wifi_sta.c) 
-target_sources(app PRIVATE src/task/udp_client.c) 
 target_sources(app PRIVATE src/task/led.c) 
 target_sources(app PRIVATE src/task/button_manager.c)
-target_sources(app PRIVATE src/task/data_sender.c)
 target_sources(app PRIVATE src/task/data_logger.c)
 target_sources(app PRIVATE src/task/config_read.c)
 target_sources(app PRIVATE src/task/can_controller.c)
-target_sources(app PRIVATE src/task/gps_controller.c)

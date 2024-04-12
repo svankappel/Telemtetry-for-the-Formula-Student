@@ -40,7 +40,7 @@ LOG_MODULE_REGISTER(logger);
 //includes of project files
 #include "data_logger.h"
 #include "memory_management.h"
-#include "deviceInformation.h"
+//#include "deviceInformation.h"
 #include "config_read.h"
 
 // Non Volatile Strorage (NVS) defines
