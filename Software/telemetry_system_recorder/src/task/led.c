@@ -30,7 +30,7 @@
 #include "led.h"
 
 //project files includes
-#include "deviceinformation.h"
+//#include "deviceinformation.h"
 #include "data_logger.h"
 #include "config_read.h"
 
@@ -86,12 +86,13 @@ void Led(void)
 
 	while (true) //--------------------------------------------------- thread infinite loop
 	{
+		/*
 		//blink led 1 if wifi is connected
 		if (context.connected) 	
 			gpio_pin_toggle_dt(&led1);
 		else 
 			gpio_pin_set_dt(&led1, 0);
-
+		*/
 
 		//blink led 2 if datalogger is recording
 		if(configOK)
