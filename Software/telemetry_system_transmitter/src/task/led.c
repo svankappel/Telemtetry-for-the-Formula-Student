@@ -31,7 +31,7 @@
 
 //project files includes
 #include "deviceinformation.h"
-#include "data_logger.h"
+//#include "data_logger.h"
 #include "config_read.h"
 
 
@@ -96,10 +96,12 @@ void Led(void)
 		//blink led 2 if datalogger is recording
 		if(configOK)
 		{
+			/*
 			if (logEnable) 
 				gpio_pin_toggle_dt(&led2);
 			else 
 				gpio_pin_set_dt(&led2, 0);
+			*/
 		}
 		else	//set led on if config file is not ok
 		{
