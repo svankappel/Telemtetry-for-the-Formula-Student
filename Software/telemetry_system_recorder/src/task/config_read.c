@@ -314,7 +314,7 @@ int read_config(void)
 		}
 
 		//------------------------------------------------------------------------------------  initialize gps buffer
-
+		/*
 		//initialize gps buffer values
 		gpsBuffer.fix=false;
 		strcpy(gpsBuffer.speed,"0.0");
@@ -330,6 +330,9 @@ int read_config(void)
 		gpsBuffer.NameLogSpeed=configFile.GPS.Speed.NameLog;
 		gpsBuffer.NameLiveFix=configFile.GPS.Fix.NameLive;
 		gpsBuffer.NameLogFix=configFile.GPS.Fix.NameLog;
+
+		*/
+
 		return 0;
 	}
 	

@@ -106,7 +106,7 @@ void Data_Logger()
         }
 
         k_mutex_unlock(&sensorBufferMutex);		            //unlock sensor buffer mutex
-
+/*
         k_mutex_lock(&gpsBufferMutex,K_FOREVER);		    //lock gps buffer mutex
 
         sprintf(str,"%s%s;",str,gpsBuffer.coord);           //print gps data in CSV file
@@ -114,6 +114,7 @@ void Data_Logger()
         sprintf(str,"%s%s;",str,gpsBuffer.fix ? "true" : "false");
         
         k_mutex_unlock(&gpsBufferMutex);		            //unlock gps buffer mutex
+*/
 
         sprintf(str,"%s\n",str);                            //append \n at end of line of the CSV file
         
@@ -208,7 +209,7 @@ void data_log_start()
     }
 
     k_mutex_unlock(&sensorBufferMutex);		        //unlock sensor buffer mutex
-
+/*
     k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
 
     sprintf(str,"%s%s;",str,gpsBuffer.NameLogCoord);        //print gps names
@@ -216,7 +217,7 @@ void data_log_start()
     sprintf(str,"%s%s;",str,gpsBuffer.NameLogFix);
     
     k_mutex_unlock(&gpsBufferMutex);		        //unlock gps buffer mutex
-
+*/
     sprintf(str,"%s\n",str);                        //append \n at end of line
 
     //---------------------------------------------------- generate filename
@@ -325,7 +326,7 @@ void Task_Data_Logger_Init(void)
             lineSize+=(1+strlen(sensorBuffer[i].name_log));     // add string length of name + 1 for the ;
     }
 
-
+/*
     //add size of gps coordinates
     if(strlen(gpsBuffer.NameLiveCoord)<25)                  //if name is shorter than 25
         lineSize+=26;                                       // add max length of gps coordinates + 1 for the ;
@@ -343,7 +344,7 @@ void Task_Data_Logger_Init(void)
         lineSize+=6;                                        //  add max length of gps speed + 1 for the ;
     else                                                    //else
         lineSize+=(1+strlen(gpsBuffer.NameLiveFix));        // add string length of name + 1 for the ;
-
+*/
     //start timer
     k_timer_start(&dataLoggerTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LogFrameRate)));
 
