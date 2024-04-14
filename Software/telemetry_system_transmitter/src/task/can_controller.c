@@ -37,7 +37,7 @@ LOG_MODULE_REGISTER(can);
 #include "can_controller.h"
 #include "memory_management.h"
 #include "config_read.h"
-#include "data_logger.h"
+//#include "data_logger.h"
 
 //! Can controller thread priority level
 #define CAN_CONTROLLER_STACK_SIZE 8192
@@ -122,7 +122,7 @@ void CAN_Controller(void)
 	//can led
 	canLedId = (uint32_t)strtol(configFile.CANLed.CanID, NULL, 0);
 
-	set_RecordingStatus_callbacks(&recordingON,&recordingOFF);
+	//set_RecordingStatus_callbacks(&recordingON,&recordingOFF);
 
 	//variable to monitor the input buffer
 	uint32_t bufferFill=0;
@@ -139,6 +139,7 @@ void CAN_Controller(void)
 		
 		k_msgq_get(&can_msgq, &frame, K_FOREVER);		//get message from can message queue
 
+		/*
 		if((frame.id==canButtonId_start) && (frame.dlc == canButtonDlc_start))	//if we receive a message from can button canid
 		{
 			if(frame.data[canButtonIndex_start]==(canButtonMask_start & canButtonMatch_start))	//if can message at index
@@ -154,6 +155,7 @@ void CAN_Controller(void)
 				data_Logger_button_handler_stop();		//call Data Logger button handler
 			}
 		}
+		*/
 		
 		k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensorBufferMutex
 		for(int i = 0; i<configFile.sensorCount;i++)	//loop for all sensor of sensor buffer

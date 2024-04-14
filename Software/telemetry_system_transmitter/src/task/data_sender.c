@@ -32,7 +32,7 @@ LOG_MODULE_REGISTER(sender);
 #include "data_sender.h"
 #include "memory_management.h"
 #include "config_read.h"
-#include "data_logger.h"
+//#include "data_logger.h"
 #include "deviceInformation.h"
 
 //periodic timer that reads the measurements 
@@ -104,10 +104,13 @@ void Data_Sender()
 
 			sprintf(memPtr,"%s,\"KeepAliveCounter\":%d",memPtr,keepAliveCounter);		//print keepalive counter in json
 			
+			/*
 			if(logEnable)													//print log recording variable in json
 				sprintf(memPtr,"%s,\"LogRecordingSD\":true",memPtr);
 			else
 				sprintf(memPtr,"%s,\"LogRecordingSD\":false",memPtr) ;	
+
+			*/
 
 			strcat(memPtr,"}");		//close json section
 			
