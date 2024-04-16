@@ -11,23 +11,6 @@
 // For more help, browse the DeviceTree documentation at https://docs.zephyrproject.org/latest/guides/dts/index.html
 // You can also visit the nRF DeviceTree extension documentation at https://nrfconnect.github.io/vscode-nrf-connect/devicetree/nrfdevicetree.html
 
-&spi1 {
-    status = "okay";
-    cs-gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-names = "default";
-    
-    sdhc0: sdhc@0 {
-        compatible = "zephyr,sdhc-spi-slot";
-        reg = <0>;
-        status = "okay";
-        mmc {
-            compatible = "zephyr,sdmmc-disk";
-            status = "okay";
-        };
-        spi-max-frequency = <24000000>;
-	};
-};
 
 &spi2 {
     status = "okay";
@@ -62,13 +45,6 @@
 
 
 &pinctrl {
-    spi1_default: spi1_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 25)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 7)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 6)>;
-        };
-    };
 
     uart3_default: uart3_default {
         group1 {
@@ -91,10 +67,6 @@
             gpios = <&gpio0 26 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         };
     };
-
-    aliases {
-		sddetect = &sd_detect;
-	};
 
     chosen {
 		zephyr,canbus = &canbus;
