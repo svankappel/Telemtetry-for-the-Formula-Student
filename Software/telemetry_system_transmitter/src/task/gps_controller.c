@@ -49,8 +49,8 @@ K_THREAD_STACK_DEFINE(GPS_CONTROLLER_STACK, GPS_CONTROLLER_STACK_SIZE);
 //! Variable to identify the GPS thread
 static struct k_thread gpsControllerThread;
 
-// change this to any other UART peripheral if desired 
-#define UART_DEVICE_NODE DT_CHOSEN(zephyr_shell_uart_gps)
+// uart node
+#define UART_DEVICE_NODE_GPS DT_CHOSEN(zephyr_shell_uart_gps)
 
 //max size of NMEA message
 #define MSG_SIZE 85
@@ -76,7 +76,7 @@ K_MUTEX_DEFINE(gpsBufferMutex);
 K_MSGQ_DEFINE(uart_msgq, MSG_SIZE, 10, 4);
 
 //uart device declaration
-static const struct device *const uart_dev = DEVICE_DT_GET(UART_DEVICE_NODE);
+static const struct device *const uart_dev_gps = DEVICE_DT_GET(UART_DEVICE_NODE_GPS);
 
 // receive buffer used in UART ISR callback 
 static char rx_buf[MSG_SIZE];
@@ -104,14 +104,14 @@ void GPS_Controller(void)
 	char rx_buf[MSG_SIZE];
 
 	//check if uart device is ready
-	if (!device_is_ready(uart_dev)) 
+	if (!device_is_ready(uart_dev_gps)) 
 	{
 		LOG_INF("UART device not found!");
 		return;
 	}
 	// configure interrupt and callback to receive data 
-	uart_irq_callback_user_data_set(uart_dev, serial_cb, NULL);
-	uart_irq_rx_enable(uart_dev);
+	uart_irq_callback_user_data_set(uart_dev_gps, serial_cb, NULL);
+	uart_irq_rx_enable(uart_dev_gps);
 
 	// indefinitely wait for input from UART
 	while (k_msgq_get(&uart_msgq, &rx_buf, K_FOREVER) == 0) 
@@ -391,13 +391,13 @@ void serial_cb(const struct device *dev, void *user_data)
 {
 	uint8_t c;
 
-	if (!uart_irq_update(uart_dev)) {
+	if (!uart_irq_update(uart_dev_gps)) {
 		return;
 	}
 
-	while (uart_irq_rx_ready(uart_dev)) {
+	while (uart_irq_rx_ready(uart_dev_gps)) {
 
-		uart_fifo_read(uart_dev, &c, 1);
+		uart_fifo_read(uart_dev_gps, &c, 1);
 
 		if ((c == '\n' || c == '\r') && rx_buf_pos > 0) {
 			// terminate string 

@@ -34,6 +34,11 @@ LOG_MODULE_REGISTER(config);
 #include <zephyr/toolchain.h>
 #include <string.h>
 
+#include <zephyr/init.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/sys/util.h>
+#include <zephyr/drivers/uart.h>
+
 //include project files
 #include "config_read.h"
 #include "memory_management.h"
@@ -53,6 +58,10 @@ static const char *disk_mount_pt = "/SD:";
 //json config file struct
 struct config configFile;
 bool configOK;		//boolean variable for printing state on led
+
+// uart node
+#define UART_DEVICE_NODE_CONFIG DT_CHOSEN(zephyr_shell_uart_config)
+static const struct device *const uart_dev_config = DEVICE_DT_GET(UART_DEVICE_NODE_CONFIG);
 
 //struct for Wifi router data description
 static const struct json_obj_descr wifi_router_descr[] = {
@@ -145,6 +154,7 @@ static const struct json_obj_descr config_descr[] = {
 * @retval 1 on json error
 * @retval 2 on disk error
 * @retval 3 on file error
+* @retval 4 on uart error
 */
 int read_config(void)
 {
@@ -333,6 +343,39 @@ int read_config(void)
 
 		*/
 
+		//------------------------------------------------------------------------------------  send config to transmitter
+
+		//check if uart device is ready
+		if (!device_is_ready(uart_dev_config)) 
+		{
+			LOG_INF("UART device not found!");
+			return 4;
+		}
+
+		char c = '\0';
+		for(int id = 0; id<100;id++)
+		{
+			for(uint16_t i = 0; i<10; i++)
+			{
+				uart_poll_out(uart_dev_config,readBuf[(id*10)+i]);
+			}
+			uart_poll_out(uart_dev_config,'\0');
+
+			while(true)
+			{
+				uart_poll_in(uart_dev_config,&c);
+				if(c=='n')
+				{
+					LOG_INF("coucou");
+					c='\0';
+					break;
+				}
+			}
+		}
+		uart_poll_out(uart_dev_config,4);
+		
+		
+	
 		return 0;
 	}
 	
