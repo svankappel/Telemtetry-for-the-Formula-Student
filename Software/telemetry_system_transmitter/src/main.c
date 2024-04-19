@@ -49,7 +49,6 @@ K_QUEUE_DEFINE(udpQueue);
 int main(void)
 {
 	Task_Led_Init();				//start led controller Thread
-	//Task_Button_Manager_Init();		//start button manager
 
 	int ret = read_config();		//read configuration file
 
@@ -64,12 +63,6 @@ int main(void)
 		Task_Data_Sender_Init();		// start data sender
 
 		Task_CAN_Controller_Init();		//start can controller thread
-
-		/*
-		k_sleep(K_SECONDS(7));
-		if(configFile.RecordOnStart)                            //if record autostart is selected
-        	data_Logger_button_handler_start();
-		*/
 	}
 
 	k_sleep( K_FOREVER );

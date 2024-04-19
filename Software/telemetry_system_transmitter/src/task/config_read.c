@@ -26,29 +26,30 @@ LOG_MODULE_REGISTER(config);
 #include <errno.h>
 #include <stdio.h>
 #include <zephyr/device.h>
-#include <zephyr/storage/disk_access.h>
 #include <zephyr/data/json.h>
-#include <zephyr/fs/fs.h>
-#include <ff.h>
 #include <stdlib.h>
 #include <zephyr/toolchain.h>
 #include <string.h>
+
+#include <zephyr/init.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/sys/util.h>
+#include <zephyr/drivers/uart.h>
 
 //include project files
 #include "config_read.h"
 #include "memory_management.h"
 
-//file system
-static FATFS fat_fs;
+// UART
+#define UART_DEVICE_NODE_CONFIG DT_CHOSEN(zephyr_shell_uart_config)
+static const struct device *const uart_dev_config = DEVICE_DT_GET(UART_DEVICE_NODE_CONFIG);
 
-// SD mounting info 
-static struct fs_mount_t mp = {
-	.type = FS_FATFS,
-	.fs_data = &fat_fs,
-};
+static char readBuf[60000];
+static int rx_buf_pos;
+static int size = 0;
+bool uartReadOK = false;
 
-// SD mount name
-static const char *disk_mount_pt = "/SD:";
+void serial_cb_config(const struct device *dev, void *user_data);
 
 //json config file struct
 struct config configFile;
@@ -143,99 +144,37 @@ static const struct json_obj_descr config_descr[] = {
 /*! @brief read_config reads the config file and put the datas in a config struct	
 * @retval 0 on success
 * @retval 1 on json error
-* @retval 2 on disk error
-* @retval 3 on file error
+* @retval 4 on uart error
 */
 int read_config(void)
 {
-
-	//------------------------------------------------  Mount SD disk
-	mp.mnt_point = disk_mount_pt;
-
-	int res = fs_mount(&mp);	//mount sd card
-
-	if (res == FR_OK) 		//return error if mount failed
-	{
-		LOG_INF("Disk mounted.\n");
-	} 
-	else 
-	{
-		LOG_ERR("Error mounting disk.\n");
-		return 2;
-	}
-
-
-	// -----------------------------------------------      Find config file
-
-	struct fs_dir_t dirp;
-	static struct fs_dirent entry;
-
-	fs_dir_t_init(&dirp);					//initialize directory
-
-	// Verify fs_opendir() 			
-	res = fs_opendir(&dirp, "/SD:");		//open SD card base directory
-	if (res) 								//return error if open failed
-	{
-		LOG_ERR("Error opening dir /SD: [%d]\n" , res);
-		return 2;
-	}
-
-	for (;;) 								//loop to find config file
-	{
-		res = fs_readdir(&dirp, &entry);	//read directory
-
-		if (res || entry.name[0] == 0) 		//no more files
-			return 3;						//return error code
-
-		if (entry.type == FS_DIR_ENTRY_FILE)				//file found
-		{
-			LOG_INF("[FILE] %s (size = %zu)\n",entry.name, entry.size);
-			if(strstr(entry.name, "CONF") != NULL)			//check if file is config file
-				break;										//exit loop
-		} 
-	}
-
-	fs_closedir(&dirp);	//close directory
-
-
-	// ------------------------------------------   Read file
-
-	//create and init file
-	struct fs_file_t fs_configFile;
-	fs_file_t_init(&fs_configFile);
-
-	//path with the name found in the previous section
-	char path[20];	
-	sprintf(path,"/SD:/");
-	strcat(path,entry.name);
-
-	//open file
-	res = fs_open(&fs_configFile,path,FS_O_READ);	
-
-	if (res) 			//return error if open fail
-	{
-		LOG_ERR("Error opening dir /SD: [%d]\n" , res);
-		return 2;
-	}
-
-	entry.size*=2; //take some margin (according to some tests the size read could be too small)
-
-	uint8_t readBuf[entry.size];					//buffer for the content
-
-	for(int i = 0; i<=entry.size;i++)	//initialize buffer
-		readBuf[i]=0;
-
-	fs_read(&fs_configFile,readBuf,entry.size);		//read file
-
-
-	fs_close(&fs_configFile);					//close file
-
-	fs_unmount(&mp);							//unmount sd disk
 	
+	//------------------------------------------------  receive config
+
+
+	//check if uart device is ready
+	if (!device_is_ready(uart_dev_config)) 
+	{
+		LOG_INF("UART device not found!");
+		return 4;
+	}
+	// configure interrupt and callback to receive data 
+	uart_irq_callback_user_data_set(uart_dev_config, serial_cb_config, NULL);
+	uart_irq_rx_enable(uart_dev_config);
+
+	while(!uartReadOK)
+		k_sleep(K_MSEC(100));
+	
+
+	LOG_INF("Received : %d",rx_buf_pos);
+	printk("%s",readBuf);
+	
+	return 4;
+
 	//--------------------------------------- parse json string
 
 	//parse json
-	int ret = json_obj_parse(readBuf,entry.size,config_descr,ARRAY_SIZE(config_descr),&configFile);
+	int ret = json_obj_parse(readBuf,size,config_descr,ARRAY_SIZE(config_descr),&configFile);
 	
 	if(ret<0)				//if json parse fail
 	{
@@ -333,4 +272,38 @@ int read_config(void)
 		return 0;
 	}
 	
+}
+
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*!
+ * @brief Read characters from UART
+ */
+void serial_cb_config(const struct device *dev, void *user_data)
+{
+	uint8_t c;
+
+	if (!uart_irq_update(uart_dev_config)) {
+		return;
+	}
+
+	while (uart_irq_rx_ready(uart_dev_config)) {
+
+		uart_fifo_read(uart_dev_config, &c, 1);
+
+		if (c == '\0' && uart_dev_config > 0) {
+			char c_out = 'n';
+			uart_fifo_fill(uart_dev_config,&c_out,1);
+			return;
+
+		} else if(c == 4 && uart_dev_config > 0){
+			uartReadOK = true;
+			return;
+		}
+		else if (rx_buf_pos < (sizeof(readBuf) - 1)) {
+			readBuf[rx_buf_pos++] = c;
+			size++;
+		}
+		// else: characters beyond buffer size are dropped 
+	}
 }

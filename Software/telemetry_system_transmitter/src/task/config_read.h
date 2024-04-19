@@ -176,4 +176,5 @@ extern struct config configFile;
 //config ok
 extern bool configOK;
 
+
 #endif /*__CONFIG_READ_H*/

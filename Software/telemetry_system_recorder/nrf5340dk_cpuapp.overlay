@@ -92,7 +92,7 @@
 
     chosen {
 		zephyr,canbus = &canbus;
-        zephyr,shell-uart-config= &uart1;
+        zephyr,shell-uart-config= &uart3;
 	};
 };
 /delete-node/ &{/pin-controller/i2c1_default/group1/};
