@@ -48,6 +48,12 @@ K_QUEUE_DEFINE(udpQueue);
 //			main
 int main(void)
 {
+
+	/* 128MHz clock*/
+	nrfx_clock_divider_set(NRF_CLOCK_DOMAIN_HFCLK,NRF_CLOCK_HFCLK_DIV_1);
+
+	printk("Starting %s with CPU frequency: %d MHz\n", CONFIG_BOARD, SystemCoreClock/MHZ(1));
+
 	Task_Led_Init();				//start led controller Thread
 	Task_Button_Manager_Init();		//start button manager
 
