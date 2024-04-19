@@ -43,7 +43,7 @@
 		label = "CAN_1";
 		reg = <0x0>;
 		osc-freq = <16000000>;
-		bus-speed = <500000>;
+		bus-speed = <1000000>;
 		sjw = <1>;
 		prop-seg = <1>;
 		phase-seg1 = <4>;
