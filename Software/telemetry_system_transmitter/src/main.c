@@ -63,8 +63,6 @@ int main(void)
 
 		Task_Data_Sender_Init();		// start data sender
 
-		// Task_Data_Logger_Init();		//start data logger
-
 		Task_CAN_Controller_Init();		//start can controller thread
 
 		/*

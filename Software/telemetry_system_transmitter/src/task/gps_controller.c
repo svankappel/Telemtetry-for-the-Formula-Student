@@ -50,7 +50,7 @@ K_THREAD_STACK_DEFINE(GPS_CONTROLLER_STACK, GPS_CONTROLLER_STACK_SIZE);
 static struct k_thread gpsControllerThread;
 
 // change this to any other UART peripheral if desired 
-#define UART_DEVICE_NODE DT_CHOSEN(zephyr_shell_uart)
+#define UART_DEVICE_NODE DT_CHOSEN(zephyr_shell_uart_gps)
 
 //max size of NMEA message
 #define MSG_SIZE 85

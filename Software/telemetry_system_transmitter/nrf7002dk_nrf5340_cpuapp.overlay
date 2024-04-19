@@ -26,7 +26,7 @@
 		label = "CAN_1";
 		reg = <0x0>;
 		osc-freq = <16000000>;
-		bus-speed = <500000>;
+		bus-speed = <1000000>;
 		sjw = <1>;
 		prop-seg = <1>;
 		phase-seg1 = <4>;
@@ -70,7 +70,8 @@
 
     chosen {
 		zephyr,canbus = &canbus;
-		zephyr,shell-uart = &uart3;
+		zephyr,shell-uart-gps = &uart3;
+        zephyr,shell-uart-config = &uart1;
 	};
 };
 /delete-node/ &{/pin-controller/i2c1_default/group1/};
@@ -79,3 +80,38 @@
 &nrf_radio_coex {
     /delete-property/ btrf-switch-gpios;
 };
+
+&i2c1 {
+    status = "disabled";
+};
+
+&uart1 {
+    status = "okay";
+};
+
+&uart1_default {
+    group1 {
+        psels = <NRF_PSEL(UART_TX, 0, 27)>;
+    };
+};
+
+&gpio_fwd {
+    uart {
+        gpios = <&gpio1 0 0>, <&gpio1 5 0>, <&gpio1 4 0>;
+    };
+};
+
+&gpio_fwd {
+    uart {
+        gpios = <&gpio1 5 0>, <&gpio1 4 0>;
+    };
+};
+
+&uart1_default {
+    group2 {
+        psels = <NRF_PSEL(UART_RX, 1, 15)>;
+    };
+};
+/delete-node/ &{/pin-controller/uart1_sleep/group1/};
+/delete-node/ &{/pin-controller/pwm0_default/group1/};
+/delete-node/ &{/pin-controller/pwm0_sleep/group1/};

@@ -61,14 +61,6 @@ int main(void)
 
 	if(ret == 0)			//configuration file ok
 	{
-//		Task_Wifi_Sta_Init();			//start wifi stationning Thread
-		
-//		Task_UDP_Client_Init();			//start udp client Thread
-
-//		Task_GPS_Controller_Init();		//start gps controller thread
-
-//		Task_Data_Sender_Init();		// start data sender
-
 		Task_Data_Logger_Init();		//start data logger
 
 		Task_CAN_Controller_Init();		//start can controller thread
