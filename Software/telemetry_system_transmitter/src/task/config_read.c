@@ -21,7 +21,7 @@
 
 //includes
 #include <zephyr/logging/log.h>
-LOG_MODULE_REGISTER(config);
+LOG_MODULE_REGISTER(config, 4);
 #include <zephyr/kernel.h>
 #include <errno.h>
 #include <stdio.h>
@@ -45,7 +45,7 @@ LOG_MODULE_REGISTER(config);
 static const struct device *const uart_dev_config = DEVICE_DT_GET(UART_DEVICE_NODE_CONFIG);
 
 static char readBuf[60000];
-static int rx_buf_pos;
+static int rx_buf_pos = 0;
 static int size = 0;
 bool uartReadOK = false;
 
@@ -151,7 +151,6 @@ int read_config(void)
 	
 	//------------------------------------------------  receive config
 
-
 	//check if uart device is ready
 	if (!device_is_ready(uart_dev_config)) 
 	{
@@ -161,16 +160,23 @@ int read_config(void)
 	// configure interrupt and callback to receive data 
 	uart_irq_callback_user_data_set(uart_dev_config, serial_cb_config, NULL);
 	uart_irq_rx_enable(uart_dev_config);
+	//uart_irq_tx_enable(uart_dev_config);
 
-	while(!uartReadOK)
+		// if(c == 0x14 && uart_dev_config > 0){
+		// 	readBuf[rx_buf_pos++] = '\0';
+		// 	uartReadOK = true;
+		// }
+
+
+	while(readBuf[rx_buf_pos] != 0x14)
+	{
 		k_sleep(K_MSEC(100));
+	}
 	
-
-	LOG_INF("Received : %d",rx_buf_pos);
-	printk("%s",readBuf);
+	size = rx_buf_pos;
+	LOG_INF("Received : %d",size);
+	LOG_INF("%s",readBuf);
 	
-	return 4;
-
 	//--------------------------------------- parse json string
 
 	//parse json
@@ -279,31 +285,41 @@ int read_config(void)
 /*!
  * @brief Read characters from UART
  */
+static uint8_t uart_read[64];
+static char* rBuf = &readBuf[0];
+
 void serial_cb_config(const struct device *dev, void *user_data)
 {
 	uint8_t c;
 
-	if (!uart_irq_update(uart_dev_config)) {
+	if (!uart_irq_update(dev)) {
 		return;
 	}
 
-	while (uart_irq_rx_ready(uart_dev_config)) {
+	while (uart_irq_rx_ready(dev)) {
 
-		uart_fifo_read(uart_dev_config, &c, 1);
+		int ret = uart_fifo_read(dev, uart_read, 64);
 
-		if (c == '\0' && uart_dev_config > 0) {
-			char c_out = 'n';
-			uart_fifo_fill(uart_dev_config,&c_out,1);
-			return;
+		// if(c == 0x14 && uart_dev_config > 0){
+		// 	readBuf[rx_buf_pos++] = '\0';
+		// 	uartReadOK = true;
+		// }
+		// else if (!uartReadOK && (rx_buf_pos < (sizeof(readBuf) - 1))) {
+		// 	readBuf[rx_buf_pos++] = c;
+		// }
 
-		} else if(c == 4 && uart_dev_config > 0){
-			uartReadOK = true;
-			return;
+		if (ret > 0)
+		{
+			LOG_DBG("%d received (0x%02x)", ret, uart_read[ret-1]);
+			memcpy(rBuf, uart_read, ret);
+			rBuf += ret;
+			rx_buf_pos+= ret;
 		}
-		else if (rx_buf_pos < (sizeof(readBuf) - 1)) {
-			readBuf[rx_buf_pos++] = c;
-			size++;
-		}
-		// else: characters beyond buffer size are dropped 
 	}
+
+	//send XON
+	//uint8_t xon = 0x11;
+	//ret = uart_fifo_fill(uart_dev_config,&xon,1);
+	//LOG_INF("XON (ret:%d)", ret);
+
 }
