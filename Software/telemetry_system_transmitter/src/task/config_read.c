@@ -170,7 +170,7 @@ int read_config(void)
 
 	while(readBuf[rx_buf_pos] != 0x14)
 	{
-		k_sleep(K_MSEC(100));
+		//k_sleep(K_MSEC(100));
 	}
 	
 	size = rx_buf_pos;

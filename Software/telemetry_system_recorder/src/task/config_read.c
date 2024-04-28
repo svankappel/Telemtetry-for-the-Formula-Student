@@ -427,6 +427,7 @@ void serial_cb_config(const struct device *dev, void *user_data)
 		return;
 	}
 
+	//receiving data
 	if (uart_irq_rx_ready(dev))
 	{
 		uart_rx_ready = true;
@@ -447,6 +448,8 @@ void serial_cb_config(const struct device *dev, void *user_data)
 		else if (sent == sizeof(sd_card_buffer))
 		{
 			// copy next chunck
+
+			//end character
 			const uint8_t end = 0x14;
 			uart_fifo_fill(dev, &end, 1);
 			sent++;
