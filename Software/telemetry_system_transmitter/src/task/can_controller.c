@@ -126,7 +126,6 @@ void CAN_Controller(void)
 
 	//variable to monitor the input buffer
 	uint32_t bufferFill=0;
-	int lastBufferFill=0;
 
 	//frame struct
 	struct can_frame frame;
@@ -138,24 +137,6 @@ void CAN_Controller(void)
 	{
 		
 		k_msgq_get(&can_msgq, &frame, K_FOREVER);		//get message from can message queue
-
-		/*
-		if((frame.id==canButtonId_start) && (frame.dlc == canButtonDlc_start))	//if we receive a message from can button canid
-		{
-			if(frame.data[canButtonIndex_start]==(canButtonMask_start & canButtonMatch_start))	//if can message at index
-			{
-				data_Logger_button_handler_start();		//call Data Logger button handler
-			}
-		}
-
-		if((frame.id==canButtonId_stop) && (frame.dlc == canButtonDlc_stop))	//if we receive a message from can button canid
-		{
-			if(frame.data[canButtonIndex_stop]==(canButtonMask_stop & canButtonMatch_stop))	//if can message at index
-			{
-				data_Logger_button_handler_stop();		//call Data Logger button handler
-			}
-		}
-		*/
 		
 		k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensorBufferMutex
 		for(int i = 0; i<configFile.sensorCount;i++)	//loop for all sensor of sensor buffer
@@ -200,16 +181,6 @@ void CAN_Controller(void)
 			LOG_ERR("CAN receive buffer overflowed !");			//print error if can buffer overflowed
 			k_msgq_purge(&can_msgq);
 		}
-		else
-		{
-			if(bufferFill/10 != lastBufferFill)				//print warning if can buffer is filing too fast
-			{
-				lastBufferFill = bufferFill/10;
-
-				LOG_WRN("CAN receive buffer between %d0 and %d0",bufferFill/10,bufferFill/10+1);
-			}
-		}
-		
 	}
 }
 
