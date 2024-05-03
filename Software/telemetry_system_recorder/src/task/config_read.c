@@ -58,7 +58,6 @@ static const char *disk_mount_pt = "/SD:";
 //json config file struct
 struct config configFile;
 bool configOK;		//boolean variable for printing state on led
-const int totalSends = 50;
 
 static bool uart_tx_completed = true;
 static bool uart_rx_ready = false;
@@ -68,7 +67,7 @@ static uint8_t sd_card_buffer[512];
 // uart node
 #define UART_DEVICE_NODE_CONFIG DT_CHOSEN(zephyr_shell_uart_config)
 static const struct device *const uart_dev_config = DEVICE_DT_GET(UART_DEVICE_NODE_CONFIG);
-void serial_cb_config(const struct device *dev, void *user_data);
+void serial_cb_config(const struct device *dev, void * userData);
 bool sendFinished = false;
 
 //struct for Wifi router data description
@@ -367,7 +366,7 @@ int read_config(void)
 
 		// configure interrupt and callback to receive data 
 		memcpy(sd_card_buffer, readBuf, sizeof(sd_card_buffer));
-		uart_irq_callback_user_data_set(uart_dev_config, serial_cb_config, NULL);
+		uart_irq_callback_user_data_set(uart_dev_config, serial_cb_config, readBuf);
 		//uart_irq_rx_enable(uart_dev_config);
 		uart_irq_tx_enable(uart_dev_config);
 
@@ -389,10 +388,11 @@ int read_config(void)
  * @brief Read characters from UART
  */
 static int sent = 0;
+static uint16_t totalSent = 0;
 static const int size = 512;
 static int ret;
 
-void serial_cb_config(const struct device *dev, void *user_data)
+void serial_cb_config(const struct device *dev, void * userData)
 {
 	if (!uart_irq_update(uart_dev_config)) {
 		return;
@@ -419,14 +419,19 @@ void serial_cb_config(const struct device *dev, void *user_data)
 		else if (sent == sizeof(sd_card_buffer))
 		{
 			// copy next chunck
+			totalSent+=sent;
+			memcpy(sd_card_buffer, ((uint8_t*)userData)+totalSent, sizeof(sd_card_buffer));
+			sent = 0;
 
-			//end character
-			const uint8_t end = 0x14;
-			uart_fifo_fill(dev, &end, 1);
-			sent++;
-
-			sendFinished = true;
-			uart_irq_tx_disable(dev);	
+			if(totalSent > 10000 )
+			{
+				//end character
+				const uint8_t end = 0x14;
+				uart_fifo_fill(dev, &end, 1);
+				totalSent++;
+				sendFinished = true;
+				uart_irq_tx_disable(dev);	
+			}
 		}
 	}
 }

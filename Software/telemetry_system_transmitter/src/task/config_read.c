@@ -175,8 +175,12 @@ int read_config(void)
 	
 	size = rx_buf_pos;
 	LOG_INF("Received : %d",size);
-	LOG_INF("\n%s",readBuf);
 
+	for(uint16_t i = 0; i<size; i++)
+	{
+		printk("%c",readBuf[i]);
+		k_msleep(1);
+	}
 	
 	//--------------------------------------- parse json string
 
@@ -306,7 +310,7 @@ void serial_cb_config(const struct device *dev, void *user_data)
 			memcpy(rBuf, uart_read, ret);
 			rBuf += ret;
 			rx_buf_pos+= ret;
-			LOG_DBG("%d received (0x%02x), (total = %d)", ret, uart_read[ret-1],rx_buf_pos);
+			//LOG_DBG("%d received (0x%02x), (total = %d)", ret, uart_read[ret-1],rx_buf_pos);
 		}
 	}
 
