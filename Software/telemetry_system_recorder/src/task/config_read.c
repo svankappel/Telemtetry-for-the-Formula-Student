@@ -426,7 +426,7 @@ void serial_cb_config(const struct device *dev, void *user_data)
 			sent++;
 
 			sendFinished = true;
-			
+			uart_irq_tx_disable(dev);	
 		}
 	}
 }
