@@ -168,14 +168,15 @@ int read_config(void)
 		// }
 
 
-	while(readBuf[rx_buf_pos] != 0x14)
+	while(readBuf[rx_buf_pos-1] != 0x14)
 	{
-		//k_sleep(K_MSEC(100));
+		k_sleep(K_MSEC(100));
 	}
 	
 	size = rx_buf_pos;
 	LOG_INF("Received : %d",size);
 	LOG_INF("%s",readBuf);
+
 	
 	//--------------------------------------- parse json string
 
@@ -300,26 +301,13 @@ void serial_cb_config(const struct device *dev, void *user_data)
 
 		int ret = uart_fifo_read(dev, uart_read, 64);
 
-		// if(c == 0x14 && uart_dev_config > 0){
-		// 	readBuf[rx_buf_pos++] = '\0';
-		// 	uartReadOK = true;
-		// }
-		// else if (!uartReadOK && (rx_buf_pos < (sizeof(readBuf) - 1))) {
-		// 	readBuf[rx_buf_pos++] = c;
-		// }
-
 		if (ret > 0)
 		{
-			LOG_DBG("%d received (0x%02x)", ret, uart_read[ret-1]);
 			memcpy(rBuf, uart_read, ret);
 			rBuf += ret;
 			rx_buf_pos+= ret;
+			LOG_DBG("%d received (0x%02x), (total = %d)", ret, uart_read[ret-1],rx_buf_pos);
 		}
 	}
-
-	//send XON
-	//uint8_t xon = 0x11;
-	//ret = uart_fifo_fill(uart_dev_config,&xon,1);
-	//LOG_INF("XON (ret:%d)", ret);
 
 }

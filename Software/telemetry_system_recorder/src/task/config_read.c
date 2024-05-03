@@ -69,7 +69,7 @@ static uint8_t sd_card_buffer[512];
 #define UART_DEVICE_NODE_CONFIG DT_CHOSEN(zephyr_shell_uart_config)
 static const struct device *const uart_dev_config = DEVICE_DT_GET(UART_DEVICE_NODE_CONFIG);
 void serial_cb_config(const struct device *dev, void *user_data);
-bool sendEnable = false;
+bool sendFinished = false;
 
 //struct for Wifi router data description
 static const struct json_obj_descr wifi_router_descr[] = {
@@ -353,6 +353,8 @@ int read_config(void)
 
 		//------------------------------------------------------------------------------------  send config to transmitter
 
+		k_sleep(K_MSEC(1000));
+		LOG_INF("Start to send config");
 
 		//check if uart device is ready
 		if (!device_is_ready(uart_dev_config)) 
@@ -360,6 +362,9 @@ int read_config(void)
 			LOG_INF("UART device not found!");
 			return 4;
 		}
+
+		
+
 		// configure interrupt and callback to receive data 
 		memcpy(sd_card_buffer, readBuf, sizeof(sd_card_buffer));
 		uart_irq_callback_user_data_set(uart_dev_config, serial_cb_config, NULL);
@@ -367,46 +372,12 @@ int read_config(void)
 		uart_irq_tx_enable(uart_dev_config);
 
 		
-		LOG_INF("Start to send config");
-
-		const int packetSize = 10;
-//		const int totalSends = 50;
-		// const int totalSends = entry.size/packetSize;
-		int sent = 0;
-
-		char c;
-		const int size = 1;
-		volatile int ret;
-
-		sendEnable = false;
-
-		// while (sent < totalSends)
-		// {
-		// 	LOG_INF("sent: %d, to send: 0x%02x", sent, readBuf[sent]);
-		// 	if (uart_tx_completed)
-		// 	{
-		// 		uart_tx_completed = false;
-		// 		ret = uart_fifo_fill(uart_dev_config,&readBuf[sent],size);
-		// 	}
-		// 	else
-		// 	{
-		// 		continue;
-		// 	}
-		// 	LOG_INF("uart_fifo_fill() ret: %d", ret);
-
-		// 	if (ret > 0 && ret <= size)
-		// 	{
-		// 		sent+=ret;
-		// 	}
-			
-		// 	//while(!sendEnable)
-		// 	//{}
-		// }
+		while(!sendFinished)
+		{
+			k_sleep(K_MSEC(100));
+		}
 		
-		
-		//uart_poll_out(uart_dev_config,0x14);
-		
-		LOG_INF("Configuration file sent to transmitter (%d bytes)",sent);
+		LOG_INF("Configuration file sent to transmitter ( bytes)");
 	
 		return 0;
 	}
@@ -418,7 +389,7 @@ int read_config(void)
  * @brief Read characters from UART
  */
 static int sent = 0;
-static const int size = 10;
+static const int size = 512;
 static int ret;
 
 void serial_cb_config(const struct device *dev, void *user_data)
@@ -441,7 +412,7 @@ void serial_cb_config(const struct device *dev, void *user_data)
 			ret = uart_fifo_fill(dev, &sd_card_buffer[sent],size);
 			if (ret > 0 && ret <= size)
 			{
-				LOG_INF("%d data sent over uart", ret);
+				//LOG_INF("%d data sent over uart", ret);
 				sent+=ret;
 			}
 		}
@@ -453,26 +424,9 @@ void serial_cb_config(const struct device *dev, void *user_data)
 			const uint8_t end = 0x14;
 			uart_fifo_fill(dev, &end, 1);
 			sent++;
+
+			sendFinished = true;
+			
 		}
 	}
-
-
-	/*
-	uint8_t c;
-
-	while (uart_irq_rx_ready(uart_dev_config)) {
-
-		uart_fifo_read(uart_dev_config, &c, 1);
-
-		if(c == 0x11 && uart_dev_config > 0)
-		{
-			sendEnable = true;
-		}
-		else if (c == 0x13 && uart_dev_config > 0)
-		{
-			sendEnable = false;
-		}
-	}
-	*/
-
 }
