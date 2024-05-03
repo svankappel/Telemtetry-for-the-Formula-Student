@@ -175,7 +175,7 @@ int read_config(void)
 	
 	size = rx_buf_pos;
 	LOG_INF("Received : %d",size);
-	LOG_INF("%s",readBuf);
+	LOG_INF("\n%s",readBuf);
 
 	
 	//--------------------------------------- parse json string
