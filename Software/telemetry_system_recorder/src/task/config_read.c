@@ -58,16 +58,17 @@ static const char *disk_mount_pt = "/SD:";
 //json config file struct
 struct config configFile;
 bool configOK;		//boolean variable for printing state on led
-
-static bool uart_tx_completed = true;
-static bool uart_rx_ready = false;
 static uint8_t sd_card_buffer[512];
 
 
 // uart node
 #define UART_DEVICE_NODE_CONFIG DT_CHOSEN(zephyr_shell_uart_config)
 static const struct device *const uart_dev_config = DEVICE_DT_GET(UART_DEVICE_NODE_CONFIG);
-void serial_cb_config(const struct device *dev, void * userData);
+struct Data{
+	uint8_t * readBufPointer;
+	uint16_t size;
+};
+void serial_cb_config(const struct device *dev, struct Data * userData);
 bool sendFinished = false;
 
 //struct for Wifi router data description
@@ -238,18 +239,19 @@ int read_config(void)
 	entry.size*=2; //take some margin (according to some tests the size read could be too small)
 
 	uint8_t readBuf[entry.size];					//buffer for the content
-
-	for(int i = 0; i<=entry.size;i++)	//initialize buffer
-		readBuf[i]=0;
+	memset(readBuf,0x00,sizeof(readBuf));			//initialize array
 
 	fs_read(&fs_configFile,readBuf,entry.size);		//read file
-
 
 	fs_close(&fs_configFile);					//close file
 
 	fs_unmount(&mp);							//unmount sd disk
-	
+
 	//--------------------------------------- parse json string
+
+	//create a copy of readBuf for the transmitter (sent by uart at the end of this function)
+	uint8_t readBufCopy[entry.size];					
+	memcpy(readBufCopy,readBuf,sizeof(readBuf));		//copy
 
 	//parse json
 	int ret = json_obj_parse(readBuf,entry.size,config_descr,ARRAY_SIZE(config_descr),&configFile);
@@ -362,12 +364,12 @@ int read_config(void)
 			return 4;
 		}
 
-		
-
 		// configure interrupt and callback to receive data 
-		memcpy(sd_card_buffer, readBuf, sizeof(sd_card_buffer));
-		uart_irq_callback_user_data_set(uart_dev_config, serial_cb_config, readBuf);
-		//uart_irq_rx_enable(uart_dev_config);
+		memcpy(sd_card_buffer, readBufCopy, sizeof(sd_card_buffer));
+		struct Data data;
+		data.readBufPointer = readBufCopy;
+		data.size = entry.size;
+		uart_irq_callback_user_data_set(uart_dev_config, serial_cb_config, &data);
 		uart_irq_tx_enable(uart_dev_config);
 
 		
@@ -376,7 +378,7 @@ int read_config(void)
 			k_sleep(K_MSEC(100));
 		}
 		
-		LOG_INF("Configuration file sent to transmitter ( bytes)");
+		LOG_INF("Configuration file sent to transmitter");
 	
 		return 0;
 	}
@@ -392,16 +394,10 @@ static uint16_t totalSent = 0;
 static const int size = 512;
 static int ret;
 
-void serial_cb_config(const struct device *dev, void * userData)
+void serial_cb_config(const struct device *dev, struct Data * userData)
 {
 	if (!uart_irq_update(uart_dev_config)) {
 		return;
-	}
-
-	//receiving data
-	if (uart_irq_rx_ready(dev))
-	{
-		uart_rx_ready = true;
 	}
 
 	// Sending data
@@ -420,10 +416,10 @@ void serial_cb_config(const struct device *dev, void * userData)
 		{
 			// copy next chunck
 			totalSent+=sent;
-			memcpy(sd_card_buffer, ((uint8_t*)userData)+totalSent, sizeof(sd_card_buffer));
+			memcpy(sd_card_buffer, userData->readBufPointer+totalSent, sizeof(sd_card_buffer));
 			sent = 0;
 
-			if(totalSent > 10000 )
+			if(totalSent > userData->size/2 )
 			{
 				//end character
 				const uint8_t end = 0x14;

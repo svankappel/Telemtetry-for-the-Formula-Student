@@ -160,13 +160,6 @@ int read_config(void)
 	// configure interrupt and callback to receive data 
 	uart_irq_callback_user_data_set(uart_dev_config, serial_cb_config, NULL);
 	uart_irq_rx_enable(uart_dev_config);
-	//uart_irq_tx_enable(uart_dev_config);
-
-		// if(c == 0x14 && uart_dev_config > 0){
-		// 	readBuf[rx_buf_pos++] = '\0';
-		// 	uartReadOK = true;
-		// }
-
 
 	while(readBuf[rx_buf_pos-1] != 0x14)
 	{
@@ -176,11 +169,8 @@ int read_config(void)
 	size = rx_buf_pos;
 	LOG_INF("Received : %d",size);
 
-	for(uint16_t i = 0; i<size; i++)
-	{
-		printk("%c",readBuf[i]);
-		k_msleep(1);
-	}
+	uart_irq_rx_disable(uart_dev_config);			//disable uart interrupt (not anymore used)
+
 	
 	//--------------------------------------- parse json string
 
@@ -288,7 +278,7 @@ int read_config(void)
 
 //-----------------------------------------------------------------------------------------------------------------------
 /*!
- * @brief Read characters from UART
+ * @brief Read characters from UART (config file)
  */
 static uint8_t uart_read[64];
 static char* rBuf = &readBuf[0];
@@ -297,20 +287,19 @@ void serial_cb_config(const struct device *dev, void *user_data)
 {
 	uint8_t c;
 
-	if (!uart_irq_update(dev)) {
+	if (!uart_irq_update(dev)) {			//update irq
 		return;
 	}
 
-	while (uart_irq_rx_ready(dev)) {
+	while (uart_irq_rx_ready(dev)) {		//while we have chars in the buffer
 
-		int ret = uart_fifo_read(dev, uart_read, 64);
+		int ret = uart_fifo_read(dev, uart_read, 64);		//read buffer
 
 		if (ret > 0)
 		{
-			memcpy(rBuf, uart_read, ret);
+			memcpy(rBuf, uart_read, ret);					//append chars to read array
 			rBuf += ret;
 			rx_buf_pos+= ret;
-			//LOG_DBG("%d received (0x%02x), (total = %d)", ret, uart_read[ret-1],rx_buf_pos);
 		}
 	}
 
