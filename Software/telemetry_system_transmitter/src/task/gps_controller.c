@@ -194,6 +194,12 @@ void GPS_Controller(void)
 
 				k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
 				strcpy(gpsBuffer.coord,coord);					//copy coords to gps buffer
+				gpsBuffer.lat_sign=latSign=='-'?0:1;
+				gpsBuffer.lat_characteristic=lat;
+				gpsBuffer.lat_mantissa=lat_dec;
+				gpsBuffer.long_sign=lonSign=='-'?0:1;
+				gpsBuffer.long_characteristic=lon;
+				gpsBuffer.long_mantissa=lon_dec;
 				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
 			}
 

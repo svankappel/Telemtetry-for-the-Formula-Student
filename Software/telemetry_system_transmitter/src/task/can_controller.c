@@ -302,19 +302,26 @@ void Task_CAN_Controller_Init( void )
 
 typedef union{
 	struct{
-		uint16_t u16_1;
-		uint16_t u16_2;
-		uint32_t u32;
+		uint16_t sign;
+		uint16_t characteristic;
+		uint32_t mantissa;
 	}fields;
 	uint8_t u8[8];
-}UnionConverter;
+}Coord;
 
 void can_gps_sender()
 {
-	UnionConverter converter;
-	converter.fields.u16_1 = 0;
-	converter.fields.u16_2 = 7;
-	converter.fields.u32 = 123456;
+	Coord latitude,longitude;
+	k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+	latitude.fields.sign = gpsBuffer.lat_sign;
+	latitude.fields.characteristic = gpsBuffer.lat_characteristic;
+	latitude.fields.mantissa = gpsBuffer.lat_mantissa;
+	longitude.fields.sign = gpsBuffer.long_sign;
+	longitude.fields.characteristic = gpsBuffer.long_characteristic;
+	longitude.fields.mantissa = gpsBuffer.long_mantissa;
+	k_mutex_unlock(&gpsBufferMutex);				//unlock gps buffer mutex
+	
 
-	sendLat(converter.u8);
+	sendLat(latitude.u8);
+	sendLong(longitude.u8);
 }
