@@ -82,12 +82,12 @@ uint32_t canTimeFixSpeedId;
 
 typedef union{
 	struct{
-		uint16_t u16_1;
-		uint16_t u16_2;
-		uint32_t u32;
+		uint16_t sign;
+		uint16_t characteristic;
+		uint32_t mantissa;
 	}fields;
 	uint8_t u8[8];
-}UnionConverter;
+}Coord;
 
 //-----------------------------------------------------------------------------------------------------------------------
 /*! CAN_Controller implements the CAN_Controller task
@@ -171,13 +171,15 @@ void CAN_Controller(void)
 		}
 		else if((frame.id==canLatId) && (frame.dlc == 8))	//if we receive a message from gps - latitude
 		{
-			UnionConverter converter;
-			memcpy(converter.u8,frame.data,8);
-			LOG_INF("%c%d.%d",converter.fields.u16_1==1?'+':'-',converter.fields.u16_2,converter.fields.u32 );
+			Coord latitude;
+			memcpy(latitude.u8,frame.data,8);
+			LOG_INF("Latitude : %c%d.%d",latitude.fields.sign==1?'+':'-',latitude.fields.characteristic,latitude.fields.mantissa );
 		}
 		else if((frame.id==canLongId) && (frame.dlc == 8))	//if we receive a message from gps - longitude
 		{
-			
+			Coord longitude;
+			memcpy(longitude.u8,frame.data,8);
+			LOG_INF("Longitude : %c%d.%d",longitude.fields.sign==1?'+':'-',longitude.fields.characteristic,longitude.fields.mantissa );
 		}
 		else if((frame.id==canTimeFixSpeedId) && (frame.dlc == 8))	//if we receive a message from gps - TimeFixSpeed
 		{
