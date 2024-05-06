@@ -79,7 +79,7 @@
         {
             "Lat":"0x05",
             "Long":"0x06",
-            "TimeAndFix":"0x07"
+            "TimeFixSpeed":"0x07"
         }
     },
 

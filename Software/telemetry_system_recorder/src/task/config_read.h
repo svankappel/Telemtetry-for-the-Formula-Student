@@ -137,7 +137,7 @@ struct sGPS{
     struct sGPSData Coordinates;
     struct sGPSData Speed;
     struct sGPSData Fix;
-    struct sGPSCanIds CanIds;
+    struct sGPSCanIds CanIDs;
 };
 
 /*! @brief struct for the CAN datapoint
