@@ -69,6 +69,8 @@ typedef struct sSensor{
 extern tSensor sensorBuffer[MAX_SENSORS];
 extern struct k_mutex sensorBufferMutex;
 
+extern bool logEnable;
+
 /*! @brief gps buffer struct
     @param speed current gps speed
     @param coord current gps coords
