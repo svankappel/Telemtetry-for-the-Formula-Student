@@ -35,17 +35,33 @@ void CAN_Controller(void);
 */
 void Task_CAN_Controller_Init( void );
 
-/*! recording ON
-* @brief set recording status on the can
-*      
+/*! canGPS_timer_handler is called by the timer interrupt
+* @brief canGPS_timer_handler submit a new work that sends the data of the GPS   
 */
-void recordingON( void );
+void canGPS_timer_handler();
 
-/*! recording OFF
-* @brief set recording status on the can
+/*! canGPS_timer_handler is called by the timer interrupt
+* @brief canGPS_timer_handler execute the work submitted by the interrupt   
+*/
+void can_gps_sender();
+
+/*! sendLat
+* @brief send Latitude
 *      
 */
-void recordingOFF( void );
+void sendLat( uint8_t * data );
+
+/*! sendLong
+* @brief send Longitude
+*      
+*/
+void sendLong( uint8_t * data );
+
+/*! sendTimeFixSpeed
+* @brief send Time/date Fix info and speed
+*      
+*/
+void sendTimeFixSpeed( uint8_t * data );
 
 
 #endif /*__CAN_CONTROLLER_H*/

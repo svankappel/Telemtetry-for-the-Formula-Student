@@ -75,7 +75,19 @@ CAN_MSGQ_DEFINE(can_msgq, 100);
 
 //can led
 uint32_t canLedId;
+uint32_t canLatId;
+uint32_t canLongId;
+uint32_t canTimeFixSpeedId;
 
+
+typedef union{
+	struct{
+		uint16_t u16_1;
+		uint16_t u16_2;
+		uint32_t u32;
+	}fields;
+	uint8_t u8[8];
+}UnionConverter;
 
 //-----------------------------------------------------------------------------------------------------------------------
 /*! CAN_Controller implements the CAN_Controller task
@@ -119,9 +131,13 @@ void CAN_Controller(void)
 	uint8_t canButtonIndex_stop = configFile.CANButton.StopLog.index;
 	uint8_t canButtonDlc_stop = configFile.CANButton.StopLog.dlc;
 
-	//can led
+	//can ids
 	canLedId = (uint32_t)strtol(configFile.CANLed.CanID, NULL, 0);
-
+	canLatId = (uint32_t)strtol(configFile.GPS.CanIDs.Lat, NULL, 0);
+	canLongId = (uint32_t)strtol(configFile.GPS.CanIDs.Long, NULL, 0);
+	canTimeFixSpeedId = (uint32_t)strtol(configFile.GPS.CanIDs.TimeFixSpeed, NULL, 0); 
+	
+	//set recording callbacks
 	set_RecordingStatus_callbacks(&recordingON,&recordingOFF);
 
 	//variable to monitor the input buffer
@@ -146,51 +162,66 @@ void CAN_Controller(void)
 				data_Logger_button_handler_start();		//call Data Logger button handler
 			}
 		}
-
-		if((frame.id==canButtonId_stop) && (frame.dlc == canButtonDlc_stop))	//if we receive a message from can button canid
+		else if((frame.id==canButtonId_stop) && (frame.dlc == canButtonDlc_stop))	//if we receive a message from can button canid
 		{
 			if(frame.data[canButtonIndex_stop]==(canButtonMask_stop & canButtonMatch_stop))	//if can message at index
 			{
 				data_Logger_button_handler_stop();		//call Data Logger button handler
 			}
 		}
-		
-		k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensorBufferMutex
-		for(int i = 0; i<configFile.sensorCount;i++)	//loop for all sensor of sensor buffer
+		else if((frame.id==canLatId) && (frame.dlc == 8))	//if we receive a message from gps - latitude
 		{
-			if(sensorBuffer[i].canID==frame.id)			//if received can frame have the same id as the sensor
+			UnionConverter converter;
+			memcpy(converter.u8,frame.data,8);
+			LOG_INF("%c%d.%d",converter.fields.u16_1==1?'+':'-',converter.fields.u16_2,converter.fields.u32 );
+		}
+		else if((frame.id==canLongId) && (frame.dlc == 8))	//if we receive a message from gps - longitude
+		{
+			
+		}
+		else if((frame.id==canTimeFixSpeedId) && (frame.dlc == 8))	//if we receive a message from gps - TimeFixSpeed
+		{
+			
+		}
+		else
+		{
+			k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensorBufferMutex
+			for(int i = 0; i<configFile.sensorCount;i++)	//loop for all sensor of sensor buffer
 			{
-				if(sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1 &&		//if no bytes assigned (config file error)
-					sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1)
+				if(sensorBuffer[i].canID==frame.id)			//if received can frame have the same id as the sensor
 				{
-					continue;												//continue loop
-				}
+					if(sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1 &&		//if no bytes assigned (config file error)
+						sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1)
+					{
+						continue;												//continue loop
+					}
 
-				if(sensorBuffer[i].dlc != frame.dlc)						//continue lool if dlc error (config file error)
-					continue;
+					if(sensorBuffer[i].dlc != frame.dlc)						//continue lool if dlc error (config file error)
+						continue;
 
 
-				//check if the message has conditions
-				bool conditionOk = true;
-				for(int idx = 0; idx < frame.dlc; idx ++)
-				{
-					if(sensorBuffer[i].conditions[idx] != -1 && sensorBuffer[i].conditions[idx] != frame.data[idx])			//if conditions are not respected set variable to false
-						conditionOk = false;
-				}
+					//check if the message has conditions
+					bool conditionOk = true;
+					for(int idx = 0; idx < frame.dlc; idx ++)
+					{
+						if(sensorBuffer[i].conditions[idx] != -1 && sensorBuffer[i].conditions[idx] != frame.data[idx])			//if conditions are not respected set variable to false
+							conditionOk = false;
+					}
 
-				if(conditionOk)			//conditions ok
-				{
-					//get value in the message at the position of the B1,B2,B3,B4 variables
-					sensorBuffer[i].value = 
-					(uint32_t)frame.data[sensorBuffer[i].B1] + 
-					(uint32_t)((sensorBuffer[i].B2 != -1) ? frame.data[sensorBuffer[i].B2] << 8 : 0) +
-					(uint32_t)((sensorBuffer[i].B3 != -1) ? frame.data[sensorBuffer[i].B3] << 16 : 0) +
-					(uint32_t)((sensorBuffer[i].B4 != -1) ? frame.data[sensorBuffer[i].B4] << 24 : 0) ;
+					if(conditionOk)			//conditions ok
+					{
+						//get value in the message at the position of the B1,B2,B3,B4 variables
+						sensorBuffer[i].value = 
+						(uint32_t)frame.data[sensorBuffer[i].B1] + 
+						(uint32_t)((sensorBuffer[i].B2 != -1) ? frame.data[sensorBuffer[i].B2] << 8 : 0) +
+						(uint32_t)((sensorBuffer[i].B3 != -1) ? frame.data[sensorBuffer[i].B3] << 16 : 0) +
+						(uint32_t)((sensorBuffer[i].B4 != -1) ? frame.data[sensorBuffer[i].B4] << 24 : 0) ;
+					}
 				}
 			}
+			k_mutex_unlock(&sensorBufferMutex);		//unlock mutex
 		}
-		k_mutex_unlock(&sensorBufferMutex);		//unlock mutex
-
+	
 		//get fill of the buffer
 		bufferFill=k_msgq_num_used_get(&can_msgq);	
 		if(bufferFill >= 90)
@@ -207,7 +238,6 @@ void CAN_Controller(void)
 				LOG_WRN("CAN receive buffer between %d0 and %d0",bufferFill/10,bufferFill/10+1);
 			}
 		}
-		
 	}
 }
 

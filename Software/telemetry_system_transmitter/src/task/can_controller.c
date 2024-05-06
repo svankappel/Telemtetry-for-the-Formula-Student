@@ -49,6 +49,12 @@ K_THREAD_STACK_DEFINE(CAN_CONTROLLER_STACK, CAN_CONTROLLER_STACK_SIZE);
 //! Variable to identify the can controller thread
 static struct k_thread canControllerThread;
 
+//periodic timer that sends the gps data
+K_TIMER_DEFINE(canGPSSenderTimer, canGPS_timer_handler,NULL);
+
+//work for process triggerd by timer interruption
+K_WORK_DEFINE(gpsSendWork, can_gps_sender);		//gpsSendWork -> called by timer to send data
+
 //sensor buffer and mutex to protect it
 
 /*! @brief sensor buffer struct
@@ -73,8 +79,21 @@ const struct device *const can_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_canbus));
 //can receive message queue
 CAN_MSGQ_DEFINE(can_msgq, 100);
 
-//can led
+//can ids
+uint32_t canLatId;
+uint32_t canLongId;
+uint32_t canTimeFixSpeedId;
 uint32_t canLedId;
+
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! canGPS_timer_handler is called by the timer interrupt
+* @brief canGPS_timer_handler submit a new work that sends the data of the GPS   
+*/
+void canGPS_timer_handler()
+{
+    k_work_submit(&gpsSendWork);
+}
 
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -106,26 +125,17 @@ void CAN_Controller(void)
 	};
 	can_add_rx_filter_msgq(can_dev, &can_msgq, &filter);
 
-	//can button
-	uint32_t canButtonId_start = (uint32_t)strtol(configFile.CANButton.StartLog.CanID, NULL, 0);
-	uint8_t canButtonMatch_start = (uint8_t)strtol(configFile.CANButton.StartLog.match, NULL, 0);
-	uint8_t canButtonMask_start = (uint8_t)strtol(configFile.CANButton.StartLog.mask, NULL, 0);
-	uint8_t canButtonIndex_start = configFile.CANButton.StartLog.index;
-	uint8_t canButtonDlc_start = configFile.CANButton.StartLog.dlc;
-
-	uint32_t canButtonId_stop = (uint32_t)strtol(configFile.CANButton.StopLog.CanID, NULL, 0);
-	uint8_t canButtonMatch_stop = (uint8_t)strtol(configFile.CANButton.StopLog.match, NULL, 0);
-	uint8_t canButtonMask_stop = (uint8_t)strtol(configFile.CANButton.StopLog.mask, NULL, 0);
-	uint8_t canButtonIndex_stop = configFile.CANButton.StopLog.index;
-	uint8_t canButtonDlc_stop = configFile.CANButton.StopLog.dlc;
-
-	//can led
+	//can ids
+	canLatId = (uint32_t)strtol(configFile.GPS.CanIDs.Lat, NULL, 0);
+	canLongId = (uint32_t)strtol(configFile.GPS.CanIDs.Long, NULL, 0);
+	canTimeFixSpeedId = (uint32_t)strtol(configFile.GPS.CanIDs.TimeFixSpeed, NULL, 0); 
 	canLedId = (uint32_t)strtol(configFile.CANLed.CanID, NULL, 0);
-
-	//set_RecordingStatus_callbacks(&recordingON,&recordingOFF);
 
 	//variable to monitor the input buffer
 	uint32_t bufferFill=0;
+
+	//start sender timer
+	k_timer_start(&canGPSSenderTimer, K_SECONDS(1), K_SECONDS(1));
 
 	//frame struct
 	struct can_frame frame;
@@ -137,43 +147,56 @@ void CAN_Controller(void)
 	{
 		
 		k_msgq_get(&can_msgq, &frame, K_FOREVER);		//get message from can message queue
-		
-		k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensorBufferMutex
-		for(int i = 0; i<configFile.sensorCount;i++)	//loop for all sensor of sensor buffer
+
+		if((frame.id==canLedId) && (frame.dlc == 1))	//if we receive a message from can LED
 		{
-			if(sensorBuffer[i].canID==frame.id)			//if received can frame have the same id as the sensor
+			if(frame.data[0]==0)	//if can message at index
 			{
-				if(sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1 &&		//if no bytes assigned (config file error)
-					sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1)
-				{
-					continue;												//continue loop
-				}
-
-				if(sensorBuffer[i].dlc != frame.dlc)						//continue lool if dlc error (config file error)
-					continue;
-
-
-				//check if the message has conditions
-				bool conditionOk = true;
-				for(int idx = 0; idx < frame.dlc; idx ++)
-				{
-					if(sensorBuffer[i].conditions[idx] != -1 && sensorBuffer[i].conditions[idx] != frame.data[idx])			//if conditions are not respected set variable to false
-						conditionOk = false;
-				}
-
-				if(conditionOk)			//conditions ok
-				{
-					//get value in the message at the position of the B1,B2,B3,B4 variables
-					sensorBuffer[i].value = 
-					(uint32_t)frame.data[sensorBuffer[i].B1] + 
-					(uint32_t)((sensorBuffer[i].B2 != -1) ? frame.data[sensorBuffer[i].B2] << 8 : 0) +
-					(uint32_t)((sensorBuffer[i].B3 != -1) ? frame.data[sensorBuffer[i].B3] << 16 : 0) +
-					(uint32_t)((sensorBuffer[i].B4 != -1) ? frame.data[sensorBuffer[i].B4] << 24 : 0) ;
-				}
+				logEnable=false;
+			}
+			else
+			{
+				logEnable=true;
 			}
 		}
-		k_mutex_unlock(&sensorBufferMutex);		//unlock mutex
+		else
+		{
+			k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensorBufferMutex
+			for(int i = 0; i<configFile.sensorCount;i++)	//loop for all sensor of sensor buffer
+			{
+				if(sensorBuffer[i].canID==frame.id)			//if received can frame have the same id as the sensor
+				{
+					if(sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1 &&		//if no bytes assigned (config file error)
+						sensorBuffer[i].B1==-1 && sensorBuffer[i].B2==-1)
+					{
+						continue;												//continue loop
+					}
 
+					if(sensorBuffer[i].dlc != frame.dlc)						//continue lool if dlc error (config file error)
+						continue;
+
+
+					//check if the message has conditions
+					bool conditionOk = true;
+					for(int idx = 0; idx < frame.dlc; idx ++)
+					{
+						if(sensorBuffer[i].conditions[idx] != -1 && sensorBuffer[i].conditions[idx] != frame.data[idx])			//if conditions are not respected set variable to false
+							conditionOk = false;
+					}
+
+					if(conditionOk)			//conditions ok
+					{
+						//get value in the message at the position of the B1,B2,B3,B4 variables
+						sensorBuffer[i].value = 
+						(uint32_t)frame.data[sensorBuffer[i].B1] + 
+						(uint32_t)((sensorBuffer[i].B2 != -1) ? frame.data[sensorBuffer[i].B2] << 8 : 0) +
+						(uint32_t)((sensorBuffer[i].B3 != -1) ? frame.data[sensorBuffer[i].B3] << 16 : 0) +
+						(uint32_t)((sensorBuffer[i].B4 != -1) ? frame.data[sensorBuffer[i].B4] << 24 : 0) ;
+					}
+				}
+			}
+			k_mutex_unlock(&sensorBufferMutex);		//unlock mutex
+		}
 		//get fill of the buffer
 		bufferFill=k_msgq_num_used_get(&can_msgq);	
 		if(bufferFill >= 90)
@@ -185,43 +208,64 @@ void CAN_Controller(void)
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
-/*! recording ON
-* @brief set recording status on the can
+/*! sendLat
+* @brief send Latitude
 *      
 */
-void recordingON( void )
+void sendLat( uint8_t * data )
 {
 	struct can_frame frame = {
         .flags = 0,
-        .id = canLedId,
-        .dlc = 1,
-        .data = {1}
+        .id = canLatId,
+        .dlc = 8,
+        .data = {data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7]}
 	};
 
 	int ret;
 
-	ret = can_send(can_dev, &frame, K_MSEC(100), NULL, NULL);
+	ret = can_send(can_dev, &frame, K_FOREVER, NULL, NULL);
 	if (ret != 0) 
 		LOG_ERR("Sending failed [%d]", ret);
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
-/*! recording OFF
-* @brief set recording status on the can
+/*! sendLong
+* @brief send Longitude
 *      
 */
-void recordingOFF( void )
+void sendLong( uint8_t * data )
 {
 	struct can_frame frame = {
 		.flags = 0,
-		.id = canLedId,
-		.dlc = 1,
-		.data = {0}
+		.id = canLongId,
+		.dlc = 8,
+        .data = {data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7]}
 	};
 
 	int ret;
 
-	ret = can_send(can_dev, &frame, K_MSEC(100), NULL, NULL);
+	ret = can_send(can_dev, &frame, K_FOREVER, NULL, NULL);
+	if (ret != 0) 
+		LOG_ERR("Sending failed [%d]", ret);
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+/*! sendTimeFixSpeed
+* @brief send Time/date Fix info and speed
+*      
+*/
+void sendTimeFixSpeed( uint8_t * data )
+{
+	struct can_frame frame = {
+		.flags = 0,
+		.id = canTimeFixSpeedId,
+		.dlc = 8,
+        .data = {data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7]}
+	};
+
+	int ret;
+
+	ret = can_send(can_dev, &frame, K_FOREVER, NULL, NULL);
 	if (ret != 0) 
 		LOG_ERR("Sending failed [%d]", ret);
 }
@@ -251,4 +295,26 @@ void Task_CAN_Controller_Init( void )
 }
 
 
+//-----------------------------------------------------------------------------------------------------------------------
+/*! canGPS_timer_handler is called by the timer interrupt
+* @brief canGPS_timer_handler execute the work submitted by the interrupt   
+*/
 
+typedef union{
+	struct{
+		uint16_t u16_1;
+		uint16_t u16_2;
+		uint32_t u32;
+	}fields;
+	uint8_t u8[8];
+}UnionConverter;
+
+void can_gps_sender()
+{
+	UnionConverter converter;
+	converter.fields.u16_1 = 0;
+	converter.fields.u16_2 = 7;
+	converter.fields.u32 = 123456;
+
+	sendLat(converter.u8);
+}
