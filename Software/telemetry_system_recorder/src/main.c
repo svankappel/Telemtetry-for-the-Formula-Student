@@ -62,6 +62,10 @@ int main(void)
 
 	if(ret == 0)			//configuration file ok
 	{
+		printk("Lat CAN ID : 0x%x\n",strtol(configFile.GPS.CanIds.Lat, NULL, 0));
+		printk("Long CAN ID : 0x%x\n",strtol(configFile.GPS.CanIds.Long, NULL, 0));
+		printk("TimeFixSpeed CAN ID : 0x%x\n",strtol(configFile.GPS.CanIds.TimeFixSpeed, NULL, 0));
+		printk("Button CAN ID : 0x%x\n",strtol(configFile.CANButton.StartLog.CanID, NULL, 0));
 		Task_Data_Logger_Init();		//start data logger
 
 		Task_CAN_Controller_Init();		//start can controller thread

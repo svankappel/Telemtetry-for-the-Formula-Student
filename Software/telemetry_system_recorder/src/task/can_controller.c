@@ -126,7 +126,7 @@ void CAN_Controller(void)
 
 	//variable to monitor the input buffer
 	uint32_t bufferFill=0;
-	int lastBufferFill=0;
+	uint32_t lastBufferFill=0;
 
 	//frame struct
 	struct can_frame frame;
