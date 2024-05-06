@@ -54,6 +54,7 @@ int main(void)
 
 	if(ret == 0)			//configuration file ok
 	{
+		printk("Lat CAN ID : 0x%x\n",strtol(configFile.GPS.CanIds.Lat, NULL, 0));
 		Task_Wifi_Sta_Init();			//start wifi stationning Thread
 		
 		Task_UDP_Client_Init();			//start udp client Thread

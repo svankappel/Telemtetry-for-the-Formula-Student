@@ -116,15 +116,28 @@ struct sGPSData{
     bool LiveEnable;
 };
 
+/*! @brief struct for the CAN datapoint
+* @param Lat Latitude
+* @param Long Longitude
+* @param TimeFixSpeed current Time, Fix information and Speed information
+*/
+struct sGPSCanIds{
+    char * Lat;
+    char * Long;
+    char * TimeFixSpeed;
+};
+
 /*! @brief struct for the GPS data
 * @param Coordinates GPS Coordinate struct
 * @param Speed GPS speed struct
 * @param Fix GPS fix struct
+* @param CanIds Can ids for the messages
 */
 struct sGPS{
     struct sGPSData Coordinates;
     struct sGPSData Speed;
     struct sGPSData Fix;
+    struct sGPSCanIds CanIds;
 };
 
 /*! @brief struct for the CAN datapoint
@@ -175,6 +188,5 @@ extern struct config configFile;
 
 //config ok
 extern bool configOK;
-
 
 #endif /*__CONFIG_READ_H*/

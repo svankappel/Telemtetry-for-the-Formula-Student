@@ -123,11 +123,19 @@ static const struct json_obj_descr canled_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sCANLed, CanID, JSON_TOK_STRING)
 };
 
+//struct for GPS CAN ids description
+static const struct json_obj_descr canids_descr[] = {
+	JSON_OBJ_DESCR_PRIM(struct sGPSCanIds, Lat, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sGPSCanIds, Long, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sGPSCanIds, TimeFixSpeed, JSON_TOK_STRING)
+};
+
 //struct for GPS description
 static const struct json_obj_descr gps_descr[] = {
   JSON_OBJ_DESCR_OBJECT(struct sGPS, Coordinates, gpsdata_descr),
   JSON_OBJ_DESCR_OBJECT(struct sGPS, Speed, gpsdata_descr),
-  JSON_OBJ_DESCR_OBJECT(struct sGPS, Fix, gpsdata_descr)
+  JSON_OBJ_DESCR_OBJECT(struct sGPS, Fix, gpsdata_descr),
+  JSON_OBJ_DESCR_OBJECT(struct sGPS, CanIds, canids_descr)
 };
 
 //struct for sensors description
@@ -248,6 +256,7 @@ int read_config(void)
 	fs_unmount(&mp);							//unmount sd disk
 
 	//--------------------------------------- parse json string
+
 
 	//create a copy of readBuf for the transmitter (sent by uart at the end of this function)
 	uint8_t readBufCopy[entry.size];					
