@@ -119,7 +119,7 @@ static const struct json_obj_descr gps_descr[] = {
   JSON_OBJ_DESCR_OBJECT(struct sGPS, Coordinates, gpsdata_descr),
   JSON_OBJ_DESCR_OBJECT(struct sGPS, Speed, gpsdata_descr),
   JSON_OBJ_DESCR_OBJECT(struct sGPS, Fix, gpsdata_descr),
-  JSON_OBJ_DESCR_OBJECT(struct sGPS, CanIds, canids_descr)
+  JSON_OBJ_DESCR_OBJECT(struct sGPS, CanIDs, canids_descr)
 };
 
 //struct for sensors description
