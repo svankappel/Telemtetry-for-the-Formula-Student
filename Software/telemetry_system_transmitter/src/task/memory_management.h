@@ -69,9 +69,17 @@ typedef struct sSensor{
 extern tSensor sensorBuffer[MAX_SENSORS];
 extern struct k_mutex sensorBufferMutex;
 
+extern bool logEnable;
+
 /*! @brief gps buffer struct
     @param speed current gps speed
     @param coord current gps coords
+    @param lat_sign sign of the latitude (0==- ; 1==+)
+    @param lat_characteristic integer part of the latitude
+    @param lat_mantissa fractionnal part of the latitude
+    @param long_sign sign of the longitude (0==- ; 1==+)
+    @param long_characteristic integer part of the longitude
+    @param long_mantissa fractionnal part of the longitude
     @param fix current gps fix status
     @param NameLiveCoord name of the coord field in the live transmission
     @param NameLogCoord name of the coord field in the logs
@@ -86,6 +94,12 @@ extern struct k_mutex sensorBufferMutex;
 typedef struct sGps{
     char speed[10];
     char coord[25];
+    uint16_t lat_sign;
+    uint16_t lat_characteristic;
+    uint32_t lat_mantissa;
+    uint16_t long_sign;
+    uint16_t long_characteristic;
+    uint32_t long_mantissa;
     bool fix;
     char * NameLiveCoord;
     char * NameLogCoord;
