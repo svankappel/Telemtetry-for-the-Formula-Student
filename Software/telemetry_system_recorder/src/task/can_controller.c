@@ -183,7 +183,9 @@ void CAN_Controller(void)
 		}
 		else if((frame.id==canTimeFixSpeedId) && (frame.dlc == 8))	//if we receive a message from gps - TimeFixSpeed
 		{
-			
+			uint8_t data[8];
+			memcpy(data,frame.data,8);
+			LOG_INF("TimeFixSpeed : %d-%d-%d-%d-%d-%d-%d-%d",data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
 		}
 		else
 		{
