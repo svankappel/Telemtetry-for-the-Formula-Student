@@ -312,6 +312,7 @@ typedef union{
 void can_gps_sender()
 {
 	Coord latitude,longitude;
+	uint8_t timeFixSpeed[8];
 	k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
 	latitude.fields.sign = gpsBuffer.lat_sign;
 	latitude.fields.characteristic = gpsBuffer.lat_characteristic;
@@ -319,9 +320,18 @@ void can_gps_sender()
 	longitude.fields.sign = gpsBuffer.long_sign;
 	longitude.fields.characteristic = gpsBuffer.long_characteristic;
 	longitude.fields.mantissa = gpsBuffer.long_mantissa;
+	timeFixSpeed[0]=gpsBuffer.fix?1:0;
+	timeFixSpeed[1]=gpsBuffer.ispeed;
+	timeFixSpeed[2]=gpsBuffer.year;
+	timeFixSpeed[3]=gpsBuffer.month;
+	timeFixSpeed[4]=gpsBuffer.day;
+	timeFixSpeed[5]=gpsBuffer.hour;
+	timeFixSpeed[6]=gpsBuffer.min;
+	timeFixSpeed[7]=gpsBuffer.sec;
 	k_mutex_unlock(&gpsBufferMutex);				//unlock gps buffer mutex
 	
 
 	sendLat(latitude.u8);
 	sendLong(longitude.u8);
+	sendTimeFixSpeed(timeFixSpeed);
 }

@@ -55,20 +55,7 @@ static struct k_thread gpsControllerThread;
 //max size of NMEA message
 #define MSG_SIZE 85
 
-/*! @brief gps buffer struct
-    @param speed current gps speed
-    @param coord current gps coords
-    @param fix current gps fix status
-    @param NameLiveCoord name of the coord field in the live transmission
-    @param NameLogCoord name of the coord field in the logs
-    @param LiveCoordEnable coords enabled in the live transmission
-    @param NameLiveSpeed name of the speed field in the live transmission
-    @param NameLogSpeed name of the speed field in the logs
-    @param LiveSpeedEnable speed enabled in the live transmission
-    @param NameLiveFix name of the fix status field in the live transmission
-    @param NameLogFix name of the fix status field in the logs
-    @param LiveFixEnable fix status enabled in the live transmission
-*/
+
 tGps gpsBuffer;
 K_MUTEX_DEFINE(gpsBufferMutex);
 
@@ -176,7 +163,7 @@ void GPS_Controller(void)
 						case 3: strcpy(lonSign,*token=='E' ? "" : "-");	// longitude sign (west or east)
 						break;
 					}
-					if(i<3)				//break after 5 loops (other data not intersting)
+					if(i<3)				//break after 3 loops (other data not intersting)
 						i++;	
 					else
 						break;
@@ -203,134 +190,6 @@ void GPS_Controller(void)
 				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
 			}
 
-			//-----------------------------------------------------
-			//	NMEA RMC Frame - contains latitude and longitude
-
-			if(strstr(rx_buf,"$GNRMC"))
-			{
-				bool frameValid = false;
-
-				// NMEA frame DMm + sign
-				char latDeg[4];
-				char latMin[12];
-				char latSign[2];
-				char lonDeg[4];
-				char lonMin[12];
-				char lonSign[2];
-				
-				char * saveptr=NULL;			//strtok save pointer
-				char * str = rx_buf;			//string of frame
-				char * token = (char*)strtok_r(str,",",&saveptr);	// get first token
-
-				int i = 0;		//loop index
-
-				//loop for all token of NMEA frame
-				while (token!=NULL) 
-				{  
-					token = (char*)strtok_r(NULL,",",&saveptr);	//get next token
-					switch(i)
-					{
-						case 1: frameValid = (*token=='A');				//NMEA RMC valid 
-						break;
-						case 2: strncpy(latDeg,token,2);				// latitude degree angle
-								latDeg[2] = '\0';
-								strncpy(latMin,token+2,2);				// latitude minutes
-								strcpy(latMin+2,token+5);				// latitude degrees of minutes
-						break;
-						case 3: strcpy(latSign,*token=='N' ? "" : "-");	// latitude sign (north or south)
-						break;
-						case 4: strncpy(lonDeg,token,3);				// longitude degree angle
-								lonDeg[3]='\0';
-								strncpy(lonMin,token+3,2);				// longitude minutes
-								strcpy(lonMin+2,token+6);				// longitude degrees of minutes
-						break;
-						case 5: strcpy(lonSign,*token=='E' ? "" : "-");	// longitude sign (west or east)
-						break;
-					}
-					if(i<5)				//break after 5 loops (other data not intersting)
-						i++;	
-					else
-						break;
-				}
-				if(frameValid)			//if frame is valid
-				{
-					//calculate decimal coords from NMEA DM.m
-					uint32_t lat = atoi(latDeg);
-					uint32_t lon = atoi(lonDeg);
-					uint32_t lat_dec = atoi(latMin)/6;
-					uint32_t lon_dec = atoi(lonMin)/6;
-
-					//generate decimal coords string
-					char coord[25];
-					sprintf(coord,"%s%d.%d %s%d.%d",latSign,lat,lat_dec,lonSign,lon,lon_dec);
-
-					
-					k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
-					strcpy(gpsBuffer.coord,coord);					//copy coords to gps buffer
-					k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
-				}
-			}
-
-			//-----------------------------------------------------
-			//	NMEA GGA Frame - contains latitude and longitude
-
-			if(strstr(rx_buf,"$GNGGA"))
-			{
-				// NMEA frame DMm + sign
-				char latDeg[4];
-				char latMin[12];
-				char latSign[2];
-				char lonDeg[4];
-				char lonMin[12];
-				char lonSign[2];
-				
-				char * saveptr=NULL;			//strtok save pointer
-				char * str = rx_buf;			//string of frame
-				char * token = (char*)strtok_r(str,",",&saveptr);	// get first token
-
-				int i = 0;		//loop index
-
-				//loop for all token of NMEA frame
-				while (token!=NULL) 
-				{  
-					token = (char*)strtok_r(NULL,",",&saveptr);	//get next token
-					switch(i)
-					{
-						case 1: strncpy(latDeg,token,2);				// latitude degree angle
-								latDeg[2] = '\0';
-								strncpy(latMin,token+2,2);				// latitude minutes
-								strcpy(latMin+2,token+5);				// latitude degrees of minutes
-						break;
-						case 2: strcpy(latSign,*token=='N' ? "" : "-");	// latitude sign (north or south)
-						break;
-						case 3: strncpy(lonDeg,token,3);				// longitude degree angle
-								lonDeg[3]='\0';
-								strncpy(lonMin,token+3,2);				// longitude minutes
-								strcpy(lonMin+2,token+6);				// longitude degrees of minutes
-						break;
-						case 4: strcpy(lonSign,*token=='E' ? "" : "-");	// longitude sign (west or east)
-						break;
-					}
-					if(i<4)				//break after 5 loops (other data not intersting)
-						i++;	
-					else
-						break;
-				}
-				
-				//calculate decimal coords from NMEA DM.m
-				uint32_t lat = atoi(latDeg);
-				uint32_t lon = atoi(lonDeg);
-				uint32_t lat_dec = atoi(latMin)/6;
-				uint32_t lon_dec = atoi(lonMin)/6;
-
-				//generate decimal coords string
-				char coord[25];
-				sprintf(coord,"%s%d.%d %s%d.%d",latSign,lat,lat_dec,lonSign,lon,lon_dec);
-
-				k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
-				strcpy(gpsBuffer.coord,coord);					//copy coords to gps buffer
-				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
-			}
 
 			//-----------------------------------------------------
 			//	NMEA VTG Frame - contains speed
@@ -355,6 +214,87 @@ void GPS_Controller(void)
 
 				k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
 				strcpy(gpsBuffer.speed,lastToken);				//read speed in frame
+				float fspeed = atof(lastToken);
+				gpsBuffer.ispeed = (uint8_t) fspeed;
+				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
+			}
+
+			//-----------------------------------------------------
+			//	NMEA ZDA Frame - contains time and date
+
+			if(strstr(rx_buf,"$GNZDA"))
+			{
+				// time and date buffers
+				char utcHour[3];
+				char utcMin[3];
+				char utcSec[3];
+				char cday[3];
+				char cmonth[3];
+				char cyear[3];
+				
+				//offset from utc
+				char minOffset[3];
+				char hourOffset[3];
+				
+				char * saveptr=NULL;			//strtok save pointer
+				char * str = rx_buf;			//string of frame
+				char * token = (char*)strtok_r(str,",",&saveptr);	// get first token
+
+				int i = 0;		//loop index
+
+				//loop for all token of NMEA frame
+				while (token!=NULL) 
+				{  
+					token = (char*)strtok_r(NULL,",",&saveptr);	//get next token
+					switch(i)
+					{
+						case 0: strncpy(utcHour,token,2);				// utc time
+								utcHour[2] = '\0';
+								strncpy(utcMin,token+2,2);
+								utcMin[2] = '\0';
+								strncpy(utcSec,token+4,2);
+								utcSec[2] = '\0';
+						break;
+						case 1: strncpy(cday,token,2);				//day
+								cday[2] = '\0';
+						break;
+						case 2: strncpy(cmonth,token,2);				//month
+								cmonth[2] = '\0';
+						break;
+						case 3: strncpy(cyear,token+2,2);			//year -> only take 2 last numbers
+								cyear[2] = '\0';
+						break;
+						case 4: strncpy(hourOffset,token,2);				//offsetHour
+								hourOffset[2] = '\0';
+						break;
+						case 5: strncpy(minOffset,token,2);				//offsetMinutes
+								minOffset[2] = '\0';
+						break;
+						
+					}
+					if(i<5)				//break after 5 loops (other data not intersting)
+						i++;	
+					else
+						break;
+				}
+				
+				//calculate values
+				uint8_t hour = atoi(utcHour)+atoi(hourOffset);
+				uint8_t min = atoi(utcMin)+atoi(minOffset);
+				uint8_t sec = atoi(utcSec);
+				
+				uint8_t day = atoi(cday);
+				uint8_t month = atoi(cmonth);
+				uint8_t year = atoi(cyear);
+
+
+				k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+				gpsBuffer.hour=hour;
+				gpsBuffer.min=min;
+				gpsBuffer.sec=sec;
+				gpsBuffer.day=day;
+				gpsBuffer.month=month;
+				gpsBuffer.year=year;
 				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
 			}
 		}
