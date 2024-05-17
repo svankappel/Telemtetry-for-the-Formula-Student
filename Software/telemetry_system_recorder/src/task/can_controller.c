@@ -44,6 +44,10 @@ LOG_MODULE_REGISTER(can);
 //! Can controller thread priority level
 #define CAN_CONTROLLER_PRIORITY 4
 
+//gps informations
+tGps gpsBuffer;
+K_MUTEX_DEFINE(gpsBufferMutex);
+
 //! Can controller stack definition
 K_THREAD_STACK_DEFINE(CAN_CONTROLLER_STACK, CAN_CONTROLLER_STACK_SIZE);
 //! Variable to identify the can controller thread
@@ -173,19 +177,48 @@ void CAN_Controller(void)
 		{
 			Coord latitude;
 			memcpy(latitude.u8,frame.data,8);
+
 			LOG_INF("Latitude : %c%d.%d",latitude.fields.sign==1?'+':'-',latitude.fields.characteristic,latitude.fields.mantissa );
+
+			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		    //lock gps buffer mutex
+
+			gpsBuffer.lat_sign = latitude.fields.sign;
+			gpsBuffer.lat_characteristic = latitude.fields.characteristic;
+			gpsBuffer.lat_mantissa = latitude.fields.mantissa;
+			
+			k_mutex_unlock(&gpsBufferMutex);
 		}
 		else if((frame.id==canLongId) && (frame.dlc == 8))	//if we receive a message from gps - longitude
 		{
 			Coord longitude;
 			memcpy(longitude.u8,frame.data,8);
 			LOG_INF("Longitude : %c%d.%d",longitude.fields.sign==1?'+':'-',longitude.fields.characteristic,longitude.fields.mantissa );
+
+			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		    //lock gps buffer mutex
+
+			gpsBuffer.long_sign = longitude.fields.sign;
+			gpsBuffer.long_characteristic = longitude.fields.characteristic;
+			gpsBuffer.long_mantissa = longitude.fields.mantissa;
+			
+			k_mutex_unlock(&gpsBufferMutex);
 		}
 		else if((frame.id==canTimeFixSpeedId) && (frame.dlc == 8))	//if we receive a message from gps - TimeFixSpeed
 		{
 			uint8_t data[8];
 			memcpy(data,frame.data,8);
 			LOG_INF("TimeFixSpeed : %d-%d-%d-%d-%d-%d-%d-%d",data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
+
+			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		    //lock gps buffer mutex
+
+			gpsBuffer.sec = data[7];
+			gpsBuffer.min = data[6];
+			gpsBuffer.hour = data[5];
+			gpsBuffer.day = data[4];
+			gpsBuffer.month = data[3];
+			gpsBuffer.year = data[2];
+			sprintf(gpsBuffer.speed,"%s",data[1]);
+			gpsBuffer.fix = (data==1);
+			k_mutex_unlock(&gpsBufferMutex);
 		}
 		else
 		{
