@@ -222,6 +222,9 @@ void GPS_Controller(void)
 			//-----------------------------------------------------
 			//	NMEA RMC Frame - contains time and date
 
+			//different parsing because the frame could contain empty items
+			// $GNRMC,162134.00,A,4617.63609,N,00731.94398,E,0.006,,170524,,,A,V*10
+
 			if(strstr(rx_buf,"$GNRMC"))
 			{
 				// time and date buffers
@@ -232,41 +235,43 @@ void GPS_Controller(void)
 				char cmonth[3];
 				char cyear[3];
 				
-				
-				char * saveptr=NULL;			//strtok save pointer
-				char * str = rx_buf;			//string of frame
-				char * token = (char*)strtok_r(str,",",&saveptr);	// get first token
+				char * ptr = rx_buf;
+
+				char * timePtr;
+				char * datePtr;
 
 				int i = 0;		//loop index
 
-				//loop for all token of NMEA frame
-				while (token!=NULL) 
-				{  
-					token = (char*)strtok_r(NULL,",",&saveptr);	//get next token
-					switch(i)
+				while(i<9)
+				{
+					if(*ptr==',')
 					{
-						case 0: strncpy(utcHour,token,2);				// utc time
-								utcHour[2] = '\0';
-								strncpy(utcMin,token+2,2);
-								utcMin[2] = '\0';
-								strncpy(utcSec,token+4,2);
-								utcSec[2] = '\0';
-						break;
-						case 8: strncpy(cday,token,2);				// date
-								cday[2] = '\0';
-								strncpy(cmonth,token+2,2);
-								cmonth[2] = '\0';
-								strncpy(cyear,token+4,2);
-								cyear[2] = '\0';
-						break;
-						
-						
+						i++;
+						if(i==1)
+						{
+							timePtr = ptr+1;
+						}
+						if(i==9)
+						{
+							datePtr = ptr+1;
+						}
 					}
-					if(i<9)				//break after 9 loops (other data not intersting)
-						i++;	
-					else
-						break;
+					ptr++;
 				}
+
+				strncpy(utcHour,timePtr,2);				// utc time
+				utcHour[2] = '\0';
+				strncpy(utcMin,timePtr+2,2);
+				utcMin[2] = '\0';
+				strncpy(utcSec,timePtr+4,2);
+				utcSec[2] = '\0';
+
+				strncpy(cday,datePtr,2);				// date
+				cday[2] = '\0';
+				strncpy(cmonth,datePtr+2,2);
+				cmonth[2] = '\0';
+				strncpy(cyear,datePtr+4,2);
+				cyear[2] = '\0';
 				
 				//calculate values
 				uint8_t hour = atoi(utcHour)+2;		//+2 to match center europa time
@@ -276,7 +281,6 @@ void GPS_Controller(void)
 				uint8_t day = atoi(cday);
 				uint8_t month = atoi(cmonth);
 				uint8_t year = atoi(cyear);
-
 
 				k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
 				gpsBuffer.hour=hour;
