@@ -71,7 +71,18 @@ extern struct k_mutex sensorBufferMutex;
 
 /*! @brief gps buffer struct
     @param speed current gps speed
-    @param coord current gps coords
+    @param lat_sign sign of the latitude (0==- ; 1==+)
+    @param lat_characteristic integer part of the latitude
+    @param lat_mantissa fractionnal part of the latitude
+    @param long_sign sign of the longitude (0==- ; 1==+)
+    @param long_characteristic integer part of the longitude
+    @param long_mantissa fractionnal part of the longitude
+    @param hour current time
+    @param min current time
+    @param sec current time
+    @param day current date
+    @param month current date
+    @param year current date
     @param fix current gps fix status
     @param NameLiveCoord name of the coord field in the live transmission
     @param NameLogCoord name of the coord field in the logs
@@ -85,7 +96,19 @@ extern struct k_mutex sensorBufferMutex;
 */
 typedef struct sGps{
     char speed[10];
-    char coord[25];
+    uint8_t ispeed;
+    uint16_t lat_sign;
+    uint16_t lat_characteristic;
+    uint32_t lat_mantissa;
+    uint16_t long_sign;
+    uint16_t long_characteristic;
+    uint32_t long_mantissa;
+    uint8_t hour;
+    uint8_t min;
+    uint8_t sec;
+    uint8_t day;
+    uint8_t month;
+    uint8_t year;
     bool fix;
     char * NameLiveCoord;
     char * NameLogCoord;

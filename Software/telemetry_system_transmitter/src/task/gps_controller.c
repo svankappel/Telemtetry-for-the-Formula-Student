@@ -220,9 +220,9 @@ void GPS_Controller(void)
 			}
 
 			//-----------------------------------------------------
-			//	NMEA ZDA Frame - contains time and date
+			//	NMEA RMC Frame - contains time and date
 
-			if(strstr(rx_buf,"$GNZDA"))
+			if(strstr(rx_buf,"$GNRMC"))
 			{
 				// time and date buffers
 				char utcHour[3];
@@ -232,9 +232,6 @@ void GPS_Controller(void)
 				char cmonth[3];
 				char cyear[3];
 				
-				//offset from utc
-				char minOffset[3];
-				char hourOffset[3];
 				
 				char * saveptr=NULL;			//strtok save pointer
 				char * str = rx_buf;			//string of frame
@@ -255,32 +252,25 @@ void GPS_Controller(void)
 								strncpy(utcSec,token+4,2);
 								utcSec[2] = '\0';
 						break;
-						case 1: strncpy(cday,token,2);				//day
+						case 8: strncpy(cday,token,2);				// date
 								cday[2] = '\0';
-						break;
-						case 2: strncpy(cmonth,token,2);				//month
+								strncpy(cmonth,token+2,2);
 								cmonth[2] = '\0';
-						break;
-						case 3: strncpy(cyear,token+2,2);			//year -> only take 2 last numbers
+								strncpy(cyear,token+4,2);
 								cyear[2] = '\0';
 						break;
-						case 4: strncpy(hourOffset,token,2);				//offsetHour
-								hourOffset[2] = '\0';
-						break;
-						case 5: strncpy(minOffset,token,2);				//offsetMinutes
-								minOffset[2] = '\0';
-						break;
+						
 						
 					}
-					if(i<5)				//break after 5 loops (other data not intersting)
+					if(i<9)				//break after 9 loops (other data not intersting)
 						i++;	
 					else
 						break;
 				}
 				
 				//calculate values
-				uint8_t hour = atoi(utcHour)+atoi(hourOffset);
-				uint8_t min = atoi(utcMin)+atoi(minOffset);
+				uint8_t hour = atoi(utcHour)+2;		//+2 to match center europa time
+				uint8_t min = atoi(utcMin);
 				uint8_t sec = atoi(utcSec);
 				
 				uint8_t day = atoi(cday);
