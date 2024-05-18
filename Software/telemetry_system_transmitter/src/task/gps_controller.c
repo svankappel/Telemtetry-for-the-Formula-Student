@@ -120,6 +120,80 @@ void GPS_Controller(void)
 			k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
 		}
 
+		//-----------------------------------------------------
+		//	NMEA RMC Frame - contains time and date
+
+		//different parsing because the frame could contain empty items
+		// $GNRMC,162134.00,A,4617.63609,N,00731.94398,E,0.006,,170524,,,A,V*10
+
+		if(strstr(rx_buf,"$GNRMC"))
+		{
+			// time and date buffers
+			char utcHour[3];
+			char utcMin[3];
+			char utcSec[3];
+			char cday[3];
+			char cmonth[3];
+			char cyear[3];
+			
+			char * ptr = rx_buf;
+
+			char * timePtr;
+			char * datePtr;
+
+			int i = 0;		//loop index
+
+			while(i<9)
+			{
+				if(*ptr==',')
+				{
+					i++;
+					if(i==1)
+					{
+						timePtr = ptr+1;
+					}
+					if(i==9)
+					{
+						datePtr = ptr+1;
+					}
+				}
+				ptr++;
+			}
+
+			strncpy(utcHour,timePtr,2);				// utc time
+			utcHour[2] = '\0';
+			strncpy(utcMin,timePtr+2,2);
+			utcMin[2] = '\0';
+			strncpy(utcSec,timePtr+4,2);
+			utcSec[2] = '\0';
+
+			strncpy(cyear,datePtr,2);				// date
+			cyear[2] = '\0';
+			strncpy(cmonth,datePtr+2,2);
+			cmonth[2] = '\0';
+			strncpy(cday,datePtr+4,2);
+			cday[2] = '\0';
+			
+			//calculate values
+			uint8_t hour = atoi(utcHour)+2;		//+2 to match center europa time
+			uint8_t min = atoi(utcMin);
+			uint8_t sec = atoi(utcSec);
+			
+			uint8_t day = atoi(cday);
+			uint8_t month = atoi(cmonth);
+			uint8_t year = atoi(cyear);
+
+			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+			gpsBuffer.hour=hour;
+			gpsBuffer.min=min;
+			gpsBuffer.sec=sec;
+			gpsBuffer.day=day;
+			gpsBuffer.month=month;
+			gpsBuffer.year=year;
+			k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
+		}
+	
+
 		//analyse other frames only if GPS is fixed
 		if(gpsFix)	
 		{
@@ -216,79 +290,6 @@ void GPS_Controller(void)
 				strcpy(gpsBuffer.speed,lastToken);				//read speed in frame
 				float fspeed = atof(lastToken);
 				gpsBuffer.ispeed = (uint8_t) fspeed;
-				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
-			}
-
-			//-----------------------------------------------------
-			//	NMEA RMC Frame - contains time and date
-
-			//different parsing because the frame could contain empty items
-			// $GNRMC,162134.00,A,4617.63609,N,00731.94398,E,0.006,,170524,,,A,V*10
-
-			if(strstr(rx_buf,"$GNRMC"))
-			{
-				// time and date buffers
-				char utcHour[3];
-				char utcMin[3];
-				char utcSec[3];
-				char cday[3];
-				char cmonth[3];
-				char cyear[3];
-				
-				char * ptr = rx_buf;
-
-				char * timePtr;
-				char * datePtr;
-
-				int i = 0;		//loop index
-
-				while(i<9)
-				{
-					if(*ptr==',')
-					{
-						i++;
-						if(i==1)
-						{
-							timePtr = ptr+1;
-						}
-						if(i==9)
-						{
-							datePtr = ptr+1;
-						}
-					}
-					ptr++;
-				}
-
-				strncpy(utcHour,timePtr,2);				// utc time
-				utcHour[2] = '\0';
-				strncpy(utcMin,timePtr+2,2);
-				utcMin[2] = '\0';
-				strncpy(utcSec,timePtr+4,2);
-				utcSec[2] = '\0';
-
-				strncpy(cday,datePtr,2);				// date
-				cday[2] = '\0';
-				strncpy(cmonth,datePtr+2,2);
-				cmonth[2] = '\0';
-				strncpy(cyear,datePtr+4,2);
-				cyear[2] = '\0';
-				
-				//calculate values
-				uint8_t hour = atoi(utcHour)+2;		//+2 to match center europa time
-				uint8_t min = atoi(utcMin);
-				uint8_t sec = atoi(utcSec);
-				
-				uint8_t day = atoi(cday);
-				uint8_t month = atoi(cmonth);
-				uint8_t year = atoi(cyear);
-
-				k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
-				gpsBuffer.hour=hour;
-				gpsBuffer.min=min;
-				gpsBuffer.sec=sec;
-				gpsBuffer.day=day;
-				gpsBuffer.month=month;
-				gpsBuffer.year=year;
 				k_mutex_unlock(&gpsBufferMutex);				//unlock mutex
 			}
 		}
