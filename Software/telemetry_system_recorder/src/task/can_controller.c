@@ -178,8 +178,6 @@ void CAN_Controller(void)
 			Coord latitude;
 			memcpy(latitude.u8,frame.data,8);
 
-			LOG_INF("Latitude : %c%d.%d",latitude.fields.sign==1?'+':'-',latitude.fields.characteristic,latitude.fields.mantissa );
-
 			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		    //lock gps buffer mutex
 
 			gpsBuffer.lat_sign = latitude.fields.sign;
@@ -192,7 +190,6 @@ void CAN_Controller(void)
 		{
 			Coord longitude;
 			memcpy(longitude.u8,frame.data,8);
-			LOG_INF("Longitude : %c%d.%d",longitude.fields.sign==1?'+':'-',longitude.fields.characteristic,longitude.fields.mantissa );
 
 			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		    //lock gps buffer mutex
 
@@ -206,16 +203,15 @@ void CAN_Controller(void)
 		{
 			uint8_t data[8];
 			memcpy(data,frame.data,8);
-			LOG_INF("TimeFixSpeed : %d-%d-%d-%d-%d-%d-%d-%d",data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7]);
 
 			k_mutex_lock(&gpsBufferMutex,K_FOREVER);		    //lock gps buffer mutex
 
 			gpsBuffer.sec = data[7];
 			gpsBuffer.min = data[6];
 			gpsBuffer.hour = data[5];
-			gpsBuffer.day = data[4];
+			gpsBuffer.year = data[4];
 			gpsBuffer.month = data[3];
-			gpsBuffer.year = data[2];
+			gpsBuffer.day = data[2];
 			sprintf(gpsBuffer.speed,"%s",data[1]);
 			gpsBuffer.fix = (data==1);
 			k_mutex_unlock(&gpsBufferMutex);

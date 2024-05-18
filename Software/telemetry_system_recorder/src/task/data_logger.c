@@ -199,7 +199,15 @@ void data_log_start()
         return;
 
     //---------------------------------------------- generate first line of csv file
-    char str[lineSize];
+    char str[2*lineSize];
+    //print date and time
+    k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
+
+    sprintf(str,"Date :;%02d-%02d-20%02d;",str,gpsBuffer.day,gpsBuffer.month,gpsBuffer.year);        //print gps date
+    sprintf(str,"Time :;%02d:%02d:%02d;\n",str,gpsBuffer.hour,gpsBuffer.min,gpsBuffer.sec);        //print gps date
+
+    
+    k_mutex_unlock(&gpsBufferMutex);		        //unlock gps buffer mutex
 
     sprintf(str,"Timestamp [ms];");                 //timestamp at first column
 
@@ -211,7 +219,7 @@ void data_log_start()
     }
 
     k_mutex_unlock(&sensorBufferMutex);		        //unlock sensor buffer mutex
-/*
+
     k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
 
     sprintf(str,"%s%s;",str,gpsBuffer.NameLogCoord);        //print gps names
@@ -219,7 +227,7 @@ void data_log_start()
     sprintf(str,"%s%s;",str,gpsBuffer.NameLogFix);
     
     k_mutex_unlock(&gpsBufferMutex);		        //unlock gps buffer mutex
-*/
+
     sprintf(str,"%s\n",str);                        //append \n at end of line
 
     //---------------------------------------------------- generate filename
@@ -328,7 +336,7 @@ void Task_Data_Logger_Init(void)
             lineSize+=(1+strlen(sensorBuffer[i].name_log));     // add string length of name + 1 for the ;
     }
 
-/*
+
     //add size of gps coordinates
     if(strlen(gpsBuffer.NameLiveCoord)<25)                  //if name is shorter than 25
         lineSize+=26;                                       // add max length of gps coordinates + 1 for the ;
@@ -346,7 +354,7 @@ void Task_Data_Logger_Init(void)
         lineSize+=6;                                        //  add max length of gps speed + 1 for the ;
     else                                                    //else
         lineSize+=(1+strlen(gpsBuffer.NameLiveFix));        // add string length of name + 1 for the ;
-*/
+
     //start timer
     k_timer_start(&dataLoggerTimer, K_SECONDS(0), K_MSEC((int)(1000/configFile.LogFrameRate)));
 
