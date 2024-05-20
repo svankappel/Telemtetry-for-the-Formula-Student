@@ -342,11 +342,10 @@ int read_config(void)
 		}
 
 		//------------------------------------------------------------------------------------  initialize gps buffer
-		/*
+		
 		//initialize gps buffer values
 		gpsBuffer.fix=false;
-		strcpy(gpsBuffer.speed,"0.0");
-		strcpy(gpsBuffer.coord,"0.0 0.0");
+		gpsBuffer.speed=0;
 		
 		//initialize gpsbuffer parames with config file values
 		gpsBuffer.LiveCoordEnable=configFile.GPS.Coordinates.LiveEnable;
@@ -359,7 +358,7 @@ int read_config(void)
 		gpsBuffer.NameLiveFix=configFile.GPS.Fix.NameLive;
 		gpsBuffer.NameLogFix=configFile.GPS.Fix.NameLog;
 
-		*/
+		
 
 		//------------------------------------------------------------------------------------  send config to transmitter
 

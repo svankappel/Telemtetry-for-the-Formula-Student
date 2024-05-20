@@ -212,8 +212,8 @@ void CAN_Controller(void)
 			gpsBuffer.year = data[4];
 			gpsBuffer.month = data[3];
 			gpsBuffer.day = data[2];
-			sprintf(gpsBuffer.speed,"%s",data[1]);
-			gpsBuffer.fix = (data==1);
+			gpsBuffer.speed = data[1];
+			gpsBuffer.fix = (data[0]==1);
 			k_mutex_unlock(&gpsBufferMutex);
 		}
 		else
