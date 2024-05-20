@@ -95,7 +95,7 @@ extern struct k_mutex sensorBufferMutex;
     @param LiveFixEnable fix status enabled in the live transmission
 */
 typedef struct sGps{
-    char speed[10];
+    int speed;
     uint8_t ispeed;
     uint16_t lat_sign;
     uint16_t lat_characteristic;

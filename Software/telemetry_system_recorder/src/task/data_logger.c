@@ -110,9 +110,9 @@ void Data_Logger()
         k_mutex_lock(&gpsBufferMutex,K_FOREVER);		    //lock gps buffer mutex
 
         
-        sprintf(str,"%s%d.%d %s%d.%d",gpsBuffer.lat_sign==1?"":"-",gpsBuffer.lat_characteristic,gpsBuffer.lat_mantissa,
+        sprintf(str,"%s%s%d.%d %s%d.%d;",str,gpsBuffer.lat_sign==1?"":"-",gpsBuffer.lat_characteristic,gpsBuffer.lat_mantissa,
                                       gpsBuffer.long_sign==1?"":"-",gpsBuffer.long_characteristic, gpsBuffer.long_mantissa);
-        sprintf(str,"%s%s;",str,gpsBuffer.speed);
+        sprintf(str,"%s%d;",str,gpsBuffer.speed);
         sprintf(str,"%s%s;",str,gpsBuffer.fix ? "true" : "false");
         
         k_mutex_unlock(&gpsBufferMutex);		            //unlock gps buffer mutex
@@ -203,13 +203,13 @@ void data_log_start()
     //print date and time
     k_mutex_lock(&gpsBufferMutex,K_FOREVER);		//lock gps buffer mutex
 
-    sprintf(str,"Date :;%02d-%02d-20%02d;",str,gpsBuffer.day,gpsBuffer.month,gpsBuffer.year);        //print gps date
-    sprintf(str,"Time :;%02d:%02d:%02d;\n",str,gpsBuffer.hour,gpsBuffer.min,gpsBuffer.sec);        //print gps date
+    sprintf(str,"Date :;%02d-%02d-20%02d;",gpsBuffer.day,gpsBuffer.month,gpsBuffer.year);        //print gps date
+    sprintf(str,"%sTime :;%02d:%02d:%02d;\n",str,gpsBuffer.hour,gpsBuffer.min,gpsBuffer.sec);        //print gps date
 
     
     k_mutex_unlock(&gpsBufferMutex);		        //unlock gps buffer mutex
 
-    sprintf(str,"Timestamp [ms];");                 //timestamp at first column
+    sprintf(str,"%sTimestamp [ms];",str);                 //timestamp at first column
 
     k_mutex_lock(&sensorBufferMutex,K_FOREVER);		//lock sensor buffer mutex
 
