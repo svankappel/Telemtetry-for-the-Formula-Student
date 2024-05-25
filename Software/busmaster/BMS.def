@@ -19,4 +19,4 @@ vSetGetMessageName
 vSetTimeNow
 vSetGetFirstCANdbName
 
-OnTimer_bmsSend_100
+OnTimer_bmsSend_5

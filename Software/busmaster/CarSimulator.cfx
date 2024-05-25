@@ -329,9 +329,9 @@
       <Interpretation_Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>173</Top>
+        <Top>179</Top>
         <Left>10</Left>
-        <Bottom>451</Bottom>
+        <Bottom>457</Bottom>
         <Right>359</Right>
       </Interpretation_Window_Position>
     </CAN_Message_Window>
@@ -429,9 +429,9 @@
       <Interpretation_Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>173</Top>
+        <Top>179</Top>
         <Left>10</Left>
-        <Bottom>451</Bottom>
+        <Bottom>457</Bottom>
         <Right>359</Right>
       </Interpretation_Window_Position>
     </J1939_Message_Window>
@@ -514,9 +514,9 @@
       <Interpretation_Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>173</Top>
+        <Top>179</Top>
         <Left>10</Left>
-        <Bottom>451</Bottom>
+        <Bottom>457</Bottom>
         <Right>359</Right>
       </Interpretation_Window_Position>
     </LIN_Message_Window>
@@ -524,10 +524,10 @@
       <Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>SETMINPOSITION</WindowPlacement>
-        <Top>173</Top>
-        <Left>903</Left>
-        <Bottom>828</Bottom>
-        <Right>1763</Right>
+        <Top>72</Top>
+        <Left>1047</Left>
+        <Bottom>727</Bottom>
+        <Right>1907</Right>
       </Window_Position>
       <Message_List>
         <Message>

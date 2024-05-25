@@ -19,4 +19,4 @@ vSetGetMessageName
 vSetTimeNow
 vSetGetFirstCANdbName
 
-OnTimer_suspensionTmr_10
+OnTimer_suspensionTmr_5

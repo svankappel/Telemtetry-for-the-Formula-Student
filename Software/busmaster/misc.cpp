@@ -17,15 +17,15 @@ int inertial;
 
 
 /* Start BUSMASTER Function Prototype  */
-GCC_EXTERN void GCC_EXPORT OnTimer_miscTmr_100( );
+GCC_EXTERN void GCC_EXPORT OnTimer_miscTmr_5( );
 /* End BUSMASTER Function Prototype  */
 
 /* Start BUSMASTER Function Wrapper Prototype  */
 /* End BUSMASTER Function Wrapper Prototype  */
 
 
-/* Start BUSMASTER generated function - OnTimer_miscTmr_100 */
-void OnTimer_miscTmr_100( )
+/* Start BUSMASTER generated function - OnTimer_miscTmr_5 */
+void OnTimer_miscTmr_5( )
 {
 /* TODO */
 steering= rand()%5 + 30;
@@ -42,4 +42,4 @@ tx.data[5]=0;
 tx.data[6]=0;
 tx.data[7]=0;
 SendMsg(tx);
-}/* End BUSMASTER generated function - OnTimer_miscTmr_100 */
+}/* End BUSMASTER generated function - OnTimer_miscTmr_5 */
