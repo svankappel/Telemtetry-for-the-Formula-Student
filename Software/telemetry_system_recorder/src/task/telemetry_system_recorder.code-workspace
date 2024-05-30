@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"name": "telemetry_system_transmitter",
+			"path": "../../../telemetry_system_transmitter"
+		}
+	],
+	"settings": {
+		"nrf-connect.applications": [
+			"c:\\Users\\sylve\\OneDrive\\Bureau\\Telemetry-for-the-Formula-Student\\Software\\telemetry_system_transmitter"
+		]
+	}
+}

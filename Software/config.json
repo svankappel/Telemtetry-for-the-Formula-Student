@@ -74,6 +74,12 @@
             "NameLive":"GSPFix",
             "NameLog":"GSPFix",
             "LiveEnable":true
+        },
+        "CanIDs":
+        {
+            "Lat":"0x05",
+            "Long":"0x06",
+            "TimeFixSpeed":"0x07"
         }
     },
 
