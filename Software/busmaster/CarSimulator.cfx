@@ -185,10 +185,10 @@
       <Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>5</Top>
-        <Left>529</Left>
-        <Bottom>545</Bottom>
-        <Right>952</Right>
+        <Top>48</Top>
+        <Left>953</Left>
+        <Bottom>588</Bottom>
+        <Right>1376</Right>
       </Window_Position>
       <Node>
         <Name>BMS</Name>
@@ -240,7 +240,7 @@
       </Node>
       <Node>
         <Name>speedtest</Name>
-        <Is_Enabled>FALSE</Is_Enabled>
+        <Is_Enabled>TRUE</Is_Enabled>
         <File_Type>C_CPP_FILE</File_Type>
         <File_Path>speedtest.cpp</File_Path>
       </Node>
@@ -321,17 +321,17 @@
       <Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>SETMINPOSITION</WindowPlacement>
-        <Top>-5</Top>
-        <Left>-67</Left>
-        <Bottom>575</Bottom>
-        <Right>1547</Right>
+        <Top>-19</Top>
+        <Left>30</Left>
+        <Bottom>561</Bottom>
+        <Right>1644</Right>
       </Window_Position>
       <Interpretation_Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>173</Top>
+        <Top>179</Top>
         <Left>10</Left>
-        <Bottom>451</Bottom>
+        <Bottom>457</Bottom>
         <Right>359</Right>
       </Interpretation_Window_Position>
     </CAN_Message_Window>
@@ -429,9 +429,9 @@
       <Interpretation_Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>173</Top>
+        <Top>179</Top>
         <Left>10</Left>
-        <Bottom>451</Bottom>
+        <Bottom>457</Bottom>
         <Right>359</Right>
       </Interpretation_Window_Position>
     </J1939_Message_Window>
@@ -514,9 +514,9 @@
       <Interpretation_Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>RESTORETOMAXIMIZED</WindowPlacement>
-        <Top>173</Top>
+        <Top>179</Top>
         <Left>10</Left>
-        <Bottom>451</Bottom>
+        <Bottom>457</Bottom>
         <Right>359</Right>
       </Interpretation_Window_Position>
     </LIN_Message_Window>
@@ -524,12 +524,37 @@
       <Window_Position>
         <Visibility>SHOWNORMAL</Visibility>
         <WindowPlacement>SETMINPOSITION</WindowPlacement>
-        <Top>165</Top>
-        <Left>476</Left>
-        <Bottom>820</Bottom>
-        <Right>1336</Right>
+        <Top>72</Top>
+        <Left>1047</Left>
+        <Bottom>727</Bottom>
+        <Right>1907</Right>
       </Window_Position>
-      <Message_List/>
+      <Message_List>
+        <Message>
+          <Channel>1</Channel>
+          <Message_ID>16</Message_ID>
+          <IsExtended>FALSE</IsExtended>
+          <IsRtr>FALSE</IsRtr>
+          <DLC>8</DLC>
+          <DataBytes>0,0,0,0,0,0,0,1</DataBytes>
+          <Repetion>10</Repetion>
+          <Repetition_Enabled>FALSE</Repetition_Enabled>
+          <Key_Value>a</Key_Value>
+          <Key_Enabled>FALSE</Key_Enabled>
+        </Message>
+        <Message>
+          <Channel>1</Channel>
+          <Message_ID>16</Message_ID>
+          <IsExtended>FALSE</IsExtended>
+          <IsRtr>FALSE</IsRtr>
+          <DLC>8</DLC>
+          <DataBytes>0,0,0,0,0,0,0,0</DataBytes>
+          <Repetion>10</Repetion>
+          <Repetition_Enabled>FALSE</Repetition_Enabled>
+          <Key_Value>a</Key_Value>
+          <Key_Enabled>FALSE</Key_Enabled>
+        </Message>
+      </Message_List>
     </CAN_Tx_Window>
     <CAN_Wave_Form_Genarator>
       <Default_Sampling_Period>125</Default_Sampling_Period>

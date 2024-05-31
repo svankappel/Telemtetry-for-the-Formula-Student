@@ -18,7 +18,7 @@ all: $(dll)
 $(dll): speedtest.o
 	$(CXX) -shared -Wl,--dll  speedtest.o $(DBOBJFILE) $(BM_LIB) -o $@
 
-speedtest.o: C:/Users/sylve/OneDrive/Bureau/TELEMT~1/Software/BUSMAS~1/SPEEDT~1.CPP
+speedtest.o: C:/Users/sylve/OneDrive/Bureau/TELEME~1/Software/BUSMAS~1/SPEEDT~1.CPP
 	$(CXX) $(DBINCLUDES) $(CXXFLAGS) $(BM_INCLUDES) $< -o $@
 
 clean: 

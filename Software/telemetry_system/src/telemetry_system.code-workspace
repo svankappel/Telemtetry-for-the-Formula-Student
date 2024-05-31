@@ -3,6 +3,10 @@
 		{
 			"name": "telemetry_system",
 			"path": ".."
+		},
+		{
+			"name": "telemetry_system_recorder",
+			"path": "../../telemetry_system_recorder"
 		}
 	],
 	"settings": {
@@ -21,7 +25,12 @@
 			"errno.h": "c",
 			"array": "c",
 			"string_view": "c",
-			"initializer_list": "c"
-		}
+			"initializer_list": "c",
+			"memory_management.h": "c",
+			"config_read.h": "c"
+		},
+		"nrf-connect.applications": [
+			"${workspaceFolder:telemetry_system_recorder}"
+		]
 	}
 }

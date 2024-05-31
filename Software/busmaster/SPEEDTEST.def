@@ -19,4 +19,4 @@ vSetGetMessageName
 vSetTimeNow
 vSetGetFirstCANdbName
 
-OnTimer_speedtestTmr_10
+OnTimer_speedtestTmr_1

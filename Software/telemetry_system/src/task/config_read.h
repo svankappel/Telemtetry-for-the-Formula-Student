@@ -1,5 +1,5 @@
 /*! --------------------------------------------------------------------
- *	Telemetry System	-	@file config_read.c
+ *	Telemetry System	-	@file config_read.h
  *----------------------------------------------------------------------
  * HES-SO Valais Wallis 
  * Systems Engineering
@@ -65,6 +65,45 @@ struct sServer{
     char* address;
     int port;
 };
+
+/*! @brief struct for the can filter configuration
+* @param id id to match
+* @param mask mask
+*/
+struct sCANFilter{
+    char* id;
+    char* mask;
+};
+
+/*! @brief struct for the can button configuration
+* @param CanID CAN ID of the message
+* @param index index of the byte in the message
+* @param match byte to match
+* @param mask mask on the byte
+*/
+struct sCANButtonData{
+    char* CanID;
+    int index;
+    char* match;
+    char* mask;
+    int dlc;
+};
+
+/*! @brief struct for the can button configuration
+* @param StartLog start button params
+* @param StopLog stop button params
+*/
+struct sCANButton{
+    struct sCANButtonData StartLog;
+    struct sCANButtonData StopLog;
+};
+
+/*! @brief struct for the can led configuration
+* @param CanID CAN ID of the message
+*/
+struct sCANLed{
+    char* CanID; 
+};
     
 /*! @brief struct for the GPS datapoint
 * @param NameLive Name of the datapoint on the live data transmission
@@ -110,6 +149,7 @@ struct sSensors{
 * @param serverCount number of servers
 * @param LiveFrameRate Live send frequency (sends/second)
 * @param LogFrameRate Log record frequency (records/second)
+* @param CANFilter Can filter
 * @param GPS GPS config struct
 * @param Sensors Sensor struct array
 * @param sensorCount number of sensors
@@ -121,6 +161,10 @@ struct config {
 	int serverCount;
     int LiveFrameRate;
     int LogFrameRate;
+    bool RecordOnStart;
+    struct sCANFilter CANFilter;
+    struct sCANButton CANButton;
+    struct sCANLed CANLed;
     struct sGPS GPS;
     struct sSensors Sensors[MAX_SENSORS];
     int sensorCount;

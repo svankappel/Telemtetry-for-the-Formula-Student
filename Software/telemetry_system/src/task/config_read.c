@@ -80,6 +80,32 @@ static const struct json_obj_descr gpsdata_descr[] = {
 	JSON_OBJ_DESCR_PRIM(struct sGPSData, LiveEnable, JSON_TOK_TRUE),
 };
 
+//struct for CAN filter description
+static const struct json_obj_descr canfilter_descr[] = {
+	JSON_OBJ_DESCR_PRIM(struct sCANFilter, id, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sCANFilter, mask, JSON_TOK_STRING)
+};
+
+//struct for CAN button data description
+static const struct json_obj_descr canbuttondata_descr[] = {
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, CanID, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, index, JSON_TOK_NUMBER),
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, match, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, mask, JSON_TOK_STRING),
+	JSON_OBJ_DESCR_PRIM(struct sCANButtonData, dlc, JSON_TOK_NUMBER)
+};
+
+//struct for CAN button description
+static const struct json_obj_descr canbutton_descr[] = {
+	JSON_OBJ_DESCR_OBJECT(struct sCANButton, StartLog, canbuttondata_descr),
+  	JSON_OBJ_DESCR_OBJECT(struct sCANButton, StopLog, canbuttondata_descr)
+};
+
+//struct for CAN Led description
+static const struct json_obj_descr canled_descr[] = {
+	JSON_OBJ_DESCR_PRIM(struct sCANLed, CanID, JSON_TOK_STRING)
+};
+
 //struct for GPS description
 static const struct json_obj_descr gps_descr[] = {
   JSON_OBJ_DESCR_OBJECT(struct sGPS, Coordinates, gpsdata_descr),
@@ -103,6 +129,10 @@ static const struct json_obj_descr config_descr[] = {
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Server, MAX_SERVERS, serverCount, server_descr,ARRAY_SIZE(server_descr)),
   JSON_OBJ_DESCR_PRIM(struct config, LiveFrameRate, JSON_TOK_NUMBER),
   JSON_OBJ_DESCR_PRIM(struct config, LogFrameRate, JSON_TOK_NUMBER),
+  JSON_OBJ_DESCR_PRIM(struct config, RecordOnStart, JSON_TOK_TRUE),
+  JSON_OBJ_DESCR_OBJECT(struct config, CANFilter, canfilter_descr),
+  JSON_OBJ_DESCR_OBJECT(struct config, CANButton, canbutton_descr),
+  JSON_OBJ_DESCR_OBJECT(struct config, CANLed, canled_descr),
   JSON_OBJ_DESCR_OBJECT(struct config, GPS, gps_descr),
   JSON_OBJ_DESCR_OBJ_ARRAY(struct config, Sensors, MAX_SENSORS, sensorCount, sensors_descr,ARRAY_SIZE(sensors_descr))
 };
@@ -187,16 +217,21 @@ int read_config(void)
 		LOG_ERR("Error opening dir /SD: [%d]\n" , res);
 		return 2;
 	}
-	
+
+	entry.size*=2; //take some margin (according to some tests the size read could be too small)
+
 	uint8_t readBuf[entry.size];					//buffer for the content
+
+	for(int i = 0; i<=entry.size;i++)	//initialize buffer
+		readBuf[i]=0;
+
 	fs_read(&fs_configFile,readBuf,entry.size);		//read file
 
 
 	fs_close(&fs_configFile);					//close file
 
 	fs_unmount(&mp);							//unmount sd disk
-
-
+	
 	//--------------------------------------- parse json string
 
 	//parse json
