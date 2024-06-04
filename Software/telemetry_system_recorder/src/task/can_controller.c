@@ -161,7 +161,7 @@ void CAN_Controller(void)
 
 		if((frame.id==canButtonId_start) && (frame.dlc == canButtonDlc_start))	//if we receive a message from can button canid
 		{
-			if(frame.data[canButtonIndex_start]==(canButtonMask_start & canButtonMatch_start))	//if can message at index
+			if((frame.data[canButtonIndex_start] & canButtonMask_start)==canButtonMatch_start)	//if can message at index
 			{
 				data_Logger_button_handler_start();		//call Data Logger button handler
 				continue;
@@ -169,7 +169,7 @@ void CAN_Controller(void)
 		}
 		if((frame.id==canButtonId_stop) && (frame.dlc == canButtonDlc_stop))	//if we receive a message from can button canid
 		{
-			if(frame.data[canButtonIndex_stop]==(canButtonMask_stop & canButtonMatch_stop))	//if can message at index
+			if((frame.data[canButtonIndex_stop] & canButtonMask_stop)==canButtonMatch_stop)	//if can message at index
 			{
 				data_Logger_button_handler_stop();		//call Data Logger button handler
 				continue;
