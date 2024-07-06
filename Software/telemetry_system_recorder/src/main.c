@@ -37,13 +37,6 @@
 //#include "task/gps_controller.h"
 
 
-//message heap for udp queue
-K_HEAP_DEFINE(messageHeap,32768);
-
-//udp queue
-K_QUEUE_DEFINE(udpQueue);
-
-
 //--------------------------------------------------------------------------
 //			main
 int main(void)

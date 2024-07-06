@@ -38,7 +38,7 @@ LOG_MODULE_REGISTER(udp);
 #include "config_read.h"
 
 //! Stack size for the UDP_SERVER thread
-#define UDP_CLIENT_STACK_SIZE 2048
+#define UDP_CLIENT_STACK_SIZE 8192
 //! UDP_SERVER thread priority level
 #define UDP_CLIENT_PRIORITY 3
 //! Time in miliseconds to wait to send the UDP message since the board 
